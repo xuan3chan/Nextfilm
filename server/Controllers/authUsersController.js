@@ -4,9 +4,9 @@ const handleErrorResponse = require('../middlewares/errorHandling');
 class authUsersController {
     static async loginUserController(req, res) {
         try{
-        const { email, password } = req.body;
-        const response = await authUsersService.loginUserService(email, password);
-        res.status(200).json(response);
+            const { email, password } = req.body;
+            const response = await authUsersService.loginUserService(email, password, req);
+            res.status(200).json(response);
         }
         catch(err){
             handleErrorResponse(res, err);
@@ -20,6 +20,30 @@ class authUsersController {
         email,
         password,
         phoneNumber
+        );
+        res.status(200).json(response);
+        }
+        catch(err){
+            handleErrorResponse(res, err);
+        }
+    }
+    static async forgotPasswordController(req, res) {
+        try{
+        const { email } = req.body;
+        const response = await authUsersService.forgotPasswordService(email);
+        res.status(200).json(response);
+        }
+        catch(err){
+            handleErrorResponse(res, err);
+        }
+    }
+    static async resetPasswordController(req, res) {
+        try{
+        const { email, newPassword, code } = req.body;
+        const response = await authUsersService.resetPasswordService(
+        email,
+        newPassword,
+        code
         );
         res.status(200).json(response);
         }

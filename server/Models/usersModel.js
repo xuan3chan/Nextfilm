@@ -66,6 +66,22 @@ const usersSchema = new Schema({
       default: "1234",
     },
   },
+  resetPasswordCode: {
+    type: String,
+    required: false,
+  },
+  resetPasswordExpires: {
+    type: Date,
+    required: false,
+  },
+  knownDevices: [{
+    browser: String,
+    os: String,
+    device: String,
+    ip: String,
+    location: String,
+    deviceId: String
+  }]
 });
 const users = mongoose.model("users", usersSchema);
 module.exports = users;
