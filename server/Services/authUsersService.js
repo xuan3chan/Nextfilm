@@ -2,8 +2,8 @@ const user = require("../Models/usersModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const Mailer = require("../middlewares/mailer");
-const useragent = require('useragent');
-const geoip = require('geoip-lite');
+const useragent = require("useragent");
+const geoip = require("geoip-lite");
 
 class authUsersService {
   static async loginUserService(email, password, req) {
@@ -13,24 +13,30 @@ class authUsersService {
     }
     const passwordValid = await bcrypt.compare(password, userFound.password);
     if (!passwordValid) {
-      return {passwordValid, success: false, message: "Email or password is incorrect" };
+      return {
+        passwordValid,
+        success: false,
+        message: "Email or password is incorrect",
+      };
     }
-// Get device info
-const userAgentString = req.headers['user-agent'];
-const agent = useragent.parse(userAgentString);
-const ip = req.ip;
-const geo = geoip.lookup(ip);
-const deviceInfo = {
-  browser: agent.toAgent(),
-  os: agent.os.toString(),
-  device: agent.device.toString(),
-  ip: ip,
-  location: geo ? `${geo.city}, ${geo.region}, ${geo.country}` : 'Unknown',
-  deviceId: `${agent.toAgent()}-${agent.os.toString()}-${ip}` // Create a unique deviceId
-};
+    // Get device info
+    const userAgentString = req.headers["user-agent"];
+    const agent = useragent.parse(userAgentString);
+    const ip = req.ip;
+    const geo = geoip.lookup(ip);
+    const deviceInfo = {
+      browser: agent.toAgent(),
+      os: agent.os.toString(),
+      device: agent.device.toString(),
+      ip: ip,
+      location: geo ? `${geo.city}, ${geo.region}, ${geo.country}` : "Unknown",
+      deviceId: `${agent.toAgent()}-${agent.os.toString()}-${ip}`, // Create a unique deviceId
+    };
 
-// Check if the device is recognized
-const knownDevice = userFound.knownDevices.find(device => device.deviceId === deviceInfo.deviceId);
+    // Check if the device is recognized
+    const knownDevice = userFound.knownDevices.find(
+      (device) => device.deviceId === deviceInfo.deviceId
+    );
     if (!knownDevice) {
       // This is a new device
       userFound.knownDevices.push(deviceInfo);
@@ -60,34 +66,34 @@ const knownDevice = userFound.knownDevices.find(device => device.deviceId === de
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     const newUser = new user({
-        userName,
-        email,
-        password: hashedPassword,
-        phoneNumber,
+      userName,
+      email,
+      password: hashedPassword,
+      phoneNumber,
     });
     const userCreated = await newUser.save();
     const accessToken = jwt.sign(
-        { userId: userCreated._id },
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "1d" }
+      { userId: userCreated._id },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "1d" }
     );
     return {
-  success: true,
-  message: "Register successfully",
-  accessToken,
-  //khong can thiet
-  user: {
-    id: userCreated._id,
-    name: userCreated.userName,
-    email: userCreated.email,
-    phoneNumber: userCreated.phoneNumber,
-  },
-};
-}
+      success: true,
+      message: "Register successfully",
+      accessToken,
+      //khong can thiet
+      user: {
+        id: userCreated._id,
+        name: userCreated.userName,
+        email: userCreated.email,
+        phoneNumber: userCreated.phoneNumber,
+      },
+    };
+  }
   static async forgotPasswordService(email) {
     const userFound = await user.findOne({ email });
     if (!userFound) {
-      return { status:400, message: "No account with that email found" };
+      return { status: 400, message: "No account with that email found" };
     }
 
     const code = Math.floor(100000 + Math.random() * 900000); // generate a six digit number
@@ -95,7 +101,7 @@ const knownDevice = userFound.knownDevices.find(device => device.deviceId === de
 
     // Set the expiration time for the reset password code
     // For example, let's set it to expire after 15 minutes
-    userFound.resetPasswordExpires = Date.now() + 15*60*1000;
+    userFound.resetPasswordExpires = Date.now() + 15 * 60 * 1000;
 
     await userFound.save();
 
@@ -105,20 +111,20 @@ const knownDevice = userFound.knownDevices.find(device => device.deviceId === de
 
     return { message: "A verification code has been sent to your email" };
   }
-  static async resetPasswordService(email,newPassword,code) {
+  static async resetPasswordService(email, newPassword, code) {
     const userFound = await user.findOne({ email });
     if (!userFound) {
-      return {status:400,message:"No account with that email found"};
+      return { status: 400, message: "No account with that email found" };
     }
 
     // Check if the code has expired
     if (userFound.resetPasswordExpires < Date.now()) {
-      return {status:400,message:"Verification code has expired"};
+      return { status: 400, message: "Verification code has expired" };
     }
 
     if (userFound.resetPasswordCode !== code) {
       console.log(code);
-      return {status:400,message:"Invalid verification code"};
+      return { status: 400, message: "Invalid verification code" };
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -129,7 +135,7 @@ const knownDevice = userFound.knownDevices.find(device => device.deviceId === de
 
     await userFound.save();
 
-    return { status:200,message: "Password reset successfully" };
+    return { status: 200, message: "Password reset successfully" };
   }
 }
 module.exports = authUsersService;
