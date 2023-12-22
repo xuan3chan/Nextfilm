@@ -48,7 +48,7 @@ class authUsersService {
     const accessToken = jwt.sign(
       { userId: userFound._id },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "1h" }
     );
     return {
       success: true,
@@ -75,7 +75,7 @@ class authUsersService {
     const accessToken = jwt.sign(
       { userId: userCreated._id },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "1h" }
     );
     return {
       success: true,
