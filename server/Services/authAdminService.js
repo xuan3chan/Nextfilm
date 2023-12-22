@@ -34,25 +34,24 @@ class authAdminService {
     };
   }
   //register
-static async registerAdminService(currentAdminId, adminName, Password, role) {
+  static async registerAdminService(currentAdminId, adminName, Password, role) {
     // Check if the current admin is a super admin
     const currentAdmin = await admin.findById(currentAdminId);
-    if (!currentAdmin || currentAdmin.role !== 'superAdmin') {
-        return {
-            success: false,
-            message: 'Only super admins can register a new admin'
-        };
+    if (!currentAdmin || currentAdmin.role !== "superAdmin") {
+      return {
+        success: false,
+        message: "Only super admins can register a new admin",
+      };
     }
 
     // Check if the admin name is already in use
     const existingAdmin = await admin.findOne({ adminName });
     if (existingAdmin) {
-        return {
-            success: false,
-            message: 'Admin name is already in use'
-        };
+      return {
+        success: false,
+        message: "Admin name is already in use",
+      };
     }
-
 
     // Hash the password
     const saltRounds = 10;
@@ -60,61 +59,66 @@ static async registerAdminService(currentAdminId, adminName, Password, role) {
 
     // Create a new admin
     const newAdmin = new admin({
-        adminName,
-        Password: hashedPassword,
-        role,
+      adminName,
+      Password: hashedPassword,
+      role,
     });
 
     // Save the new admin to the database
     await newAdmin.save();
 
     return {
-        success: true,
-        message: 'Admin registered successfully'
+      success: true,
+      message: "Admin registered successfully",
     };
-}
+  }
   //update password or role just superadmin make it
-static async updateAdminService( adminId,currentAdminId, password, role) {
+  static async updateAdminService(adminId, currentAdminId, password, role) {
     // Check if the current admin is a super admin
     const currentAdmin = await admin.findById(currentAdminId);
-    console.log(currentAdmin);
-    if (!currentAdmin || currentAdmin.role !== 'superAdmin') {
-        return {
-            success: false,
-            message: 'Only super admins can update an admin'
-        };
+    if (!currentAdmin || currentAdmin.role !== "superAdmin") {
+      return {
+        success: false,
+        message: "Only super admins can update an admin",
+      };
     }
 
     // Find the admin to update
     const adminFound = await admin.findById(adminId);
     if (!adminFound) {
-        return {
-            success: false,
-            message: 'Admin not found'
-        };
+      return {
+        success: false,
+        message: "Admin not found",
+      };
     }
 
     // Check input password or role
-    if (password === "" && role === "") {
-        return {
-            success: false,
-            message: 'Password or role is required'
-        };
+    if (!password && !role) {
+      return {
+        success: false,
+        message: "Password or role is required",
+      };
     }
 
-    // Hash the password
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    // Hash the password if provided
+    if (password) {
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+      adminFound.password = hashedPassword;
+    }
 
-    // Update the admin
-    adminFound.password = hashedPassword;
-    adminFound.role = role;
+    // Update the role if provided
+    if (role) {
+      adminFound.role = role;
+    }
+
+    // Save the updated admin
     await adminFound.save();
 
     return {
-        success: true,
-        message: 'Admin updated successfully'
+      success: true,
+      message: "Admin updated successfully",
     };
-}
+  }
 }
 module.exports = authAdminService;
