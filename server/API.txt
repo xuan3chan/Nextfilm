@@ -1,7 +1,17 @@
 admin:
+authen{
 login : http://localhost:8000/api/authadmin/login
 register : http://localhost:8000/api/authadmin/register {verify token} just superAdmin
 update Admin: http://localhost:8000/api/authadmin/update/adminId {verify token} just superAdmin
+}
+category{
+add : http://localhost:8000/api/category/add {verify token}
+update : http://localhost:8000/api/category/update/:categoryId {verify token}
+delete : http://localhost:8000/api/category/delete/:categoryId {verify token}
+getall : http://localhost:8000/api/category/getall {verify token}
+
+}
+
 
 
 

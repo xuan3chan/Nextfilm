@@ -5,6 +5,6 @@ const authUsersController = require('../Controllers/authUsersController');
 router.post('/login', authUsersController.loginUserController);
 router.post('/register', authUsersController.registerUserController);
 router.post('/forgot-password', authUsersController.forgotPasswordController);
-router.post('/reset-password', authUsersController.resetPasswordController);
+router.put('/reset-password', authUsersController.resetPasswordController);
 
 module.exports = router;
