@@ -14,11 +14,12 @@ class authAdminController {
     }
     static async registerAdminController(req, res) {
         try{
-        const { currentAdminId,adminName, Password, role } = req.body;
+        const {adminName, password, role } = req.body;
+        const currentAdminId = req.adminId;
         const response = await authAdminService.registerAdminService(
         currentAdminId,
         adminName,
-        Password,
+        password,
         role
         );
         res.status(200).json(response);
@@ -30,10 +31,12 @@ class authAdminController {
     static async updateAdminController(req, res) {
         try {
             const { adminId } = req.params;
-            const { currentAdminId, password, role } = req.body;
+            const { password, role } = req.body;
+            const currentAdminId = req.adminId;
+
             const response = await authAdminService.updateAdminService(
-                adminId,
                 currentAdminId,
+                adminId,
                 password,
                 role
             );

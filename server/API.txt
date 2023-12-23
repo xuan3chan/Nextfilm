@@ -1,0 +1,15 @@
+admin:
+login : http://localhost:8000/api/authadmin/login
+register : http://localhost:8000/api/authadmin/register {verify token} just superAdmin
+update Admin: http://localhost:8000/api/authadmin/update/adminId {verify token} just superAdmin
+
+
+
+
+
+customer:
+login : http://localhost:8000/api/authuser/login
+register : http://localhost:8000/api/authuser/register 
+forgot password : http://localhost:8000/api/authuser/forgot-password 
+reset password : http://localhost:8000/api/authuser/reset-password
+
