@@ -2,7 +2,10 @@ const Express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
+//import routes
 const authUsersRoute = require("./Routes/authUsersRoute");
+const authAdminRoute = require("./Routes/authAdminRoute");
+const categoryRoute = require("./Routes/categoryRoute");
 
 dotenv.config();
 //mongoDB connection
@@ -13,7 +16,9 @@ app.use(cors());
 app.use(Express.json());
 //Routes
 app.use("/api/authuser", authUsersRoute);
-
+app.use("/api/authadmin", authAdminRoute);
+app.use("/api/category",categoryRoute);
+//tạo 1 superadmin defaut
 app.get("/", (req, res) => {
     res.send("Hello World!");
 });
