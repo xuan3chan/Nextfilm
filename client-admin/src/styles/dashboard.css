@@ -1,0 +1,128 @@
+#Container {
+    width: 100%;
+    min-height: 100vh;
+}
+
+.Header {
+    display: inline-flex;
+    padding: 9px 114px 10px 30px;
+    align-items: center;
+    background: var(--neutral-900, #171717);
+    height: 46px;
+    width: 100%;
+    gap: 20px;
+    color: white
+}
+
+.Header_item {
+    color: var(--white, #FFF);
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.Container {
+    width: 100%;
+}
+
+.MenuBarLeft {
+    display: flex;
+    min-width: 260px;
+    height: 2252px;
+    padding-bottom: 1534px;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    background: var(--neutral-800, #262626);
+}
+
+.btnNewFilm {
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    gap: 5px;
+    align-self: stretch;
+    border-radius: 5px;
+    background: var(--neutral-200, #E5E5E5);
+    color: var(--neutral-900, #171717);
+    font-family: 'poppins', sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    cursor: pointer;
+}
+
+.btnNewFilm:hover {
+    background-color: #E5E5E5;
+}
+
+.btnNewFilm span {
+    margin-left: 40px;
+
+}
+
+.ListItem {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    justify-content: start;
+    align-items: start;
+    width: 100%;
+    display: flex;
+    padding: 15px 30px;
+    align-self: stretch;
+    border-top: 1px solid var(--neutral-900, #171717);
+    cursor: pointer;
+
+}
+  
+.List .Item {
+    --c: linear-gradient(#fff 0 0);
+    /* update the color here */
+    background: var(--c), var(--c);
+    background-size: .3em .1em;
+    background-position: 50% 100%;
+    background-repeat: no-repeat;
+    transition: .3s linear, background-size .3s .2s linear;
+    padding: 0px 0px 15px 20px;
+    align-items: flex-start;
+    gap: 10px;
+    color: var(--white, #FFF);
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-top: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.List {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.3s ease, max-height 0.3s ease;
+  }
+  
+  .List.active {
+    opacity: 1;
+    max-height: 1000px; /* Adjust this value based on your content height */
+  }
+  
+
+.List .Item:hover {
+    background-size: 40% .1em;
+    background-position: 10% 100%, 90% 100%;
+}
+.List .Item::after{
+    transition: 1s;
+    transform: scaleX(50%);
+
+}
+.Content {}
