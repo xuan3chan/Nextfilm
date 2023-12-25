@@ -14,7 +14,13 @@ const GlobalStyle = createGlobalStyle`
 const RootLayout = ({ children }) => {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning={true}>{children}</body>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
+
+      <body suppressHydrationWarning={true}>{children}
+      <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+
+</body>
     </html>
   );
 };
