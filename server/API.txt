@@ -9,7 +9,7 @@ delete : http://localhost:8000/api/admin/delete/:adminId {verify token} just sup
 getall : http://localhost:8000/api/admin/getall/:admin {verify token} just superAdmin
 }
 user{
-getall:http://localhost:8000/api/user/getall
+getall:http://localhost:8000/api/user/getall {verify token}
 }
 category{
 add : http://localhost:8000/api/category/add {verify token}
