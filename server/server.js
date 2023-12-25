@@ -6,6 +6,7 @@ const connectDB = require("./config/db");
 const authUsersRoute = require("./Routes/authUsersRoute");
 const authAdminRoute = require("./Routes/authAdminRoute");
 const categoryRoute = require("./Routes/categoryRoute");
+const adminRoute = require("./Routes/adminRoute");
 
 dotenv.config();
 //mongoDB connection
@@ -18,6 +19,7 @@ app.use(Express.json());
 app.use("/api/authuser", authUsersRoute);
 app.use("/api/authadmin", authAdminRoute);
 app.use("/api/category",categoryRoute);
+app.use("/api/admin",adminRoute);
 //tạo 1 superadmin defaut
 app.get("/", (req, res) => {
     res.send("Hello World!");
