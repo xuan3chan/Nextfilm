@@ -4,10 +4,18 @@ import React from "react";
 import "@/styles/dashboard.css";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { IoIosArrowDown } from "react-icons/io";
+import AccountList from "../components/container/Account/AccountList";
+import AccountNormal from "../components/container/Account/AccountNormal";
+import AccountPremium from "../components/container/Account/AccountPremium";
+import AccountChart from "../components/container/Account/AccountChart";
+import CategoryList from "../components/container/Category/CategoryList";
+import VoucherList from "../components/container/Category/VoucherList";
 
 export default function Dashboard() {
+  const [showUserItems, setShowUserItems] = useState(false);
+  const [showMovieItems, setShowMovieItems] = useState(false);
+  const [showCategoryItems, setShowCategoryItems] = useState(false);
   useEffect(() => {
-    // Check if we are on the client side
     if (typeof window !== "undefined") {
       const storedData = localStorage.getItem("data");
       if (storedData === null) {
@@ -17,9 +25,12 @@ export default function Dashboard() {
       }
     }
   }, []); // Empty dependency array to run the effect only once
-  const [showUserItems, setShowUserItems] = useState(false);
-  const [showMovieItems, setShowMovieItems] = useState(false);
-  const [showCategoryItems, setShowCategoryItems] = useState(false);
+  const [selectedComponent, setSelectedComponent] = useState(null);
+
+  const handleChangeState = (state) => {
+    setSelectedComponent(state);
+    console.log(state);
+  };
 
   const toggleDropdown = (dropdownState, setDropdownState) => {
     setShowUserItems(false);
@@ -29,7 +40,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-color">
       <div className="Header flex ">
         <div className="Header_Item">Trang Chủ</div>
         <div className="Header_Item">Danh Mục</div>
@@ -53,12 +64,39 @@ export default function Dashboard() {
               </div>
             </div>
             <ul className={`List ${showUserItems ? "active" : ""}`}>
-              <li className="Item">Danh Sách Người Dùng</li>
-              <li className="Item">Danh Sách Premium</li>
-              <li className="Item">Danh Sách Chưa ĐK</li>
-              <li className="Item">Thống Kê Khách Hàng</li>
+              <li
+                onClick={() => {
+                  handleChangeState("UserList");
+                }}
+                className="Item UserList"
+              >
+                Danh Sách Người Dùng
+              </li>
+              <li
+                onClick={() => {
+                  handleChangeState("UserPremiumList");
+                }}
+                className="Item UserPremiumList"
+              >
+                Danh Sách Premium
+              </li>
+              <li
+                onClick={() => {
+                  handleChangeState("UserNormalList");
+                }}
+                className="Item UserNormalList"
+              >
+                Danh Sách Chưa ĐK
+              </li>
+              <li
+                onClick={() => {
+                  handleChangeState("UserChart");
+                }}
+                className="Item UserChart"
+              >
+                Thống Kê Khách Hàng
+              </li>
             </ul>
-
             {/* Movie Management */}
             <div
               className={`ListItem ${showMovieItems ? "active" : ""}`}
@@ -70,12 +108,39 @@ export default function Dashboard() {
               </div>
             </div>
             <ul className={`List ${showMovieItems ? "active" : ""}`}>
-              <li className="Item">Danh Sách Phim</li>
-              <li className="Item">Thêm Phim Mới</li>
-              <li className="Item">Quản Lý Tập Phim</li>
-              <li className="Item">Top Phim</li>
+              <li
+                onClick={() => {
+                  handleChangeState("MovieList");
+                }}
+                className="Item MovieList"
+              >
+                Danh Sách Phim
+              </li>
+              <li
+                onClick={() => {
+                  handleChangeState("AddMovie");
+                }}
+                className="Item AddMovie"
+              >
+                Thêm Phim Mới
+              </li>
+              <li
+                onClick={() => {
+                  handleChangeState("ManageEpisode");
+                }}
+                className="Item ManageEpisode"
+              >
+                Quản Lý Tập Phim
+              </li>
+              <li
+                onClick={() => {
+                  handleChangeState("MovieChart");
+                }}
+                className="Item MovieChart"
+              >
+                Top Phim
+              </li>
             </ul>
-
             {/* Category Management */}
             <div
               className={`ListItem ${showCategoryItems ? "active" : ""}`}
@@ -89,13 +154,63 @@ export default function Dashboard() {
               </div>
             </div>
             <ul className={`List ${showCategoryItems ? "active" : ""}`}>
-              <li className="Item">Tạo Gói Thành Viên</li>
-              <li className="Item">Tạo Danh Mục</li>
-              <li className="Item">Tạo Khuyến Mãi</li>
+              <li
+                onClick={() => {
+                  handleChangeState("CreateMemberPackage");
+                }}
+                className="Item"
+              >
+                Tạo Gói Thành Viên
+              </li>
+              <li
+                onClick={() => {
+                  handleChangeState("CreateCategory");
+                }}
+                className="Item"
+              >
+                Tạo Danh Mục
+              </li>
+              <li
+                onClick={() => {
+                  handleChangeState("CreateVoucher");
+                }}
+                className="Item"
+              >
+                Tạo Khuyến Mãi
+              </li>
             </ul>
           </div>
         </div>
-        <div className="Content"></div>
+        <div className="Content">
+          <div className="ContentHeader">
+            <div className="ContentHeader_Title">Thêm Phim Mới</div>
+            <button className="ContentHeader_Button">Thêm Phim</button>
+            <button className="ContentHeader_Button">Cài Đặt</button>
+            <div className="ContentHeader_Search">
+              <input
+                type="text"
+                name="ModuleSearching"
+                placeholder="Search content.."
+                id="Search"
+              />
+            </div>
+          </div>
+          <div className="ContentBg">
+            {selectedComponent === "UserList" && <AccountList />}
+            {selectedComponent === "UserPremiumList" && <AccountPremium />}
+            {selectedComponent === "UserNormalList" && <AccountNormal />}
+            {selectedComponent === "UserChart" && <AccountChart />}
+
+            {selectedComponent === "MovieList" && <AccountChart />}
+            {selectedComponent === "AddMovie" && <AccountChart />}
+            {selectedComponent === "ManageEpisode" && <AccountChart />}
+            {selectedComponent === "MovieChart" && <AccountChart />}
+
+            {selectedComponent === "CreateMemberPackage" && <AccountChart />}
+            {selectedComponent === "CreateCategory" && <CategoryList />}
+            {selectedComponent === "CreateVoucher" && <VoucherList />}
+          </div>
+        </div>
       </div>
     </div>
   );

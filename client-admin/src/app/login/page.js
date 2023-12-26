@@ -53,7 +53,7 @@ const Login = () => {
         <div className="LoginForm px-5">
           <div className="text-xl font-bold mb-4">Đăng Nhập</div>
           <div className="mb-4 w-full">
-            <label className="block dark:text-white">Email</label>
+            <label className="block dark:text-white">UserName</label>
             <input
               className="mt-1 p-2 w-full border rounded-md"
               placeholder="Nhập Tài Khoản"
