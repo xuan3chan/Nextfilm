@@ -54,3 +54,8 @@
   padding: 15% 15%;
   width: 100%;
 }
+
+.css-hwkq3c-MuiInputBase-root-MuiFilledInput-root.Mui-error::before, 
+.css-hwkq3c-MuiInputBase-root-MuiFilledInput-root.Mui-error::after {
+  border-bottom-color: #e87c03;
+}
