@@ -8,6 +8,7 @@ const authAdminRoute = require("./Routes/authAdminRoute");
 const categoryRoute = require("./Routes/categoryRoute");
 const adminRoute = require("./Routes/adminRoute");
 const userRoute = require("./Routes/userRoute");
+const countryRoute = require("./Routes/countryRoute");
 
 dotenv.config();
 //mongoDB connection
@@ -22,6 +23,7 @@ app.use("/api/authadmin", authAdminRoute);
 app.use("/api/category",categoryRoute);
 app.use("/api/admin",adminRoute);
 app.use("/api/user",userRoute);
+app.use("/api/country",countryRoute);
 //tạo 1 superadmin defaut
 app.get("/", (req, res) => {
     res.send("Hello World!");
