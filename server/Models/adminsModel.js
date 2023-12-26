@@ -13,7 +13,7 @@ const adminsSchema = new Schema({
     },
     role: {
         type: String,
-        enum:['admin','superAdmin'],
+        enum:['admin','superAdmin'], 
     }
 });
 const admins = mongoose.model('admins', adminsSchema);

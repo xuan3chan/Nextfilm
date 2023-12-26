@@ -3,9 +3,10 @@ export default function AddAccount() {
   return (
     <div className="">
       <div className="Content_AddAccount flex flex-col items-center">
+        <div className="EditAccount_title">Sửa Người Dùng</div>
         <div className="AddAccount_Form ">
           <div className="flex gap-20">
-            <div className="flex flex-col w-full gap-2 ">
+            <div className="flex flex-col w-1/4 gap-2 ">
               <label for="Form_SlotOption">Chọn Slot</label>
               <select id="SlotOption" name="Form_SlotOption">
                 <option value="Slot1">1 Slot</option>
@@ -15,7 +16,7 @@ export default function AddAccount() {
                 <option value="Slot5">5 Slot</option>
               </select>
             </div>
-            <div className="flex flex-col w-full gap-2">
+            <div className="flex flex-col w-1/4 gap-2">
               <label for="Form_UserName">UserName</label>
               <input
                 type="text"
@@ -24,7 +25,7 @@ export default function AddAccount() {
                 className="Form_UserName"
               ></input>
             </div>
-            <div className="flex flex-col w-full gap-2">
+            <div className="flex flex-col w-1/3 gap-2">
               <label for="Form_PackageOption">Chọn Gói</label>
               <select id="Form_PackageOption" name="Form_PackageOption">
                 <option value="Slot1">Premium</option>

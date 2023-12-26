@@ -1,0 +1,24 @@
+.btnEdit, .btnDelete{
+    display: flex;
+padding: 6px 8px;
+align-items: center;
+gap: 5px;
+border-radius: 3px;
+background: var(--blue-700, #1D4ED8);
+color: var(--white, #FFF);
+font-family: 'Poppins', sans-serif;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+opacity: 0.8;
+}
+.btnEdit:hover, .btnDelete:hover{
+    opacity: 1;
+color:#FFF
+
+}
+.btnDelete{
+    border-radius: 3px;
+background: var(--amber-600, #D97706);
+}

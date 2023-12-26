@@ -15,6 +15,7 @@ export default function Dashboard() {
   const [showUserItems, setShowUserItems] = useState(false);
   const [showMovieItems, setShowMovieItems] = useState(false);
   const [showCategoryItems, setShowCategoryItems] = useState(false);
+  const [role, setRole] = useState("");
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedData = localStorage.getItem("data");
@@ -22,6 +23,8 @@ export default function Dashboard() {
         router.push("/login");
       } else {
         const data = JSON.parse(storedData);
+        const adminObject = data.admin;
+        setRole (adminObject.role);
       }
     }
   }, []); // Empty dependency array to run the effect only once
@@ -29,7 +32,6 @@ export default function Dashboard() {
 
   const handleChangeState = (state) => {
     setSelectedComponent(state);
-    console.log(state);
   };
 
   const toggleDropdown = (dropdownState, setDropdownState) => {
@@ -38,7 +40,6 @@ export default function Dashboard() {
     setShowCategoryItems(false);
     setDropdownState(!dropdownState);
   };
-
   return (
     <div className="flex flex-col bg-color">
       <div className="Header flex ">
@@ -195,7 +196,7 @@ export default function Dashboard() {
               />
             </div>
           </div>
-          <div className="ContentBg">
+          <div className="w-full">
             {selectedComponent === "UserList" && <AccountList />}
             {selectedComponent === "UserPremiumList" && <AccountPremium />}
             {selectedComponent === "UserNormalList" && <AccountNormal />}

@@ -3,9 +3,8 @@
 import React, { useEffect } from "react";
 import "@/styles/login.css";
 import Link from "next/link";
-import axios from "axios";
 import Swal from "sweetalert2";
-
+import axios from "axios";
 const ApiLink = "http://localhost:8000/api/authadmin/login";
 const Login = () => {
   const [adminName, setAdminName] = React.useState("");
