@@ -1,43 +1,14 @@
 'use client'
 import { roboto } from "@/app/ui/fonts";
 import { Logo } from "@/app/ui/partials/logo";
-import { TextField } from "@mui/material";
-import { styled } from "@mui/system";
-import { useState } from "react";
-import blurURL from '@/public/VN-vi-20231218-popsignuptwoweeks-perspective_alpha_website_large2.jpg'
+import { TextField } from "@/app/ui/TextField";
 import Link from "next/link";
 import Image from "next/image";
 import bgLogin from '@/public/VN-vi-20231218-popsignuptwoweeks-perspective_alpha_website_large.jpg'
 import '@/app/ui/login/login.css'
-
-const StyledTextField = styled(TextField)(({ theme }) => ({
-  '& .MuiFilledInput-input': {
-    color: 'white',
-    transition: 'all 1s',
-    backgroundColor: '#333',
-    borderRadius: '5px 5px 0 0',
-  },
-  '& .MuiFormLabel-root': {
-    color: '#8c8c8c',
-  },
-  '& .MuiFormHelperText-root': {
-    color: '#e87c03',
-  },
-}));
+import { validateEmailOrPhonenum, validatePassword } from "@/app/utils/validation";
 
 export default function LoginPage() {
-
-  const [value, setValue] = useState('');
-  const [warning, setWarning] = useState(false);
-
-  const handleChange = (e) => {
-    setValue(e.target.value);
-    if (e.target.value === '') {
-      setWarning(true);
-    } else if (warning) {
-      setWarning(false);
-    }
-  }
 
   return (
     <div className="login-wrapper h-full">
@@ -68,26 +39,8 @@ export default function LoginPage() {
             </h1>
           </div>
           <div className="w-full text-whites">
-            {/* Tối ưu sau */}
-            <StyledTextField
-              variant="filled"
-              fullWidth
-              label="Email hoặc số điện thoại"
-              value={value}
-              onChange={handleChange}
-              error={warning}
-              helperText={warning ? 'Vui lòng nhập email hoặc số điện thoại' : ' '}
-            />
-            <StyledTextField
-              variant="filled"
-              fullWidth
-              label="Email hoặc số điện thoại"
-              value={value}
-              onChange={handleChange}
-              error={warning}
-              helperText={warning ? 'Vui lòng nhập email hoặc số điện thoại' : ' '}
-            />
-            {/* Tối ưu sau */}
+            <TextField label={'Email hoặc số điện thoại'} validator={validateEmailOrPhonenum} type={'text'} message="Vui lòng nhập vào email hoặc số điện thoại" />
+            <TextField label={'Mật khẩu'} validator={validatePassword} type={'password'} message="Vui lòng nhập vào mật khẩu" />
           </div>
         </div>
       </div>

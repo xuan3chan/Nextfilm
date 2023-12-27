@@ -1,0 +1,61 @@
+.field {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.floating-label {
+  position: absolute;
+  pointer-events: none;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  color: white;
+  font-size: 16px;
+  pointer-events: none;
+  transition: .2s;
+}
+
+.field .text-input {
+  width: 100%;
+  height: 50px;
+  padding: 16px 20px 0px;
+  font-size: 16px;
+  color: white;
+  background-color: #333;
+  outline: none;
+}
+
+.field input:focus~label { 
+  top: 10px;
+  font-size: 12px;
+  outline: none;
+}
+.has-value {
+  top: 10px;
+  font-size: 12px;
+}
+
+.error-message {
+  color: #e87c03;
+  font-size: 0.8em;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+}
+
+.show-password {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  color: #fff;
+  font-size: 12px;
+  display: none;
+}
+
+.field input:focus~.show-password, 
+.field input:valid~.show-password {
+  display: block; 
+}
+
+
+
+
