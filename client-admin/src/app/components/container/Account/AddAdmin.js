@@ -23,7 +23,6 @@ export default function AddAdmin(props) {
 
   const handleSubmit = () => {
     console.log(formData);
-
     axios
       .post(
         ApiLink,
@@ -45,7 +44,7 @@ export default function AddAdmin(props) {
   return (
     <div className="w-full">
       <div className="Content_AddAccountAdmin flex flex-col">
-        <div className="AddAccount_Form justify-center items-center">
+        <div className="AddAccount_Form justify-start items-center ">
           <div className="flex flex-col gap-4 w-full">
             <div className="flex flex-col gap-2 ">
               <label htmlFor="Form_SlotOption">Chọn Role</label>

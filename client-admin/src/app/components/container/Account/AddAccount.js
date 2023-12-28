@@ -1,10 +1,10 @@
 import "@/styles/Account.css";
 export default function AddAccount() {
   return (
-    <div className="">
-      <div className="Content_AddAccount flex flex-col items-center">
-        <div className="AddAccount_Form ">
-          <div className="flex gap-20">
+    <div className="w-full">
+      <div className="Content_AddAccount  flex flex-col items-center gap-3">
+        <div className="AddAccount_Form gap-4">
+          <div className="flex gap-4 flex-col">
             <div className="flex flex-col w-full gap-2 ">
               <label for="Form_SlotOption">Chọn Slot</label>
               <select id="SlotOption" name="Form_SlotOption">

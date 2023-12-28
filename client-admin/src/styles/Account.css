@@ -1,6 +1,5 @@
 .Content_AddAccount {
     width:100%;
-    gap:20px;
 }
 .Content_AddAccountAdmin{
     display: flex;
@@ -11,6 +10,22 @@
 .AddAccountSection{
 
 }
+.quantityTitle{
+    color: var(--neutral-800, #262626);
+font-family:'Poppins', sans-serif;
+font-size: 14px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+.totalMember{
+    color: var(--neutral-800, #262626);
+font-family: 'Poppins';
+font-size: 22px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
 .btnSubmit{
     display: flex;
 padding: 10px 20px;
@@ -20,12 +35,12 @@ gap: 10px;
 border-radius: 5px;
 background: #262626;
 color: var(--white, #FFF);
-font-family: Poppins;
-font-size: 16px;
-font-style: normal;
-font-weight: 500;
+font-family: 'Poppins';
+font-size: 15px;
+font-style:normal;
+font-weight: 600;
 line-height: normal;
-width:120px
+width:120px;
 }
 .AddAccount_title {
     color: var(--neutral-800, #262626);
@@ -34,6 +49,7 @@ width:120px
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+    width:300px ;
 }
 
 .AddAccount_RoleSelection {
@@ -86,9 +102,24 @@ width:120px
 
 .Form_SlotOption {}
 .ContentBg{
-    width: fit-content;
     margin-top: 20px;
+    padding:20px;
+    width: 100%;
 }
+.SubContentBg{
+    margin-top: 20px;
+    padding:20px;
+    min-width: fit-content;
+    display: flex;
+    padding: 30px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    border-radius: 10px;
+    background: var(--white, #FFF);
+    
+}
+
 
 /* Table Account */
 #Accounts {
@@ -112,4 +143,13 @@ width:120px
     text-align: left;
     background-color: #262626;
     color: white;
+  }
+  .AccountListSection{
+    min-height: 800px;
+  }
+  .AccountList_Table{
+    min-width:80% ;
+  }
+  tbody td{
+    text-align: center;
   }

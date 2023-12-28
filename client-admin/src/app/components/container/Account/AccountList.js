@@ -12,6 +12,7 @@ export default function AccountList() {
   const handleChangeRole = (props) => {
     setRole(props);
   };
+
   const data = localStorage.getItem("data");
   const dataObject = JSON.parse(data);
   const token = dataObject.accessToken;
@@ -19,6 +20,8 @@ export default function AccountList() {
   const [userList, setUserList] = useState([]);
   const ApiLink = "http://localhost:8000/api/admin/getall";
   const ApiGetUser = "http://localhost:8000/api/user/getall";
+  const [lengthUser, setLengthUser] = useState(0);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -30,26 +33,30 @@ export default function AccountList() {
           axios.get(ApiLink, { headers }),
           axios.get(ApiGetUser, { headers }),
         ]);
+
         setAdminList(response1.data.admins);
         setUserList(response2.data.users);
-
+        setLengthUser(role === "Admin" ? adminList.length : userList.length);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
+
     fetchData();
-  });
+  }, [token, ApiLink, ApiGetUser, adminList.length, role, userList.length]);
 
   return (
     <div className="flex gap-10 ml-10">
-      <section className="AddAccountSection ContentBg flex justify-center items-center">
-        <div className="AddAccount_title">Thêm Người Dùng</div>
+      <section className="AddAccountSection SubContentBg flex justify-start items-center">
+        <div className="AddAccount_title text-center">Thêm {role} </div>
         <div className="AddAccount_RoleSelection flex mb-10">
           <a
             onClick={() => {
               handleChangeRole("Admin");
             }}
-            className="RoleAdmin SelectionRole"
+            className={`RoleAdmin SelectionRole ${
+              role === "Admin" ? "bg-amber-200" : "bg-gray-50"
+            }`}
           >
             Admin
           </a>
@@ -57,7 +64,9 @@ export default function AccountList() {
             onClick={() => {
               handleChangeRole("User");
             }}
-            className="RoleUser SelectionRole"
+            className={`RoleUser SelectionRole ${
+              role === "User" ? "bg-amber-200" : " bg-gray-50"
+            }`}
           >
             User
           </a>
@@ -66,12 +75,12 @@ export default function AccountList() {
       </section>
       <section className="AccountListSection ContentBg">
         <div className="flex items-center gap-10">
-          <div className="AddAccount_title">Danh Sách Người Dùng </div>
-          <div className="TotalAccount flex items-center ">
+          <div className="AddAccount_title">Danh Sách {role} </div>
+          <div className="TotalAccount flex items-center justify-center gap-2">
             <FaUserGroup className="w-8 h-8" />
-            <div className="flex flex-col">
-              <span>Tổng Khách</span>
-              <span>100</span>
+            <div className="flex flex-col justify-center items-start">
+              <span className="quantityTitle">Tổng Số Lượng</span>
+              <span className="totalMember">{lengthUser}</span>
             </div>
           </div>
         </div>
@@ -80,7 +89,9 @@ export default function AccountList() {
             onClick={() => {
               handleChangeRole("Admin");
             }}
-            className="RoleAdmin SelectionRole"
+            className={`RoleAdmin SelectionRole ${
+              role === "Admin" ? "bg-amber-200" : "bg-gray-50"
+            }`}
           >
             Admin
           </a>
@@ -88,20 +99,20 @@ export default function AccountList() {
             onClick={() => {
               handleChangeRole("User");
             }}
-            className="RoleUser SelectionRole"
+            className={`RoleUser SelectionRole ${
+              role === "User" ? "bg-amber-200" : "bg-gray-50"
+            }`}
           >
             User
           </a>
         </div>
         {role === "User" ? (
-          <div className="">
-            <span>User List</span>
+          <div className="w-full">
             {Array.isArray(userList) && userList.length > 0 ? (
               <table id="Accounts" className="AccountList_Table">
                 <thead>
                   <tr>
                     <th>STT</th>
-                    <th>Id</th>
                     <th>UserName</th>
                     <th>Email</th>
                     <th>Số Điện Thoại</th>
@@ -115,14 +126,13 @@ export default function AccountList() {
                   {userList.map((item, index) => (
                     <tr key={item._id}>
                       <td>{index + 1}</td>
-                      <td>{item._id}</td>
                       <td>{item.userName}</td>
                       <td>{item.email}</td>
                       <td>{item.phoneNumber}</td>
                       <td>{item.role1 ? item.role1.name : ""}</td>
                       <td>{item.role2 ? item.role2.name : ""}</td>
                       <td>{JSON.stringify(item.role3)}</td>
-                      <td className="flex gap-2">
+                      <td className="flex gap-2 justify-center items-center">
                         <ButtonEdit />
                         <ButtonDelete></ButtonDelete>
                       </td>
@@ -135,27 +145,24 @@ export default function AccountList() {
             )}
           </div>
         ) : (
-          <div className="">
-            <span>Admin List</span>
+          <div className="w-full">
             {Array.isArray(adminList) && adminList.length > 0 ? (
               <table id="Accounts" className="AccountList_Table">
                 <thead>
                   <tr>
                     <th>STT</th>
-                    <th>Id</th>
                     <th>AdminName</th>
                     <th>Role</th>
                     <th>Hành Động</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {adminList.map((item, index) => (
+                  {adminList.slice(0, 10).map((item, index) => (
                     <tr key={item._id}>
                       <td>{index + 1}</td>
-                      <td>{item._id}</td>
                       <td>{item.adminName}</td>
                       <td>{item.role}</td>
-                      <td className="flex gap-2">
+                      <td className="flex gap-2 justify-center items-center">
                         <ButtonEdit />
                         <ButtonDelete></ButtonDelete>
                       </td>
