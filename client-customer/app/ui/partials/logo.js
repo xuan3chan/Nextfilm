@@ -1,14 +1,15 @@
 import Image from "next/image"
 import logo from '@/public/nextfilmLogo21.svg'
 
-export const Logo = ({width, height}) => {
+export const Logo = ({className}) => {
   return (
-    <Image
-      quality={50}
-      src={logo}
-      alt="NextFilm"
-      width={width}
-      height={height}
-    />
+    <div className={className}>
+      <Image
+        priority
+        quality={50}
+        src={logo}
+        alt="NextFilm"
+      />
+    </div>
   )
 }

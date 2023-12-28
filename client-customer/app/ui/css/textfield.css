@@ -23,6 +23,7 @@
   color: white;
   background-color: #333;
   outline: none;
+  border-radius: 3px;
 }
 
 .field input:focus~label { 
@@ -44,17 +45,13 @@
 
 .show-password {
   position: absolute;
-  top: 16px;
+  top: 15px;
   right: 20px;
   color: #fff;
-  font-size: 12px;
-  display: none;
+  font-size: 21px;
+  display: block;
 }
 
-.field input:focus~.show-password, 
-.field input:valid~.show-password {
-  display: block; 
-}
 
 
 

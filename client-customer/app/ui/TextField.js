@@ -1,5 +1,8 @@
 import '@/app/ui/css/textfield.css'
 import React, { useState } from 'react';
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { roboto } from './fonts';
+
 
 export const TextField = ({ type, label, validator, ...props }) => {
   const [value, setValue] = useState('');
@@ -39,10 +42,10 @@ export const TextField = ({ type, label, validator, ...props }) => {
 
   return (
     <div>
-      <div className="field">
+      <div className={`field ${roboto.className}`}>
         <input 
           type={type === 'password' && showPassword ? 'text' : type} 
-          className="text-input" 
+          className={`text-input ${roboto.className} font-light`} 
           required 
           onChange={validateInput} 
           onBlur={handleBlur} 
@@ -51,10 +54,10 @@ export const TextField = ({ type, label, validator, ...props }) => {
         />
         {type === 'password' && (
           <button type="button" className='show-password' onClick={toggleShowPassword}>
-            {showPassword ? 'Hide' : 'Show'}
+            {showPassword ? <IoMdEye/> : <IoMdEyeOff/>}
           </button>
         )}
-        <label className={`floating-label ${value ? 'has-value' : ''}`}>{label}</label>
+        <label className={`floating-label ${value ? 'has-value' : ''} font-light`}>{label}</label>
       </div>
       {error && <div className="error-message">{error}</div>}
     </div>

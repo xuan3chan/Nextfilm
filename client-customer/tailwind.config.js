@@ -10,7 +10,9 @@ module.exports = {
   ],
   theme: {
     extend: {
-    
+      backgroundColor: {
+        'red': '#e50914'
+      }
     },
     fontSize: {
       loginTitle: '32px'
