@@ -10,12 +10,14 @@ import AccountPremium from "../components/container/Account/AccountPremium";
 import AccountChart from "../components/container/Account/AccountChart";
 import CategoryList from "../components/container/Category/CategoryList";
 import VoucherList from "../components/container/Category/VoucherList";
-
+import { logoImage } from "../../../public/nextfilmLogo.png";
+import DarkMode from "../components/Button/Darkmode";
 export default function Dashboard() {
   const [showUserItems, setShowUserItems] = useState(false);
   const [showMovieItems, setShowMovieItems] = useState(false);
   const [showCategoryItems, setShowCategoryItems] = useState(false);
   const [role, setRole] = useState("");
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedData = localStorage.getItem("data");
@@ -24,7 +26,8 @@ export default function Dashboard() {
       } else {
         const data = JSON.parse(storedData);
         const adminObject = data.admin;
-        setRole (adminObject.role);
+        setRole(adminObject.role);
+        console.log(adminObject.role);
       }
     }
   }, []); // Empty dependency array to run the effect only once
@@ -40,9 +43,17 @@ export default function Dashboard() {
     setShowCategoryItems(false);
     setDropdownState(!dropdownState);
   };
+
   return (
     <div className="flex flex-col bg-color">
-      <div className="Header flex ">
+      <div className="Header flex">
+        <div className="Header_Item w-52 h-full">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Logonetflix.png"
+            className="w-full h-full"
+            alt=""
+          />
+        </div>
         <div className="Header_Item">Trang Chủ</div>
         <div className="Header_Item">Danh Mục</div>
         <div className="Header_Item">Cài Đặt</div>
@@ -184,8 +195,10 @@ export default function Dashboard() {
         </div>
         <div className="Content">
           <div className="ContentHeader">
-            <div className="ContentHeader_Title">Thêm Phim Mới</div>
-            <button className="ContentHeader_Button">Thêm Phim</button>
+            <div className="ContentHeader_Title">{selectedComponent}</div>
+            <button className="ContentHeader_Button">
+              <DarkMode />
+            </button>
             <button className="ContentHeader_Button">Cài Đặt</button>
             <div className="ContentHeader_Search">
               <input
@@ -201,12 +214,10 @@ export default function Dashboard() {
             {selectedComponent === "UserPremiumList" && <AccountPremium />}
             {selectedComponent === "UserNormalList" && <AccountNormal />}
             {selectedComponent === "UserChart" && <AccountChart />}
-
             {selectedComponent === "MovieList" && <AccountChart />}
             {selectedComponent === "AddMovie" && <AccountChart />}
             {selectedComponent === "ManageEpisode" && <AccountChart />}
             {selectedComponent === "MovieChart" && <AccountChart />}
-
             {selectedComponent === "CreateMemberPackage" && <AccountChart />}
             {selectedComponent === "CreateCategory" && <CategoryList />}
             {selectedComponent === "CreateVoucher" && <VoucherList />}

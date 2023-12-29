@@ -99,12 +99,11 @@ width:120px;
     background: var(--white, #FFF);
     width: 100%;
 }
-
-.Form_SlotOption {}
 .ContentBg{
     margin-top: 20px;
     padding:20px;
     width: 100%;
+    margin-right: 20px;
 }
 .SubContentBg{
     margin-top: 20px;
@@ -117,10 +116,7 @@ width:120px;
     gap: 20px;
     border-radius: 10px;
     background: var(--white, #FFF);
-    
 }
-
-
 /* Table Account */
 #Accounts {
     font-family: Arial, Helvetica, sans-serif;
@@ -153,3 +149,10 @@ width:120px;
   tbody td{
     text-align: center;
   }
+
+.Pagination{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
