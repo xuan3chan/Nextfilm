@@ -1,13 +1,17 @@
 import '@/app/ui/css/textfield.css'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { roboto } from './fonts';
 
 
-export const TextField = ({ type, label, validator, ...props }) => {
-  const [value, setValue] = useState('');
+export const TextField = ({ type, label, validator, value: propValue, ...props }) => {
+  const [value, setValue] = useState(propValue || '');
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    setValue(propValue);
+  }, [propValue]);
 
   const validateInput = async (e) => {
     const value = e.target.value;
