@@ -1,7 +1,13 @@
-export default function Browse() {
+import { useAccessToken } from "../hook/useAccessToken";
+
+export default function browse() {
+  const accessToken = useAccessToken();
+
+  if (!accessToken) {
+    return null; // or a loading spinner
+  }
+
   return (
-    <div>
-      HomePage
-    </div>
-  )
+    <h1>Protected</h1>
+  );
 }
