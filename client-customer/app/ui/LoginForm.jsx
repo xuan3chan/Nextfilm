@@ -3,43 +3,40 @@ import { RedButton } from "@/app/ui/RedButton";
 import Link from "next/link";
 import axios from "axios";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import { useState, useEffect } from 'react';
-import '@/app/ui/css/textfield.css'
-import '@/app/ui/css/checkbox.css'
+import { useState, useEffect } from "react";
+import "@/app/ui/css/textfield.css";
+import "@/app/ui/css/checkbox.css";
 import { useRouter } from "next/navigation";
 
-
-const apiURL = process.env.NEXT_PUBLIC_LOGIN
+const apiURL = process.env.NEXT_PUBLIC_LOGIN;
 
 export const LoginForm = () => {
-  const router = useRouter()
-  const [ showPassword, setShowPassword ] = useState(false)
-  const [ email, setEmail ] = useState('')
-  const [ password, setPassword ] = useState('')
+  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios
-        .post(apiURL, 
-        {
-          email: email,
-          password: password
-        });
-        console.log(response.data)
-        if (response.data.accessToken) {
-          localStorage.setItem("accessToken", response.data.accessToken)
-          router.push('/browse')
-        }
+      const response = await axios.post(apiURL, {
+        email: email,
+        password: password,
+      });
+      console.log(response.data);
+      if (response.data.accessToken) {
+        localStorage.setItem("accessToken", response.data.accessToken);
+        router.push("/browse");
+      }
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
-  }
+  };
 
   return (
     <form className="login-body" onSubmit={handleLogin}>
@@ -53,15 +50,15 @@ export const LoginForm = () => {
         </div>
         <div className="w-full text-white">
           <div className="field">
-            <input 
+            <input
               id="email"
-              type="text" 
+              type="text"
               className="text-input font-light"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-            <label 
+            <label
               htmlFor="emailorphonenumber"
               className="floating-label font-light"
             >
@@ -69,7 +66,7 @@ export const LoginForm = () => {
             </label>
           </div>
           <div className="field">
-            <input 
+            <input
               id="password"
               type={showPassword ? "text" : "password"}
               className="text-input font-light"
@@ -77,25 +74,34 @@ export const LoginForm = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
-            <button type="button" className='show-password' onClick={toggleShowPassword}>
-              {showPassword ? <IoMdEye/> : <IoMdEyeOff/>}
+            <button
+              type="button"
+              className="show-password"
+              onClick={toggleShowPassword}
+            >
+              {showPassword ? <IoMdEye /> : <IoMdEyeOff />}
             </button>
-            <label 
+            <label
               htmlFor="emailorphonenumber"
               className="floating-label font-light"
             >
               Mật khẩu
             </label>
           </div>
-          <RedButton type='submit'>Đăng nhập</RedButton>
+          <RedButton type="submit">Đăng nhập</RedButton>
           <div className="flex justify-between items-center">
-          <div className={`checkbox-wrapper-13 ${roboto.className}`}>
-            <input id="c1-13" type="checkbox"/>
-            <label className="text-sm" htmlFor="c1-13">Ghi nhớ mật khẩu</label>
-          </div>
+            <div className={`checkbox-wrapper-13 ${roboto.className}`}>
+              <input id="c1-13" type="checkbox" />
+              <label className="text-sm" htmlFor="c1-13">
+                Ghi nhớ mật khẩu
+              </label>
+            </div>
             <Link href="forgot-pasword">
               <span className="text-sm">bạn cần trợ giúp?</span>
             </Link>
+          </div>
+          <div className={`${roboto.className} mt-5`}>
+            Bạn mới tham gia NextFilm? <Link href='/signup' className="">Đăng ký ngay.</Link>
           </div>
         </div>
       </div>
