@@ -3,14 +3,14 @@ import { RedButton } from "@/app/ui/RedButton";
 import Link from "next/link";
 import axios from "axios";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "@/app/ui/css/textfield.css";
 import "@/app/ui/css/checkbox.css";
 import { useRouter } from "next/navigation";
 
 const apiURL = process.env.NEXT_PUBLIC_LOGIN;
 
-export const LoginForm = () => {
+export default function LoginForm()  {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -88,7 +88,10 @@ export const LoginForm = () => {
               Mật khẩu
             </label>
           </div>
-          <RedButton type="submit">Đăng nhập</RedButton>
+          <RedButton 
+            type="submit" 
+            className={`w-full h-12 mt-6 mb-3 font-medium`}
+          >Đăng nhập</RedButton>
           <div className="flex justify-between items-center">
             <div className={`checkbox-wrapper-13 ${roboto.className}`}>
               <input id="c1-13" type="checkbox" />
@@ -96,11 +99,11 @@ export const LoginForm = () => {
                 Ghi nhớ mật khẩu
               </label>
             </div>
-            <Link href="forgot-pasword">
+            <Link href="login-help">
               <span className="text-sm">bạn cần trợ giúp?</span>
             </Link>
           </div>
-          <div className={`${roboto.className} mt-5`}>
+          <div className={`${roboto.className} mt-7`}>
             Bạn mới tham gia NextFilm? <Link href='/signup' className="">Đăng ký ngay.</Link>
           </div>
         </div>
