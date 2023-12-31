@@ -3,18 +3,19 @@ import { RedButton } from "@/app/ui/RedButton";
 import Link from "next/link";
 import axios from "axios";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '@/app/ui/css/textfield.css'
 import '@/app/ui/css/checkbox.css'
 import { useRouter } from "next/navigation";
 
+
 const apiURL = process.env.NEXT_PUBLIC_LOGIN
 
 export const LoginForm = () => {
+  const router = useRouter()
   const [ showPassword, setShowPassword ] = useState(false)
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
-  const router = useRouter()
 
   const handleLogin = async (e) => {
     e.preventDefault();

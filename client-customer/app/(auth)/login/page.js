@@ -6,9 +6,20 @@ import Image from "next/image";
 import bgLogin from "@/public/VN-vi-20231218-popsignuptwoweeks-perspective_alpha_website_large.jpg";
 import "@/app/ui/login/login.css";
 import { LoginForm } from "@/app/ui/LoginForm";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 
 export default function LoginPage() {
+  const router = useRouter();
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      router.push('/browse');
+    }
+  }, []);
+
+
   return (
     <div>
       <div className="login-wrapper h-screen">

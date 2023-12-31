@@ -4,6 +4,7 @@ import { Logo } from './ui/partials/logo'
 export default function Home() {
   return (
     <div>
+      heheh
     </div>
   )
 }

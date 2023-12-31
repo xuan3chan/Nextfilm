@@ -1,13 +1,16 @@
-import { useAccessToken } from "../hook/useAccessToken";
+"use client"
+import { useEffect } from "react";
 
 export default function browse() {
-  const accessToken = useAccessToken();
 
-  if (!accessToken) {
-    return null; // or a loading spinner
-  }
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      window.location.href = '/login';
+    }
+  }, []);
 
   return (
-    <h1>Protected</h1>
+    <h1>browse</h1>
   );
 }
