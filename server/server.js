@@ -9,6 +9,7 @@ const categoryRoute = require("./Routes/categoryRoute");
 const adminRoute = require("./Routes/adminRoute");
 const userRoute = require("./Routes/userRoute");
 const countryRoute = require("./Routes/countryRoute");
+const filmRoute = require("./Routes/filmRoute");
 
 dotenv.config();
 //mongoDB connection
@@ -24,6 +25,7 @@ app.use("/api/category",categoryRoute);
 app.use("/api/admin",adminRoute);
 app.use("/api/user",userRoute);
 app.use("/api/country",countryRoute);
+app.use("/api/film",filmRoute);
 //tạo 1 superadmin defaut
 app.get("/", (req, res) => {
     res.send("Hello World!");

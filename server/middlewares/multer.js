@@ -1,58 +1,63 @@
-const multer = require('multer');
-const storage = require('./firebaseStorage');
+const Multer = require('multer');
+const bucket = require('./firebaseStorage');
 const { v4: uuidv4 } = require('uuid');
+const path = require('path');
 
-const uploadImage = multer({
-    storage: multer.memoryStorage(),
+const firebaseStorage = {
+    _handleFile: function _handleFile(req, file, cb) {
+      console.log("File:", file);
+      
+      if (file.length > 0 && file[0].originalname) {
+        const fileName = `${uuidv4()}${path.extname(file[0].originalname)}`;
+        const blob = bucket.file(fileName);
+        const blobStream = blob.createWriteStream();
+  
+        blobStream.on('error', (err) => cb(err));
+        blobStream.on('finish', () => {
+          const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${fileName}?alt=media`;
+          cb(null, { path: publicUrl });
+        });
+  
+        blobStream.end(file[0].buffer);
+      } else {
+        console.error("Tệp tin hoặc tên tệp tin không xác định");
+        cb(new Error('Tệp tin hoặc tên tệp tin không xác định'));
+      }
+    },
+    _removeFile: function _removeFile(req, file, cb) {
+      if (file.length > 0 && file[0].originalname) {
+        const blob = bucket.file(file[0].originalname);
+        blob.delete().then(() => cb(null)).catch((err) => cb(err));
+      } else {
+        cb(new Error('Tệp tin hoặc tên tệp tin không xác định'));
+      }
+    },
+  };
+
+const upload = Multer({
+    storage: Multer.memoryStorage(),
     limits: {
-        fileSize: 5 * 1024 * 1024 // limit file size to 5MB
+        fileSize: 10 * 1024 * 1024 * 1024, // limit file size to 10GB
     },
     fileFilter: (req, file, cb) => {
-        const filetypes = /jpeg|jpg|png|gif/; // accept jpeg, jpg, png, and gif file formats
-        const mimetype = filetypes.test(file.mimetype);
-        const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-        if (mimetype && extname) {
-            return cb(null, true);
+        const allowedMimes = [
+            "image/jpeg",
+            "image/pjpeg",
+            "image/png",
+            "image/gif",
+            "video/mp4",
+            "video/mpeg",
+            "video/quicktime",
+            "video/webm",
+            "video/ogg",
+        ];
+
+        if (allowedMimes.includes(file.mimetype)) {
+            cb(null, true);
+        } else {
+            cb(new Error('Invalid file type. Only image and video files are allowed.'), false);
         }
-        cb('Error: File upload only supports the following filetypes - ' + filetypes);
     }
 });
 
-const uploadVideo = multer({
-    storage: multer.memoryStorage(),
-    limits: {
-        fileSize: 50 * 1024 * 1024 // limit file size to 50MB
-    },
-    fileFilter: (req, file, cb) => {
-        const filetypes = /mp4|webm|ogg/; // accept mp4, webm, and ogg file formats
-        const mimetype = filetypes.test(file.mimetype);
-        const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-        if (mimetype && extname) {
-            return cb(null, true);
-        }
-        cb('Error: File upload only supports the following filetypes - ' + filetypes);
-    }
-});
-
-const uploadFileToFirebase = (req, res, next) => {
-    const file = req.file;
-    if (!file) {
-        return res.status(400).send('No file uploaded.');
-    }
-    const blob = storage.file(`${uuidv4()}-${file.originalname}`);
-    const blobStream = blob.createWriteStream({
-        resumable: false
-    });
-    blobStream.on('finish', () => {
-        const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${storage.name}/o/${encodeURI(blob.name)}?alt=media`;
-        req.file = publicUrl;
-        next();
-    });
-    blobStream.end(file.buffer);
-}
-
-module.exports = {
-    uploadImage,
-    uploadVideo,
-    uploadFileToFirebase
-}
+module.exports = {upload, firebaseStorage};

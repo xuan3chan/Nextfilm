@@ -18,11 +18,11 @@ const filmSchema = new Schema(
     },
     trailer: {
       type: String,
-      required: true,
+      required: false,
     },
     video: {
       type: [String],
-      required: true,
+      required: false,
     },
     type: {
       type: String,
@@ -41,7 +41,7 @@ const filmSchema = new Schema(
       type: Number,
       required: true,
     },
-    episode: {
+    episode: [{
       numEpisode: {
         type: Number,
         required: false,
@@ -50,6 +50,14 @@ const filmSchema = new Schema(
         type: String,
         required: false,
       },
+      video: {
+        type: [String],
+        required: false,
+      },
+    }],
+    age: {
+      type: Number,
+      required: false,
     },
     comment: {
       userId: {
