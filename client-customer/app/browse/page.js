@@ -1,7 +1,16 @@
-export default function Browse() {
+"use client"
+import { useEffect } from "react";
+
+export default function browse() {
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      window.location.href = '/login';
+    }
+  }, []);
+
   return (
-    <div>
-      HomePage
-    </div>
-  )
+    <h1>browse</h1>
+  );
 }

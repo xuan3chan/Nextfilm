@@ -1,9 +1,8 @@
-import Image from 'next/image'
-import { Logo } from './ui/partials/logo'
-
+import LoginPage from "./(auth)/login/page"
 export default function Home() {
   return (
     <div>
+      <LoginPage/>
     </div>
   )
 }

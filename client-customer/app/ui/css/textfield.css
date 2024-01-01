@@ -31,6 +31,11 @@
   font-size: 12px;
   outline: none;
 }
+
+.field input:valid~label {
+  top: 10px;
+  font-size: 12px;
+}
 .has-value {
   top: 10px;
   font-size: 12px;

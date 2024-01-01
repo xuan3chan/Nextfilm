@@ -6,72 +6,100 @@ import AddAdmin from "./AddAdmin";
 import axios from "axios";
 import ButtonEdit from "../../Button/EditButton";
 import ButtonDelete from "../../Button/DeleteButton";
+import "@/styles/Account.css";
+
 export default function AccountList() {
-  const [role, setRole] = useState("Admin");
+  const [role, setRole] = useState("user");
+  const [roleUser, setRoleUser] = useState("admin");
 
   const handleChangeRole = (props) => {
     setRole(props);
   };
-
   const data = localStorage.getItem("data");
   const dataObject = JSON.parse(data);
-  const token = dataObject.accessToken;
+  const token = dataObject ? dataObject.accessToken : "";
+
   const [adminList, setAdminList] = useState([]);
   const [userList, setUserList] = useState([]);
-  const ApiLink = "http://localhost:8000/api/admin/getall";
+  const ApiGetAdmin = "http://localhost:8000/api/admin/getall";
   const ApiGetUser = "http://localhost:8000/api/user/getall";
   const [lengthUser, setLengthUser] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
+      const data = localStorage.getItem("data");
+      if (data) {
+        const dataObject = JSON.parse(data);
+        const roleUser = dataObject.admin.role;
+        setRoleUser(roleUser);
+      } else {
+        history.push("/login");
+      }
       try {
         const headers = {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${dataObject.accessToken}`,
         };
 
-        const [response1, response2] = await Promise.all([
-          axios.get(ApiLink, { headers }),
-          axios.get(ApiGetUser, { headers }),
-        ]);
+        const response1 =
+          roleUser === "admin"
+            ? await axios.get(ApiGetAdmin, { headers })
+            : await axios.get(ApiGetAdmin, { headers });
+
+        const response2 = await axios.get(ApiGetUser, { headers });
 
         setAdminList(response1.data.admins);
         setUserList(response2.data.users);
-        setLengthUser(role === "Admin" ? adminList.length : userList.length);
+        setLengthUser(
+          role === "Admin" && roleUser === "superAdmin"
+            ? adminList.length
+            : userList.length
+        );
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, [token, ApiLink, ApiGetUser, adminList.length, role, userList.length]);
-
+  }, [history, ApiGetAdmin, ApiGetUser, role, roleUser]);
   return (
     <div className="flex gap-10 ml-10">
       <section className="AddAccountSection SubContentBg flex justify-start items-center">
         <div className="AddAccount_title text-center">Thêm {role} </div>
         <div className="AddAccount_RoleSelection flex mb-10">
-          <a
-            onClick={() => {
-              handleChangeRole("Admin");
-            }}
-            className={`RoleAdmin SelectionRole ${
-              role === "Admin" ? "bg-amber-200" : "bg-gray-50"
-            }`}
-          >
-            Admin
-          </a>
-          <a
-            onClick={() => {
-              handleChangeRole("User");
-            }}
-            className={`RoleUser SelectionRole ${
-              role === "User" ? "bg-amber-200" : " bg-gray-50"
-            }`}
-          >
-            User
-          </a>
+          {roleUser === "superAdmin" ? (
+            <div className="flex gap-2">
+              <a
+                onClick={() => {
+                  handleChangeRole("Admin");
+                }}
+                className={`RoleAdmin SelectionRole ${
+                  role === "Admin" ? "bg-amber-200" : "bg-gray-50"
+                }`}
+              >
+                Admin
+              </a>
+              <a
+                onClick={() => {
+                  handleChangeRole("User");
+                }}
+                className={`RoleUser SelectionRole ${
+                  role === "User" ? "bg-amber-200" : " bg-gray-50"
+                }`}
+              >
+                User
+              </a>
+            </div>
+          ) : (
+            <div></div>
+          )}
         </div>
-        {role === "User" ? <AddAccount /> : <AddAdmin token={token} />}
+        {role === "User" ? (
+          <AddAccount />
+        ) : role === "Admin" && roleUser === "admin" ? (
+          <div>Bạn không đủ quyền hạng xem mục này</div>
+        ) : (
+          <AddAdmin token={token} />
+        )}
       </section>
       <section className="AccountListSection ContentBg">
         <div className="flex items-center gap-10">
@@ -85,26 +113,32 @@ export default function AccountList() {
           </div>
         </div>
         <div className="AddAccount_RoleSelection flex mb-10">
-          <a
-            onClick={() => {
-              handleChangeRole("Admin");
-            }}
-            className={`RoleAdmin SelectionRole ${
-              role === "Admin" ? "bg-amber-200" : "bg-gray-50"
-            }`}
-          >
-            Admin
-          </a>
-          <a
-            onClick={() => {
-              handleChangeRole("User");
-            }}
-            className={`RoleUser SelectionRole ${
-              role === "User" ? "bg-amber-200" : "bg-gray-50"
-            }`}
-          >
-            User
-          </a>
+          {roleUser === "superAdmin" ? (
+            <div className="flex gap-2">
+              <a
+                onClick={() => {
+                  handleChangeRole("Admin");
+                }}
+                className={`RoleAdmin SelectionRole ${
+                  role === "Admin" ? "bg-amber-200" : "bg-gray-50"
+                }`}
+              >
+                Admin
+              </a>
+              <a
+                onClick={() => {
+                  handleChangeRole("User");
+                }}
+                className={`RoleUser SelectionRole ${
+                  role === "User" ? "bg-amber-200" : " bg-gray-50"
+                }`}
+              >
+                User
+              </a>
+            </div>
+          ) : (
+            <div></div>
+          )}
         </div>
         {role === "User" ? (
           <div className="w-full">
@@ -164,7 +198,7 @@ export default function AccountList() {
                       <td>{item.role}</td>
                       <td className="flex gap-2 justify-center items-center">
                         <ButtonEdit />
-                        <ButtonDelete></ButtonDelete>
+                        <ButtonDelete id = {item._id} role = {roleUser} token = {token}></ButtonDelete>
                       </td>
                     </tr>
                   ))}
@@ -175,6 +209,97 @@ export default function AccountList() {
             )}
           </div>
         )}
+        <nav aria-label="Page navigation Pagination">
+          <ul class="flex items-center -space-x-px h-8 text-sm">
+            <li>
+              <a
+                href="#"
+                class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              >
+                <span class="sr-only">Previous</span>
+                <svg
+                  class="w-2.5 h-2.5 rtl:rotate-180"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 1 1 5l4 4"
+                  />
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              >
+                1
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              >
+                2
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                aria-current="page"
+                class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              >
+                3
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              >
+                4
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              >
+                5
+              </a>
+            </li>
+            <li>
+              <a
+                href="#"
+                class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              >
+                <span class="sr-only">Next</span>
+                <svg
+                  class="w-2.5 h-2.5 rtl:rotate-180"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 6 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m1 9 4-4-4-4"
+                  />
+                </svg>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </section>
     </div>
   );

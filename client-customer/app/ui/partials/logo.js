@@ -6,7 +6,7 @@ export const Logo = ({className}) => {
     <div className={className}>
       <Image
         priority
-        quality={50}
+        quality={75}
         src={logo}
         alt="NextFilm"
       />
