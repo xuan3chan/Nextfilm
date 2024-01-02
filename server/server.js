@@ -10,6 +10,7 @@ const adminRoute = require("./Routes/adminRoute");
 const userRoute = require("./Routes/userRoute");
 const countryRoute = require("./Routes/countryRoute");
 const filmRoute = require("./Routes/filmRoute");
+const chatGenmiRoute = require("./Routes/chatGenmiRoute");
 
 dotenv.config();
 //mongoDB connection
@@ -26,6 +27,7 @@ app.use("/api/admin",adminRoute);
 app.use("/api/user",userRoute);
 app.use("/api/country",countryRoute);
 app.use("/api/film",filmRoute);
+app.use("/api/chatgenmi",chatGenmiRoute);
 
 //tạo 1 superadmin defaut
 app.get("/", (req, res) => {
