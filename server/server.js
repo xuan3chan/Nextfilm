@@ -26,6 +26,7 @@ app.use("/api/admin",adminRoute);
 app.use("/api/user",userRoute);
 app.use("/api/country",countryRoute);
 app.use("/api/film",filmRoute);
+
 //tạo 1 superadmin defaut
 app.get("/", (req, res) => {
     res.send("Hello World!");

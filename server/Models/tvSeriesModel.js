@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const filmSchema = new Schema(
+const tvSeriesSchema = new Schema(
   {
     filmName: {
       type: String,
@@ -20,10 +20,6 @@ const filmSchema = new Schema(
       type: String,
       required: false,
     },
-    video: {
-      type: String,
-      required: false,
-    },
     category: {
       type: [String],
       required: true,
@@ -36,6 +32,20 @@ const filmSchema = new Schema(
       type: Number,
       required: true,
     },
+    episode: [{
+      numEpisode: {
+        type: Number,
+        required: false,
+      },
+      title: {
+        type: String,
+        required: false,
+      },
+      video: {
+        type: [String],
+        required: false,
+      },
+    }],
     age: {
       type: Number,
       required: false,
@@ -64,6 +74,6 @@ const filmSchema = new Schema(
   { timeStamp: true }
 );
 
-const film = mongoose.model("film", filmSchema);
+const tvSeries = mongoose.model("TVSeries", tvSeriesSchema);
 
-module.exports = film;
+module.exports = tvSeries;

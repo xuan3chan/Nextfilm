@@ -4,18 +4,16 @@ const handleErrorResponse = require("../middlewares/errorHandling");
 class filmController {
   //add film controller
   static async addFilmController(req, res) {
-    const { poster, video, trailer } = req.files;
-    console.log(poster);
-    console.log(video);
+    const poster = req.files['poster'];
+    const video = req.files['video'];
+    const trailer = req.files['trailer'];
     const {
       filmName,
       description,
-      type,
       tags,
       category,
       country,
       yearPublish,
-      episode,
       age,
       status,
     } = req.body;
@@ -27,12 +25,46 @@ class filmController {
         description,
         trailer,
         video,
-        type,
         tags,
         category,
         country,
         yearPublish,
-        episode,
+        age,
+        status
+      );
+      res.status(200).json(response);
+    } catch (err) {
+      handleErrorResponse(res, err);
+    }
+  }
+  static async updateFilmController(req, res) {
+    const poster = req.files['poster'];
+    const video = req.files['video'];
+    const trailer = req.files['trailer'];
+    const id = req.params.id;
+    const {
+      filmName,
+      description,
+      tags,
+      category,
+      country,
+      yearPublish,
+      age,
+      status,
+    } = req.body;
+    try {
+      const response = await filmService.updateFilmService(
+        req,
+        id,
+        filmName,
+        poster,
+        description,
+        trailer,
+        video,
+        tags,
+        category,
+        country,
+        yearPublish,
         age,
         status
       );
