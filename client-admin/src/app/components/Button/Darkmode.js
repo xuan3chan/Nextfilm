@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import '@/styles/Button.css';
-
 const DarkModeToggle = () => {
   const [darkMode, setDarkMode] = useState(false);
 

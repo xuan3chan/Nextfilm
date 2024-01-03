@@ -1,0 +1,16 @@
+.CategoryListSection{
+    display: flex;
+width: 1120px;
+padding: 30px;
+flex-direction: column;
+align-items: flex-start;
+gap: 20px;
+}
+.CategoryListSection_title{
+    color: var(--neutral-800, #262626);
+    font-family: 'Poppins', sans-serif;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}

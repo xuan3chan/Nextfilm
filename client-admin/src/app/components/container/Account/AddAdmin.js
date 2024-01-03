@@ -22,7 +22,6 @@ export default function AddAdmin(props) {
   };
 
   const handleSubmit = () => {
-    console.log(formData);
     axios
       .post(
         ApiLink,

@@ -1,0 +1,13 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+.wrapper{
+    display: flex;
+    width: 90%;
+    min-height:100vh;
+    background-color: #fff;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 20px;
+}

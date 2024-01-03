@@ -8,10 +8,11 @@ import AccountList from "../components/container/Account/AccountList";
 import AccountNormal from "../components/container/Account/AccountNormal";
 import AccountPremium from "../components/container/Account/AccountPremium";
 import AccountChart from "../components/container/Account/AccountChart";
-import CategoryList from "../components/container/Category/CategoryList";
+import AddCategory from "../components/container/Category/AddCategory";
 import VoucherList from "../components/container/Category/VoucherList";
 import { logoImage } from "../../../public/nextfilmLogo.png";
 import DarkMode from "../components/Button/Darkmode";
+import CategoryList from "../components/container/Category/CategoryList";
 export default function Dashboard() {
   const [showUserItems, setShowUserItems] = useState(false);
   const [showMovieItems, setShowMovieItems] = useState(false);
@@ -26,8 +27,10 @@ export default function Dashboard() {
       } else {
         const data = JSON.parse(storedData);
         const adminObject = data.admin;
-        setRole(adminObject.role);
-        console.log(adminObject.role);
+        {
+          adminObject == null ? null : adminObject;
+        }
+        setRole(adminObject);
       }
     }
   }, []); // Empty dependency array to run the effect only once
@@ -43,6 +46,9 @@ export default function Dashboard() {
     setShowCategoryItems(false);
     setDropdownState(!dropdownState);
   };
+  const data = localStorage.getItem("data");
+  const dataObject = JSON.parse(data);
+  const token = dataObject ? dataObject.accessToken : "";
 
   return (
     <div className="flex flex-col bg-color">
@@ -175,6 +181,14 @@ export default function Dashboard() {
                 Tạo Gói Thành Viên
               </li>
               <li
+              onClick={() => {
+                handleChangeState("CategoryList");
+              }}
+              className="Item"
+            >
+              Danhn Sách Danh Mục
+            </li>
+              <li
                 onClick={() => {
                   handleChangeState("CreateCategory");
                 }}
@@ -219,7 +233,12 @@ export default function Dashboard() {
             {selectedComponent === "ManageEpisode" && <AccountChart />}
             {selectedComponent === "MovieChart" && <AccountChart />}
             {selectedComponent === "CreateMemberPackage" && <AccountChart />}
-            {selectedComponent === "CreateCategory" && <CategoryList />}
+            {selectedComponent === "CreateCategory" && (
+              <AddCategory token={token} />
+            )}
+            {selectedComponent === "CategoryList" && (
+              <CategoryList token={token} />
+            )}
             {selectedComponent === "CreateVoucher" && <VoucherList />}
           </div>
         </div>
