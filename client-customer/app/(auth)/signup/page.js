@@ -94,12 +94,12 @@ export default function signup() {
           </div>
           <div className="horizon-line"></div>
         </div>
-        <div className={`signup-body_content-sub ${roboto.className}`}>
-          <div className="body_content text-white align-middle">
-            <h2 className="text-fontTitle font-black">
+        <div className={`signup-body_content-sub w-3/4 ${roboto.className}`}>
+          <div className="body_content text-white shrink-4">
+            <h2 className="text-fontTitle font-black tracking-3">
               Thưởng thức trên TV của bạn
             </h2>
-            <p className="text-2xl mt-4">
+            <p className="text-2xl mt-4 leading-7">
               Xem trên TV thông minh, Playstation, Xbox, Chromecast, Apple TV, đầu phát Blu-ray và nhiều thiết bị khác.
             </p>
           </div>

@@ -12,6 +12,12 @@ module.exports = {
     extend: {
       backgroundColor: {
         'red': '#e50914'
+      },
+      flexShrink: {
+        4: '4'
+      },
+      letterSpacing: {
+        3: '3px'
       }
     },
     fontSize: {

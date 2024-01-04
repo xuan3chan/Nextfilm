@@ -37,7 +37,7 @@
 }
 
 .signup-body_content-sub {
-  padding: 72px 175px 72px 175px;
+  padding: 72px 0;
 }
 
 .body_content_background {
@@ -116,6 +116,5 @@
 
 .signup-body_content-sub {
   font-size: 24px;
-  margin-top: 16px;
-  justify-content: center;
+  margin: 0 auto;
 }
