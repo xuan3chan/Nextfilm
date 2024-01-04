@@ -15,7 +15,8 @@ module.exports = {
       }
     },
     fontSize: {
-      loginTitle: '32px'
+      loginTitle: '32px',
+      fontTitle: '3rem'
     }
   },
   plugins: [],

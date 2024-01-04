@@ -6,6 +6,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import Link from "next/link";
 import Image from "next/image";
 import bgSignup from "@/public/signup-background.jpg";
+import tv from '@/public/tv.png'
 import "@/app/ui/signup/signup.css";
 import "@/app/ui/css/textfield.css";
 
@@ -56,7 +57,7 @@ export default function signup() {
               className={`content_content text-white ${roboto.className} text-center`}
             >
               <div className="content_header">
-                <h1>
+                <h1 className="text-fontTitle">
                   Chương trình truyền hình, phim không giới hạn và nhiều nội
                   dung khác
                 </h1>
@@ -89,6 +90,30 @@ export default function signup() {
                   </form>
                 </div>
               </div>
+            </div>
+          </div>
+          <div className="horizon-line"></div>
+        </div>
+        <div className={`signup-body_content-sub ${roboto.className}`}>
+          <div className="body_content text-white align-middle">
+            <h2 className="text-fontTitle font-black">
+              Thưởng thức trên TV của bạn
+            </h2>
+            <p className="text-2xl mt-4">
+              Xem trên TV thông minh, Playstation, Xbox, Chromecast, Apple TV, đầu phát Blu-ray và nhiều thiết bị khác.
+            </p>
+          </div>
+          <div className="body_content-video">
+            <div className="video_tv">
+              <Image
+                src={tv}
+                alt="NextFilm TV"
+                quality={60}
+                placeholder="blur"
+                priority
+                className="image-tv"
+                width={'100%'}
+              />
             </div>
           </div>
         </div>
