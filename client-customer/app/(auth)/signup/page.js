@@ -2,50 +2,97 @@
 import { roboto } from "@/app/ui/fonts";
 import { Logo } from "@/app/ui/partials/logo";
 import { RedButton } from "@/app/ui/RedButton";
+import { IoIosArrowForward } from "react-icons/io";
 import Link from "next/link";
 import Image from "next/image";
-import bgLogin from "@/public/VN-vi-20231218-popsignuptwoweeks-perspective_alpha_website_large.jpg";
-import '@/app/ui/signup/signup.css'
+import bgSignup from "@/public/signup-background.jpg";
+import "@/app/ui/signup/signup.css";
+import "@/app/ui/css/textfield.css";
 
 export default function signup() {
   return (
-    <div>
-      <div className="signup-wrapper h-screen overflow-hidden">
-        <div className="signup-wrapper-background">
-          <Image 
-            src={bgLogin}
-            alt="NextFilm Signup NextFilm Đăng ký"
-            quality={60}
-            placeholder="blur"
-            style={{
-              objectFit: "cover",
-              height: '100%'
-            }}
-            priority
-          />
+    <div className="bg-black">
+      <header className="signup-header">
+        <Link href="/" className="signup-sgvlogo">
+          <Logo className="w-[165px] h-[45px]" />
+        </Link>
+        <div className="signup-header-right">
+          <div className="lang-switcher w-32 h-8 pr-2 pl-2 mr-5 border-white border rounded">
+            <select
+              name="lang"
+              id="lang"
+              className="w-full h-full bg-transparent text-white outline-none"
+            >
+              <option className="text-black" value="Vietnamses">
+                Tiếng Việt
+              </option>
+              <option className="text-black" value="English">
+                English
+              </option>
+            </select>
+          </div>
+          <RedButton className="w-28 h-8">
+            <Link href="login">Đăng nhập</Link>
+          </RedButton>
         </div>
-        <div className="signup-header">
-          <Link href="/" className="signup-sgvlogo">
-            <Logo className="w-[165px] h-[45px]" />
-          </Link>
-          <div className="signup-header-right">
-            <div className="lang-switcher w-28 h-8 pr-2 pl-2 mr-5 border-white border rounded">
-              <select name="lang" id="lang" className="w-full h-full bg-transparent text-white">
-                <option className="text-black" value="Vietnamses">Tiếng Việt</option>
-                <option className="text-black" value="English">English</option>
-              </select>
+      </header>
+      <div className="signup-body">
+        <div className="signup-body_content">
+          <div className="body_content_background">
+            <div className="content_background_image">
+              <Image
+                src={bgSignup}
+                alt="NextFilm Signup NextFilm Đăng ký"
+                quality={60}
+                placeholder="blur"
+                className="background_image"
+                priority
+              />
+              <div className="wrapper-background"></div>
             </div>
-            <RedButton className="w-28 h-8">
-              <Link href='login'>
-                Đăng nhập
-              </Link>
-            </RedButton>
+          </div>
+          <div className="body_content_content">
+            <div
+              className={`content_content text-white ${roboto.className} text-center`}
+            >
+              <div className="content_header">
+                <h1>
+                  Chương trình truyền hình, phim không giới hạn và nhiều nội
+                  dung khác
+                </h1>
+                <p>Xem ở mọi nơi. Hủy bất kỳ lúc nào.</p>
+                <div className="content_header_sub">
+                  <form className="sub-form">
+                    <h3 className="sub-header">
+                      Bạn đã sẵn sàng xem chưa? Nhập email để tạo hoặc kích hoạt
+                      lại tư cách thành viên của bạn.
+                    </h3>
+                    <div className="sub-content flex">
+                      <div className="field flex-1 h-14 mr-2">
+                        <input
+                          id="email"
+                          type="text"
+                          className="text-input font-light"
+                          required
+                        />
+                        <label
+                          htmlFor="emailorphonenumber"
+                          className="floating-label font-light"
+                        >
+                          Địa chỉ email
+                        </label>
+                      </div>
+                      <RedButton className="w-[162px] h-14 text-[25px] flex items-center justify-center">
+                        Bắt đầu <IoIosArrowForward />
+                      </RedButton>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div>
-        hehe
-      </div>
     </div>
-  )
+  );
 }

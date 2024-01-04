@@ -49,7 +49,7 @@ export default function LoginForm()  {
           </h1>
         </div>
         <div className="w-full text-white">
-          <div className="field">
+          <div className="field h-14">
             <input
               id="email"
               type="text"
@@ -65,7 +65,7 @@ export default function LoginForm()  {
               Email hoặc số điện thoại
             </label>
           </div>
-          <div className="field">
+          <div className="field h-14">
             <input
               id="password"
               type={showPassword ? "text" : "password"}

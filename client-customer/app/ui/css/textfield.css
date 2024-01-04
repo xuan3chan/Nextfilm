@@ -17,7 +17,7 @@
 
 .field .text-input {
   width: 100%;
-  height: 50px;
+  height: 100%;
   padding: 16px 20px 0px;
   font-size: 16px;
   color: white;
@@ -26,7 +26,7 @@
   border-radius: 3px;
 }
 
-.field input:focus~label { 
+.field input:focus~label {
   top: 10px;
   font-size: 12px;
   outline: none;
@@ -36,6 +36,7 @@
   top: 10px;
   font-size: 12px;
 }
+
 .has-value {
   top: 10px;
   font-size: 12px;
@@ -56,8 +57,3 @@
   font-size: 21px;
   display: block;
 }
-
-
-
-
-
