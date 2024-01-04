@@ -12,10 +12,17 @@ module.exports = {
     extend: {
       backgroundColor: {
         'red': '#e50914'
+      },
+      flexShrink: {
+        4: '4'
+      },
+      letterSpacing: {
+        3: '3px'
       }
     },
     fontSize: {
-      loginTitle: '32px'
+      loginTitle: '32px',
+      fontTitle: '3rem'
     }
   },
   plugins: [],

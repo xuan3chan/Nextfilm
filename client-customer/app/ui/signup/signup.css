@@ -1,29 +1,139 @@
-.signup-wrapper {
-  position: relative;
-  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.8) 100%);
-}
-
-.signup-wrapper-background {
-  position: absolute;
-  z-index: -1;
-  height: 100%;
-}
-
 .signup-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 24px 48px;
+  justify-content: space-between;
   width: 85%;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
+  padding: 24px 32px;
+  z-index: 100;
 }
+
+.wrapper-background {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.8) 100%);
+}
+
 .signup-header-right {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-inline-start: auto;
 }
-.lang-switcher {
-  background-color: rgba(0, 0, 0, 0.5);
+
+.signup-body_content
+
+/* .signup-body_content-sub  */
+  {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 158px 200px 46px 200px;
+}
+
+/* .signup-body_content-sub {
+  padding: 72px 0;
+} */
+
+.body_content_background {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.content_background_image {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.background_image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  opacity: 0.6;
+  transform: scale(1.25) translateY(-10%);
+}
+
+.content_header>h1 {
+  font-weight: 900;
+  letter-spacing: 2.5px;
+}
+
+.content_header>p {
+  font-size: 24px;
+  font-weight: 400;
+  margin-top: 16px;
+}
+
+.sub-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.content_header_sub>form>h3.sub-header {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.content_header_sub {
+  width: 85%;
+  margin: 0 auto;
+  padding: 0 32px;
+  margin-top: 24px;
+}
+
+.sub-content {
+  width: 65%;
+  margin: 1rem auto 0;
+}
+
+.body_content_content {
+  z-index: 80;
+  margin: 86px 0;
+  width: 100%;
+}
+
+.horizon-line {
+  position: absolute;
+  background-color: rgb(35, 35, 35);
+  width: 100%;
+  height: 10px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+
+.signup-body_content-sub {
+  width: 100%;
+  padding: 72px 0;
+  position: relative;
+}
+
+.video_tv {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 90;
+}
+
+.video_tv_media {
+  position: absolute;
+  top: 20%;
+  left: 13%;
+  right: 14%;
+  z-index: -1;
 }

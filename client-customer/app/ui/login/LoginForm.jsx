@@ -49,11 +49,11 @@ export default function LoginForm()  {
           </h1>
         </div>
         <div className="w-full text-white">
-          <div className="field">
+          <div className="field h-14">
             <input
               id="email"
               type="text"
-              className="text-input font-light"
+              className="text-input font-light bg-[#333] rounded"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -65,11 +65,11 @@ export default function LoginForm()  {
               Email hoặc số điện thoại
             </label>
           </div>
-          <div className="field">
+          <div className="field h-14">
             <input
               id="password"
               type={showPassword ? "text" : "password"}
-              className="text-input font-light"
+              className="text-input font-light bg-[#333] rounded"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
