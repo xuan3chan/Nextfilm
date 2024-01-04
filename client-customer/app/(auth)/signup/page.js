@@ -72,7 +72,7 @@ export default function signup() {
                         <input
                           id="email"
                           type="text"
-                          className="text-input font-light"
+                          className="text-input font-light border-gray-600 bg-black/45 border rounded"
                           required
                         />
                         <label

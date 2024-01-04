@@ -53,7 +53,7 @@ export default function LoginForm()  {
             <input
               id="email"
               type="text"
-              className="text-input font-light"
+              className="text-input font-light bg-[#333] rounded"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -69,7 +69,7 @@ export default function LoginForm()  {
             <input
               id="password"
               type={showPassword ? "text" : "password"}
-              className="text-input font-light"
+              className="text-input font-light bg-[#333] rounded"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
