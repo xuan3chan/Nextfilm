@@ -13,6 +13,8 @@ import VoucherList from "../components/container/Category/VoucherList";
 import { logoImage } from "../../../public/nextfilmLogo.png";
 import DarkMode from "../components/Button/Darkmode";
 import CategoryList from "../components/container/Category/CategoryList";
+import ChatGeminiBox from "../components/container/ChatGemini/ChatGeminiBox";
+
 export default function Dashboard() {
   const [showUserItems, setShowUserItems] = useState(false);
   const [showMovieItems, setShowMovieItems] = useState(false);
@@ -38,6 +40,7 @@ export default function Dashboard() {
 
   const handleChangeState = (state) => {
     setSelectedComponent(state);
+    console.log(state);
   };
 
   const toggleDropdown = (dropdownState, setDropdownState) => {
@@ -46,9 +49,21 @@ export default function Dashboard() {
     setShowCategoryItems(false);
     setDropdownState(!dropdownState);
   };
-  const data = localStorage.getItem("data");
-  const dataObject = JSON.parse(data);
-  const token = dataObject ? dataObject.accessToken : "";
+  let dataObject = null;
+  let token = "";
+
+  if (typeof window !== "undefined") {
+    const data = localStorage.getItem("data");
+
+    try {
+      if (data) {
+        dataObject = JSON.parse(data);
+        token = dataObject.accessToken;
+      }
+    } catch (error) {
+      console.error("Error parsing data:", error);
+    }
+  }
 
   return (
     <div className="flex flex-col bg-color">
@@ -66,8 +81,14 @@ export default function Dashboard() {
       </div>
       <div id="Container " className="flex">
         <div className="MenuBarLeft flex flex-col">
-          <div className="btn btnNewFilm">
-            <span>Phim Mới</span>
+          <div className="btn ">
+            <button className="btnNewFilm"
+              onClick={() => {
+                handleChangeState("ChatGemini");
+              }}
+            >
+              Chat Gemini
+            </button>
           </div>
           <div>
             {/* User Management */}
@@ -181,13 +202,13 @@ export default function Dashboard() {
                 Tạo Gói Thành Viên
               </li>
               <li
-              onClick={() => {
-                handleChangeState("CategoryList");
-              }}
-              className="Item"
-            >
-              Danhn Sách Danh Mục
-            </li>
+                onClick={() => {
+                  handleChangeState("CategoryList");
+                }}
+                className="Item"
+              >
+                Danhn Sách Danh Mục
+              </li>
               <li
                 onClick={() => {
                   handleChangeState("CreateCategory");
@@ -233,6 +254,7 @@ export default function Dashboard() {
             {selectedComponent === "ManageEpisode" && <AccountChart />}
             {selectedComponent === "MovieChart" && <AccountChart />}
             {selectedComponent === "CreateMemberPackage" && <AccountChart />}
+            {selectedComponent === "ChatGemini" && <ChatGeminiBox />}
             {selectedComponent === "CreateCategory" && (
               <AddCategory token={token} />
             )}

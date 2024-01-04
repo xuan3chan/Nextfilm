@@ -14,3 +14,37 @@ gap: 20px;
     font-weight: 600;
     line-height: normal;
 }
+/* Style the CategoryListSection */
+.CategoryListSection {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  /* Style the CategoryListSection_title */
+  .CategoryListSection_title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  /* Style the select container */
+  .CategoryList_Items {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+  }
+  
+  /* Style the select options */
+  .CategoryList_Items option {
+    background-color: #fff;
+    padding: 10px;
+    color: #333;
+  }
+  
+  /* Style the selected option */
+  .CategoryList_Items option:checked {
+    background-color: #e0e0e0;
+    font-weight: bold;
+  }
