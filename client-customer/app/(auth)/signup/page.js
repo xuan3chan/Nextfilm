@@ -6,6 +6,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import Link from "next/link";
 import Image from "next/image";
 import bgSignup from "@/public/signup-background.jpg";
+import mobileImage from '@/public/mobile-0819.jpg'
 import tv from '@/public/tv.png'
 import "@/app/ui/signup/signup.css";
 import "@/app/ui/css/textfield.css";
@@ -95,25 +96,52 @@ export default function signup() {
           <div className="horizon-line"></div>
         </div>
         <div className={`signup-body_content-sub w-3/4 ${roboto.className}`}>
-          <div className="body_content text-white shrink-4">
-            <h2 className="text-fontTitle font-black tracking-3">
-              Thưởng thức trên TV của bạn
-            </h2>
-            <p className="text-2xl mt-4 leading-7">
-              Xem trên TV thông minh, Playstation, Xbox, Chromecast, Apple TV, đầu phát Blu-ray và nhiều thiết bị khác.
-            </p>
+          <div className="flex w-3/4 items-center justify-center mx-auto">
+            <div className="body_content text-white shrink-4">
+              <h2 className="text-fontTitle font-black tracking-3">
+                Thưởng thức trên TV của bạn
+              </h2>
+              <p className="text-2xl mt-4 leading-7">
+                Xem trên TV thông minh, Playstation, Xbox, Chromecast, Apple TV, đầu phát Blu-ray và nhiều thiết bị khác.
+              </p>
+            </div>
+            <div className="body_content-video">
+              <div className="video_tv">
+                <Image
+                  src={tv}
+                  alt="NextFilm TV"
+                  quality={60}
+                  placeholder="blur"
+                  priority
+                  width={'100%'}
+                />
+                <div className="video_tv_media">
+                  <video autoPlay muted loop playsInline >
+                    <source src="/video-tv.m4v" type='video/mp4' />
+                  </video>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="body_content-video">
-            <div className="video_tv">
+          <div className="horizon-line"></div>
+        </div>
+        <div className={`signup-body_content-sub w-3/4 ${roboto.className}`}>
+          <div className="flex w-3/4 items-center justify-center mx-auto">
+            <div className="body_content-image">
               <Image
-                src={tv}
-                alt="NextFilm TV"
-                quality={60}
-                placeholder="blur"
+                src={mobileImage}
                 priority
-                className="image-tv"
-                width={'100%'}
+                alt="Xem phim Netfilm"
+                placeholder="blur"
               />
+            </div>
+            <div className="body_content text-white shrink-4">
+              <h2 className="text-fontTitle font-black tracking-3">
+                Tải xuống nội dung để xem ngoại tuyến
+              </h2>
+              <p className="text-2xl mt-4 leading-7">
+                Lưu lại những nội dung yêu thích một cách dễ dàng và luôn có thứ để xem.
+              </p>
             </div>
           </div>
         </div>
