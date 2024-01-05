@@ -7,6 +7,8 @@ import Link from "next/link";
 import Image from "next/image";
 import bgSignup from "@/public/signup-background.jpg";
 import mobileImage from '@/public/mobile-0819.jpg'
+import bannerImage from '@/public/boxshot.png'
+import downloadingIcon from '@/public/download-icon.gif'
 import tv from '@/public/tv.png'
 import "@/app/ui/signup/signup.css";
 import "@/app/ui/css/textfield.css";
@@ -37,7 +39,7 @@ export default function signup() {
             <Link href="login">Đăng nhập</Link>
           </RedButton>
         </div>
-      </header>
+      </header>    
       <div className="signup-body">
         <div className="signup-body_content">
           <div className="body_content_background">
@@ -134,6 +136,26 @@ export default function signup() {
                 alt="Xem phim Netfilm"
                 placeholder="blur"
               />
+              <div className="download-container">
+                <div className="download-container_banner">
+                  <Image
+                    src={bannerImage}
+                    alt="NextFilm đăng ký"
+                    priority
+                    className="banner-image"
+                  />
+                </div>
+                <div className="download-container_content">
+                  <div className="dl-content_header text-white">Cậu bé mất tích</div>
+                  <div className="dl-content_sub text-sm text-blue-700">Đang tải xuống...</div>
+                </div>
+                <div className="download-container_icon">
+                  <Image
+                    src={downloadingIcon}
+                    alt="NextFilm đăng ký"
+                  />
+                </div>
+              </div>
             </div>
             <div className="body_content text-white shrink-4">
               <h2 className="text-fontTitle font-black tracking-3">

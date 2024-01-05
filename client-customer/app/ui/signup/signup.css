@@ -137,3 +137,47 @@
   right: 14%;
   z-index: -1;
 }
+
+.body_content-image {
+  position: relative;
+}
+
+.download-container {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  background-color: #000;
+  border: 1px solid #fff;
+  border-radius: 0.75rem;
+  padding: 8px 12px;
+  left: 22%;
+  right: 22%;
+  bottom: 7%;
+  width: 317px;
+  height: 103px;
+  box-shadow: 0px 0px 17px 0px rgba(0, 0, 0, 0.75);
+}
+
+.download-container_content {
+  flex-grow: 1;
+}
+
+.download-container_banner {
+  position: relative;
+  width: 57px;
+  height: 84px;
+  margin-right: 16px;
+}
+
+.download-container_banner>.banner-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.download-container_icon {
+  width: 40px;
+  height: 40px;
+  margin-right: 8px;
+}
