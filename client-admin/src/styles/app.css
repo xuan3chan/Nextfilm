@@ -4,7 +4,7 @@
 }
 .wrapper{
     display: flex;
-    min-width: 40%;
+    min-width: 50%;
     min-height:100vh;
     background-color: #fff;
     margin: 20px;

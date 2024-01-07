@@ -6,11 +6,10 @@ import Swal from "sweetalert2";
 export default function DeleteButton(props) {
   const role = props.role;
   const id = props.id;
-  const ApiLink = `http://localhost:8000/api/admin/delete/${id}`;
+  const ApiLink = props.ApiLink;
   const token = props.token;
 
   const handleDelete = (id, role, token) => {
-    console.log(id, role, token);
     role == "superAdmin"
       ? axios
           .delete(ApiLink, {

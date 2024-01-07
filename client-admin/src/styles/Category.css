@@ -1,6 +1,6 @@
 .CategoryListSection{
     display: flex;
-width: 1120px;
+min-width: 40%;
 padding: 30px;
 flex-direction: column;
 align-items: flex-start;

@@ -5,16 +5,17 @@ import { FaUserGroup } from "react-icons/fa6";
 import AddAdmin from "./AddAdmin";
 import axios from "axios";
 import ButtonEdit from "../../Button/EditButton";
-import ButtonDelete from "../../Button/DeleteButton";
+import DeleteButton from "../../Button/DeleteButton";
 import "@/styles/Account.css";
 
 export default function AccountList() {
-  const [role, setRole] = useState("user");
+  const [role, setRole] = useState("Admin");
   const [roleUser, setRoleUser] = useState("admin");
 
   const handleChangeRole = (props) => {
     setRole(props);
   };
+
   const data = localStorage.getItem("data");
   const dataObject = JSON.parse(data);
   const token = dataObject ? dataObject.accessToken : "";
@@ -60,47 +61,9 @@ export default function AccountList() {
     };
 
     fetchData();
-  }, [history, ApiGetAdmin, ApiGetUser, role, roleUser]);
+  }, [history, ApiGetAdmin, ApiGetUser, role, roleUser, adminList, userList]);
   return (
     <div className="flex gap-10 ml-10">
-      <section className="AddAccountSection SubContentBg flex justify-start items-center">
-        <div className="AddAccount_title text-center">Thêm {role} </div>
-        <div className="AddAccount_RoleSelection flex mb-10">
-          {roleUser === "superAdmin" ? (
-            <div className="flex gap-2">
-              <a
-                onClick={() => {
-                  handleChangeRole("Admin");
-                }}
-                className={`RoleAdmin SelectionRole ${
-                  role === "Admin" ? "bg-amber-200" : "bg-gray-50"
-                }`}
-              >
-                Admin
-              </a>
-              <a
-                onClick={() => {
-                  handleChangeRole("User");
-                }}
-                className={`RoleUser SelectionRole ${
-                  role === "User" ? "bg-amber-200" : " bg-gray-50"
-                }`}
-              >
-                User
-              </a>
-            </div>
-          ) : (
-            <div></div>
-          )}
-        </div>
-        {role === "User" ? (
-          <AddAccount />
-        ) : role === "Admin" && roleUser === "admin" ? (
-          <div>Bạn không đủ quyền hạng xem mục này</div>
-        ) : (
-          <AddAdmin token={token} />
-        )}
-      </section>
       <section className="AccountListSection ContentBg">
         <div className="flex items-center gap-10">
           <div className="AddAccount_title">Danh Sách {role} </div>
@@ -120,7 +83,7 @@ export default function AccountList() {
                   handleChangeRole("Admin");
                 }}
                 className={`RoleAdmin SelectionRole ${
-                  role === "Admin" ? "bg-amber-200" : "bg-gray-50"
+                  role === "Admin" ? "bg-black text-white" : "bg-gray-50"
                 }`}
               >
                 Admin
@@ -130,7 +93,7 @@ export default function AccountList() {
                   handleChangeRole("User");
                 }}
                 className={`RoleUser SelectionRole ${
-                  role === "User" ? "bg-amber-200" : " bg-gray-50"
+                  role === "User" ? "bg-black text-white" : " bg-gray-50"
                 }`}
               >
                 User
@@ -168,7 +131,7 @@ export default function AccountList() {
                       <td>{JSON.stringify(item.role3)}</td>
                       <td className="flex gap-2 justify-center items-center">
                         <ButtonEdit />
-                        <ButtonDelete></ButtonDelete>
+                        <DeleteButton></DeleteButton>
                       </td>
                     </tr>
                   ))}
@@ -198,7 +161,12 @@ export default function AccountList() {
                       <td>{item.role}</td>
                       <td className="flex gap-2 justify-center items-center">
                         <ButtonEdit />
-                        <ButtonDelete id = {item._id} role = {roleUser} token = {token}></ButtonDelete>
+                        <DeleteButton
+                          id={item._id}
+                          role={roleUser}
+                          token={token}
+                          ApiLink={`http://localhost:8000/api/admin/delete/${item._id}`}
+                        ></DeleteButton>
                       </td>
                     </tr>
                   ))}
@@ -300,6 +268,44 @@ export default function AccountList() {
             </li>
           </ul>
         </nav>
+      </section>
+      <section className="AddAccountSection SubContentBg flex justify-start items-center">
+        <div className="AddAccount_title text-center">Thêm {role} </div>
+        <div className="AddAccount_RoleSelection flex mb-10">
+          {roleUser === "superAdmin" ? (
+            <div className="flex gap-2">
+              <a
+                onClick={() => {
+                  handleChangeRole("Admin");
+                }}
+                className={`RoleAdmin SelectionRole ${
+                  role === "Admin" ? "bg-black text-white" : "bg-gray-50"
+                }`}
+              >
+                Admin
+              </a>
+              <a
+                onClick={() => {
+                  handleChangeRole("User");
+                }}
+                className={`RoleUser SelectionRole ${
+                  role === "User" ? "bg-black text-white" : " bg-gray-50"
+                }`}
+              >
+                User
+              </a>
+            </div>
+          ) : (
+            <div></div>
+          )}
+        </div>
+        {role === "User" ? (
+          <AddAccount />
+        ) : role === "Admin" && roleUser === "admin" ? (
+          <div>Bạn không đủ quyền hạng xem mục này</div>
+        ) : (
+          <AddAdmin token={token} />
+        )}
       </section>
     </div>
   );

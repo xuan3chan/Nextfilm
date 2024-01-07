@@ -78,19 +78,16 @@
     align-self: stretch;
     border-top: 1px solid var(--neutral-900, #171717);
     cursor: pointer;
-
 }
 
 .List .Item {
     --c: linear-gradient(#fff 0 0);
-    /* update the color here */
     background: var(--c), var(--c);
     background-size: .3em .1em;
     background-position: 50% 100%;
     background-repeat: no-repeat;
     transition: .3s linear, background-size .3s .2s linear;
-    padding: 0px 0px 15px 20px;
-    align-items: flex-start;
+    padding: 0px 0px 20px 38px;
     gap: 10px;
     color: var(--white, #FFF);
     font-family: 'Poppins', sans-serif;

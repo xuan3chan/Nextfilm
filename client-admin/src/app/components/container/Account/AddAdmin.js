@@ -38,6 +38,7 @@ export default function AddAdmin(props) {
       .catch((error) => {
         console.log("Error:", error);
       });
+    console.log(formData);
   };
 
   return (
