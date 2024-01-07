@@ -28,14 +28,6 @@ export function SignupForm() {
     }
   };
   
-  // const handleFocus = () => {
-  //   setIsFocused(true);
-  // };
-  
-  // const handleBlur = () => {
-  //   setIsFocused(false);
-  // };
-  
   const handleSubmit = (event) => {
     event.preventDefault();
     // Kiểm tra xem email có hợp lệ không

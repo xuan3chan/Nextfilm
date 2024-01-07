@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react';
 
-export default function RegisterForm() {
+export default function registration() {
   const [userEmail, setUserEmail] = useState('');
 
   useEffect(() => {
