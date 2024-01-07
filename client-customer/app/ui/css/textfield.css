@@ -21,19 +21,19 @@
   padding: 16px 20px 0px;
   font-size: 16px;
   color: white;
-  outline: none;
 }
 
 .field input:focus~label {
   top: 10px;
   font-size: 12px;
-  outline: none;
 }
 
 .field input:valid~label {
   top: 10px;
   font-size: 12px;
+  color: #fff;
 }
+
 
 .has-value {
   top: 10px;
