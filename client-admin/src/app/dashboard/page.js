@@ -14,7 +14,7 @@ import { logoImage } from "../../../public/nextfilmLogo.png";
 import DarkMode from "../components/Button/Darkmode";
 import CategoryList from "../components/container/Category/CategoryList";
 import ChatGeminiBox from "../components/container/ChatGemini/ChatGeminiBox";
-
+import CountryList from "../components/container/Country/CountryList";
 export default function Dashboard() {
   const [showUserItems, setShowUserItems] = useState(false);
   const [showMovieItems, setShowMovieItems] = useState(false);
@@ -82,7 +82,8 @@ export default function Dashboard() {
       <div id="Container " className="flex">
         <div className="MenuBarLeft flex flex-col">
           <div className="btn ">
-            <button className="btnNewFilm"
+            <button
+              className="btnNewFilm"
               onClick={() => {
                 handleChangeState("ChatGemini");
               }}
@@ -219,6 +220,14 @@ export default function Dashboard() {
               </li>
               <li
                 onClick={() => {
+                  handleChangeState("CountryList");
+                }}
+                className="Item"
+              >
+                Danh Sách Quốc Gia
+              </li>
+              <li
+                onClick={() => {
                   handleChangeState("CreateVoucher");
                 }}
                 className="Item"
@@ -257,6 +266,9 @@ export default function Dashboard() {
             {selectedComponent === "ChatGemini" && <ChatGeminiBox />}
             {selectedComponent === "CreateCategory" && (
               <AddCategory token={token} />
+            )}
+            {selectedComponent === "CountryList" && (
+              <CountryList token={token} />
             )}
             {selectedComponent === "CategoryList" && (
               <CategoryList token={token} />

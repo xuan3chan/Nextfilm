@@ -4,11 +4,11 @@ import "@/styles/Category.css";
 import { useEffect, useState } from "react";
 import React from "react";
 import axios from "axios";
-import AddCategory from "./AddCategory";
-export default function CategoryList(props) {
+import AddCountry from "./AddCountry";
+export default function CountryList(props) {
   const token = props.token;
-  const ApiLink = "http://localhost:8000/api/category/getall";
-  const [categoryList, setCategoryList] = useState([]);
+  const ApiLink = "http://localhost:8000/api/country/getall";
+  const [countryList, setCountryList] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,7 +18,7 @@ export default function CategoryList(props) {
             Authorization: `Bearer ${token}`,
           },
         });
-        setCategoryList(response.data.categories);
+        setCountryList(response.data.countries);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -43,23 +43,23 @@ export default function CategoryList(props) {
 
           <select className="CategoryList_Items">
             <option value="">Chọn một danh mục</option>
-            {categoryList.map((category) => (
-              <option key={category._id} value={category._id}>
-                {category.categoryName}
+            {countryList.map((country) => (
+              <option key={country._id} value={country._id}>
+                {country.countryName}
               </option>
             ))}
           </select>
-          {categoryList.map((category) => {
+          {countryList.map((country) => {
             return (
-              <div key={category._id} className="CategoryList_Items">
+              <div key={country._id} className="CategoryList_Items">
                 <div className="CategoryList_Items_Name">
-                  Tên Danh Mục : {category.categoryName}
+                  Tên Danh Mục : {country.countryName}
                 </div>
                 <div className="CategoryList_Items_Description">
-                 Mô Tả : {category.description}
+                 Mô Tả : {country.description}
                 </div>
                 <div className="CategoryList_Items_Status">
-                  Trạng Thái : {category.status}
+                  Trạng Thái : {country.status}
                 </div>
               </div>
             );
@@ -68,7 +68,7 @@ export default function CategoryList(props) {
       </div>
       {showAddCategory == true ? (
         <div>
-          <AddCategory token={token} />
+          <AddCountry token={token} />
         </div>
       ) : null}
     </div>
