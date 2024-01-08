@@ -9,6 +9,8 @@ export const Logo = ({className}) => {
         quality={75}
         src={logo}
         alt="NextFilm"
+        width={'100%'}
+        height={'100%'}
       />
     </div>
   )
