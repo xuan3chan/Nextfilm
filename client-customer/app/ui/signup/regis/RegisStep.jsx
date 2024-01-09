@@ -1,7 +1,5 @@
-export function RegisStep({step}) {
+export function RegisStep({step, className}) {
   return (
-    <div>
-      <span>Bước {step}/3</span>
-    </div>
+    <span className={className}>Bước {step}/3</span>
   )
 }

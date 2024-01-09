@@ -49,7 +49,7 @@ export default function RegistrationLayout({children}) {
           </div>
         </div>
       </header>
-      <div className="w-full h-full">
+      <div>
         {children}
       </div>
       <footer className={`Regis-footer ${roboto.className} pb-5 bg-[#f3f3f3]`}>
