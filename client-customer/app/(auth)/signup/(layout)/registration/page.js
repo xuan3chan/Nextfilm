@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react';
+import { RegisStep } from '@/app/ui/signup/regis/regisStep';
 
 export default function registration() {
   const [userEmail, setUserEmail] = useState('');
@@ -10,12 +11,6 @@ export default function registration() {
   }, []);
 
   return (
-    <div>
-      <h1>Register Form</h1>
-      <input 
-        type="text"
-        value={userEmail}
-      />
-    </div>
+    <RegisStep step={1}/>
   )
 }
