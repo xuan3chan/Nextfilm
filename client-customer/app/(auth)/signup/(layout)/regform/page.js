@@ -20,7 +20,6 @@ export default function regform() {
     }
   }, []);
 
-
   const signup = {
     email: email,
     password: password,
