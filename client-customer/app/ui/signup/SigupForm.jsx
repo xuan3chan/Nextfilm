@@ -35,13 +35,13 @@ export function SignupForm() {
       return;
     }
     // Lưu email vào localStorage để sử dụng ở trang kế tiếp
-    localStorage.setItem('userEmail', email);
+    sessionStorage.setItem('email', email);
     // Chuyển hướng đến trang /signup/registration
     router.push('/signup/registration');
   };
 
   const existingEmail = () => {
-    const emailExist = localStorage.getItem('userEmail');
+    const emailExist = sessionStorage.getItem('userEmail');
     if (emailExist) {
       setEmail(emailExist);
     } else {

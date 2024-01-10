@@ -24,10 +24,12 @@ export default function LoginForm()  {
         email: email,
         password: password,
       });
-      console.log(response.data);
-      if (response.data.accessToken) {
+      const data = response.data.accessToken
+      if (data) {
         localStorage.setItem("accessToken", response.data.accessToken);
         router.push("/browse");
+      } else if (!data) {
+        router.push("/login");
       }
     } catch (error) {
       console.error(error);
