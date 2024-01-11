@@ -7,7 +7,7 @@ export default function AddAdmin(props) {
 
   // State to hold form data
   const [formData, setFormData] = useState({
-    role: "Admin", // Default role
+    role: "admin", // Default role
     adminName: "",
     password: "",
   });
