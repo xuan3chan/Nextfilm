@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import "@/styles/dashboard.css";
+import Image from "next/image";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { IoIosArrowDown } from "react-icons/io";
 import AccountList from "../components/container/Account/AccountList";
@@ -10,16 +11,19 @@ import AccountPremium from "../components/container/Account/AccountPremium";
 import AccountChart from "../components/container/Account/AccountChart";
 import AddCategory from "../components/container/Category/AddCategory";
 import VoucherList from "../components/container/Category/VoucherList";
-import { logoImage } from "../../../public/nextfilmLogo.png";
+import logo from "../../../public/nextfilmLogo.png";
 import DarkMode from "../components/Button/Darkmode";
 import CategoryList from "../components/container/Category/CategoryList";
 import ChatGeminiBox from "../components/container/ChatGemini/ChatGeminiBox";
 import CountryList from "../components/container/Country/CountryList";
+import { useRouter } from "next/navigation";
+
 export default function Dashboard() {
   const [showUserItems, setShowUserItems] = useState(false);
   const [showMovieItems, setShowMovieItems] = useState(false);
   const [showCategoryItems, setShowCategoryItems] = useState(false);
   const [role, setRole] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -69,11 +73,7 @@ export default function Dashboard() {
     <div className="flex flex-col bg-color">
       <div className="Header flex">
         <div className="Header_Item w-52 h-full">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Logonetflix.png"
-            className="w-full h-full"
-            alt=""
-          />
+          <Image src={logo} alt="hehehe" />
         </div>
         <div className="Header_Item">Trang Chủ</div>
         <div className="Header_Item">Danh Mục</div>
@@ -274,6 +274,7 @@ export default function Dashboard() {
               <CategoryList token={token} />
             )}
             {selectedComponent === "CreateVoucher" && <VoucherList />}
+            {selectedComponent === null && <div>Welcome home</div>}
           </div>
         </div>
       </div>
