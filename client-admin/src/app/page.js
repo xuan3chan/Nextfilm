@@ -3,9 +3,8 @@ import Login from "@/app/login/page.js";
 import React, { useEffect } from "react";
 import Dashboard from "@/app/dashboard/page.js";
 import { useState } from "react";
-import useRouter from "next/navigation";
+
 export default function Home() {
-  const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   useEffect(() => {
@@ -22,8 +21,6 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="">
-      {isLoggedIn === false ? router.push("/dashboard") : router.push("/login")}
-    </div>
+    <div className="">{isLoggedIn === false ?  window.location.href = "/dashboard" :  window.location.href = "/login"}</div>
   );
 }

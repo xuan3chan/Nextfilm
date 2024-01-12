@@ -9,13 +9,8 @@ const ApiLink = "http://localhost:8000/api/authadmin/login";
 const Login = () => {
   const [adminName, setAdminName] = React.useState("");
   const [password, setPassword] = React.useState("");
-
   const [data, setData] = React.useState([]);
-  useEffect(() => {
-    data !== null
-      ? localStorage.setItem("data", JSON.stringify(data))
-      : localStorage.getItem("data");
-  }, [data]);
+  localStorage.setItem("data", JSON.stringify(data));
 
   const handleLogin = () => {
     const data = {
@@ -49,12 +44,6 @@ const Login = () => {
     localStorage.setItem("data", JSON.stringify(data));
   };
 
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      handleLogin();
-    }
-  };
-
   return (
     <div className="bg-color w-full min-h-screen flex justify-center items-center">
       <div className="Login-Section">
@@ -73,7 +62,6 @@ const Login = () => {
               placeholder="Nhập Tài Khoản"
               type="text"
               value={adminName}
-              onKeyPress={handleKeyPress}
               onChange={(e) => setAdminName(e.target.value)}
             />
           </div>
@@ -84,7 +72,6 @@ const Login = () => {
               placeholder="Nhập Password"
               type="password"
               value={password}
-              onKeyPress={handleKeyPress}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>

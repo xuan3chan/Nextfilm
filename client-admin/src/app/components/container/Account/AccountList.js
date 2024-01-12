@@ -40,12 +40,14 @@ export default function AccountList() {
         const headers = {
           Authorization: `Bearer ${dataObject.accessToken}`,
         };
+
         const response1 =
           roleUser === "admin"
             ? await axios.get(ApiGetAdmin, { headers })
             : await axios.get(ApiGetAdmin, { headers });
 
         const response2 = await axios.get(ApiGetUser, { headers });
+
         setAdminList(response1.data.admins);
         setUserList(response2.data.users);
         setLengthUser(
