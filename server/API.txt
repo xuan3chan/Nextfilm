@@ -25,9 +25,6 @@ getall : http://localhost:8000/api/country/getall {verify token}
 }
 
 
-
-
-
 customer:
 login : http://localhost:8000/api/authuser/login
 register : http://localhost:8000/api/authuser/register 

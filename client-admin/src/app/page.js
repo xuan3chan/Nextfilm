@@ -1,7 +1,7 @@
 "use client";
-import Login from "@/app/login/page.js";
+import Login from "@/app/pages/login/page.js";
 import React, { useEffect } from "react";
-import Dashboard from "@/app/dashboard/page.js";
+import Dashboard from "@/app/pages/dashboard/page.js";
 import { useState } from "react";
 
 export default function Home() {
@@ -21,6 +21,6 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="">{isLoggedIn === false ?  window.location.href = "/dashboard" :  window.location.href = "/login"}</div>
+    <div className="">{isLoggedIn === false ?  window.location.href = "pages/dashboard" :  window.location.href = "pages/login"}</div>
   );
 }

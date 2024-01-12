@@ -76,10 +76,6 @@ width:120px;
     line-height: normal;
 }
 
-.RoleAdmin {}
-
-.RoleUser {}
-
 .AddAccount_Form {
     display: flex;
     flex-direction: column;
@@ -155,3 +151,48 @@ width:120px;
     justify-content: center;
     align-items: center;
 }
+/* styles.css (hoặc file CSS của bạn) */
+
+/* Modal Styles */
+.AddAccountSection {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    max-width: 90%;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    display: none;
+    z-index: 1000; /* Đặt zIndex để đảm bảo modal hiển thị trên phần mờ */
+  }
+  
+  .AddAccountSection.flex {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Backdrop Styles */
+  .Backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Màu đen với độ mờ 0.5 */
+    display: none;
+    z-index: 999; /* Z-index phải thấp hơn modal */
+  }
+  
+  /* Show Backdrop and Modal when modal is open */
+  .AddAccountSection.flex,
+  .Backdrop {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Add additional styles as needed */
+  

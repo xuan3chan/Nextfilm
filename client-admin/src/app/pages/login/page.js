@@ -10,14 +10,16 @@ const Login = () => {
   const [adminName, setAdminName] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [data, setData] = React.useState([]);
-  localStorage.setItem("data", JSON.stringify(data));
+  
+  useEffect(() => {
+    localStorage.setItem("data", JSON.stringify(data));
+  }, [data]);
 
   const handleLogin = () => {
     const data = {
       adminName: adminName,
       password: password,
     };
-    console.log(data);
     axios.post(ApiLink, data).then((res) => {
       console.log(res.data);
       const { success, message } = res.data;
@@ -37,13 +39,17 @@ const Login = () => {
           icon: "success",
           confirmButtonText: "OK",
         }).then(() => {
-          window.location.href = "/dashboard";
+          window.location.href = "dashboard";
         });
       }
     });
     localStorage.setItem("data", JSON.stringify(data));
   };
-
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleLogin();
+    }
+  };
   return (
     <div className="bg-color w-full min-h-screen flex justify-center items-center">
       <div className="Login-Section">
@@ -63,6 +69,7 @@ const Login = () => {
               type="text"
               value={adminName}
               onChange={(e) => setAdminName(e.target.value)}
+              onKeyPress={handleKeyPress}
             />
           </div>
           <div className="mb-4 w-full">
@@ -73,6 +80,7 @@ const Login = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              onKeyPress={handleKeyPress}
             />
           </div>
           <Link href="/login" className="ForgotPassword">
