@@ -1,5 +1,4 @@
 "use client";
-import { roboto } from "@/app/ui/fonts";
 import { Logo } from "@/app/ui/partials/logo";
 import { RedButton } from "@/app/ui/RedButton";
 import { Signupbody } from "@/app/ui/signup/SignupBody";

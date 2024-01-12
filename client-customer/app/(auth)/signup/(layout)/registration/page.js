@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { RegisStep } from "@/app/ui/signup/regis/RegisStep"
 import { roboto } from "@/app/ui/fonts"
+import Devices from '@/public/Devices.png'
 import Link from "next/link"
 export default function registration() {
   return (
@@ -10,9 +11,8 @@ export default function registration() {
           <div className="max-w-80 h-full mx-auto text-center">
             <div className="inline-block w-fit">
               <Image
-                src={'/Devices.png'}
-                width={260}
-                height={90}
+                src={Devices}
+                priority
                 alt="Devices"
                 className="mt-[100px] mb-5"
               />
@@ -25,7 +25,7 @@ export default function registration() {
               <p className="text-lg">Netflix được cá nhân hóa cho riêng bạn. Tạo mật khẩu để xem Netflix trên bất kỳ thiết bị nào, vào bất cứ lúc nào.</p>
             </div>
             <div>
-              <Link href="/signup/registration/form">
+              <Link href="/signup/regform">
                 <button className="bg-[#e50914] text-white px-12 py-5 text-2xl rounded-md mt-5 hover:bg-[#f40612] w-full h-full">Tiếp tục</button>
               </Link>
             </div>
