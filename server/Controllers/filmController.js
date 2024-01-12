@@ -73,5 +73,22 @@ class filmController {
       handleErrorResponse(res, err);
     }
   }
+static async deleteFilmController(req, res) {
+    const id = req.params.id;
+    try {
+      const response = await filmService.deleteFilmService(id);
+      res.status(200).json(response);
+    } catch (err) {
+      handleErrorResponse(res, err);
+    }
+  }
+  static async getAllFilmController(req, res) {
+    try {
+      const response = await filmService.getAllFilmService(req);
+      res.status(200).json(response);
+    } catch (err) {
+      handleErrorResponse(res, err);
+    }
+  }
 }
 module.exports = filmController;

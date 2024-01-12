@@ -29,7 +29,6 @@ class filmService {
       filmName,
       description,
       poster,
-      video,
       category,
       country,
       yearPublish,
@@ -104,27 +103,6 @@ class filmService {
         message: "Film not found",
       };
     }
-    const fields = {
-      filmName,
-      description,
-      poster,
-      video,
-      category,
-      country,
-      yearPublish,
-      status
-    };
-
-    for (let key in fields) {
-      if (fields[key]==' ') {
-        return {
-          success: false,
-          message: `${key} is required`,
-        };
-      }
-    }
-
-
     // Assuming 'poster' and 'video' are the fieldnames for your file inputs
     let posterUpload, videoUpload, trailerUpload;
 
@@ -175,9 +153,38 @@ class filmService {
     };
   }
   //delete film service
+  static async deleteFilmService(id) {
+    const filmFound = await film.findById(id);
+    if (!filmFound) {
+      return {
+        success: false,
+        message: "Film not found",
+      };
+    }
+    //delete array poster
+    for (let i = 0; i < filmFound.poster.length; i++) {
+      await firebaseStorage._removeFile(filmFound.poster[i]);
+    }
+    //delete video
+    await firebaseStorage._removeFile(filmFound.video);
+    //delete trailer
+    await firebaseStorage._removeFile(filmFound.trailer);
 
+    await filmFound.deleteOne();
+    return {
+      success: true,
+      message: "Delete film successfully",
+    };
+  }
   //get all film service
-
+  static async getAllFilmService() {
+    const films = await film.find();
+    return {
+      success: true,
+      message: "Get all film successfully",
+      films,
+    };
+  }
   //delete video of film service
 } //add video of film service
 module.exports = filmService;
