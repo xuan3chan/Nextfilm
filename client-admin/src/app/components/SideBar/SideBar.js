@@ -121,6 +121,7 @@ export default () => {
             <li
               onClick={() => {
                 handleChangeState("MovieList");
+                window.location.href = "Movie"
               }}
               className="Item MovieList"
             >
@@ -175,10 +176,11 @@ export default () => {
             <li
               onClick={() => {
                 handleChangeState("CategoryList");
+                window.location.href = "Category";
               }}
               className="Item"
             >
-              Danhn Sách Danh Mục
+              Danh Sách Danh Mục
             </li>
             <li
               onClick={() => {
@@ -191,6 +193,7 @@ export default () => {
             <li
               onClick={() => {
                 handleChangeState("CountryList");
+                window.location.href = "Country";
               }}
               className="Item"
             >

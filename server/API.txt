@@ -17,6 +17,7 @@ update : http://localhost:8000/api/category/update/:categoryId {verify token}
 delete : http://localhost:8000/api/category/delete/:categoryId {verify token}
 getall : http://localhost:8000/api/category/getall {verify token}
 }
+
 country{
 add : http://localhost:8000/api/country/add {verify token}
 update : http://localhost:8000/api/country/update/:countryId {verify token}

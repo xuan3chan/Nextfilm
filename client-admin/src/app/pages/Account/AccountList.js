@@ -1,62 +1,52 @@
 "use client";
-import AddAccount from "./AddAccount";
 import React, { useEffect, useState } from "react";
 import { FaUserGroup } from "react-icons/fa6";
-import AddAdmin from "./AddAdmin";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import AddAccount from "./AddAccount";
+import AddAdmin from "./AddAdmin";
 import ButtonEdit from "@/app/components/Button/EditButton";
 import DeleteButton from "@/app/components/Button/DeleteButton";
+import EditAdmin from "./EditAdmin";
+import EditAccount from "./EditAccount";
 import "@/styles/Account.css";
-import { data } from "autoprefixer";
-import { useRouter } from "next/navigation";
 export default function AccountList() {
+  const router = useRouter();
   const [role, setRole] = useState("Admin");
   const [roleUser, setRoleUser] = useState("admin");
-
-  const handleChangeRole = (props) => {
-    setRole(props);
-  };
   const [isOpened, setIsOpened] = useState(false);
-  const handleOpen = () => {
-    setIsOpened(true);
-  };
-  const handleClose = () => {
-    setIsOpened(false);
-  };
-  const data = localStorage.getItem("data");
-  const dataObject = JSON.parse(data);
-  const token = dataObject ? dataObject.accessToken : "";
-
+  const [isEditOpened, setIsEditOpened] = useState(false);
+  const [userIdSelected, setUserIdSelected] = useState("");
   const [adminList, setAdminList] = useState([]);
   const [userList, setUserList] = useState([]);
-  const ApiGetAdmin = "http://localhost:8000/api/admin/getall";
-  const ApiGetUser = "http://localhost:8000/api/user/getall";
   const [lengthUser, setLengthUser] = useState(0);
-
+const [token, setToken] = useState("")
   useEffect(() => {
     const fetchData = async () => {
-      const data = localStorage.getItem("data");
-      if (data) {
-        const dataObject = JSON.parse(data);
-        const roleUser = dataObject.admin.role;
-        setRoleUser(roleUser);
-      } else {
-        history.push("/login");
-      }
       try {
-        const headers = {
-          Authorization: `Bearer ${dataObject.accessToken}`,
-        };
-
-        const response1 =
-          roleUser === "admin"
-            ? await axios.get(ApiGetAdmin, { headers })
-            : await axios.get(ApiGetAdmin, { headers });
-
-        const response2 = await axios.get(ApiGetUser, { headers });
+        const data = JSON.parse(localStorage.getItem("data"));
+        if (!data) {
+          router.push("/login");
+          return;
+        }
+        const {
+          accessToken,
+          admin: { role: roleUser },
+        } = data;
+        setToken(accessToken)
+        const headers = { Authorization: `Bearer ${accessToken}` };
+        const response1 = await axios.get(
+          "http://localhost:8000/api/admin/getall",
+          { headers }
+        );
+        const response2 = await axios.get(
+          "http://localhost:8000/api/user/getall",
+          { headers }
+        );
 
         setAdminList(response1.data.admins);
         setUserList(response2.data.users);
+        setRoleUser(roleUser);
         setLengthUser(
           role === "Admin" && roleUser === "superAdmin"
             ? adminList.length
@@ -68,7 +58,35 @@ export default function AccountList() {
     };
 
     fetchData();
-  }, [history, ApiGetAdmin, ApiGetUser, role, roleUser, adminList, userList]);
+  }, [role, roleUser, adminList, userList]);
+
+
+  const handleChangeRole = (props) => {
+    setRole(props);
+  };
+
+  const handleOpen = () => {
+    setIsOpened(true);
+  };
+
+  const handleClose = () => {
+    setIsOpened(false);
+  };
+
+  const handleCloseAddAdminModal = () => {
+    setIsOpened(false);
+    setIsEditOpened(false);
+  };
+
+  const handleEditOpen = (item) => {
+    setIsEditOpened(true);
+    setUserIdSelected(item);
+  };
+
+  const handleEditClose = () => {
+    setIsEditOpened(false);
+  };
+
   return (
     <div className="flex gap-10 ml-10">
       <section className="AccountListSection ContentBg">
@@ -175,7 +193,14 @@ export default function AccountList() {
                       <td>{item.adminName}</td>
                       <td>{item.role}</td>
                       <td className="flex gap-2 justify-center items-center">
-                        <ButtonEdit />
+                        <div
+                          onClick={() => {
+                            handleEditOpen(item._id);
+                          }}
+                          className="OverButtonEdit"
+                        >
+                          <ButtonEdit />
+                        </div>
                         <DeleteButton
                           id={item._id}
                           role={roleUser}
@@ -183,6 +208,66 @@ export default function AccountList() {
                           ApiLink={`http://localhost:8000/api/admin/delete/${item._id}`}
                         ></DeleteButton>
                       </td>
+                      <div className="OverModal">
+                        <section
+                          className={`  ${
+                            isEditOpened == true ? "flex" : "hidden"
+                          } AddAccountSection hidden SubContentBg max-h-full justify-start items-center`}
+                        >
+                          <div
+                            className=" absolute top-4 right-4 w-10 h-10 cursor-pointer AddAccount_CloseBtn"
+                            onClick={handleEditClose}
+                          >
+                            X
+                          </div>
+                          <div className="AddAccount_title text-center">
+                            Sửa {role}{" "}
+                          </div>
+                          <div className="AddAccount_RoleSelection flex mb-10">
+                            {roleUser === "superAdmin" ? (
+                              <div className="flex gap-2">
+                                <a
+                                  onClick={() => {
+                                    handleChangeRole("Admin");
+                                  }}
+                                  className={`RoleAdmin SelectionRole ${
+                                    role === "Admin"
+                                      ? "bg-black text-white"
+                                      : "bg-gray-50"
+                                  }`}
+                                >
+                                  Admin
+                                </a>
+                                <a
+                                  onClick={() => {
+                                    handleChangeRole("User");
+                                  }}
+                                  className={`RoleUser SelectionRole ${
+                                    role === "User"
+                                      ? "bg-black text-white"
+                                      : " bg-gray-50"
+                                  }`}
+                                >
+                                  User
+                                </a>
+                              </div>
+                            ) : (
+                              <div></div>
+                            )}
+                          </div>
+                          {role === "User" ? (
+                            <EditAccount />
+                          ) : role === "Admin" && roleUser === "admin" ? (
+                            <div>Bạn không đủ quyền hạng xem mục này</div>
+                          ) : (
+                            <EditAdmin
+                              adminId={userIdSelected}
+                              token={token}
+                              handleCloseModal={handleCloseAddAdminModal}
+                            />
+                          )}
+                        </section>
+                      </div>
                     </tr>
                   ))}
                 </tbody>
@@ -284,7 +369,7 @@ export default function AccountList() {
           </ul>
         </nav>
       </section>
-      <div className = "OverModal">
+      <div className="OverModal">
         <section
           className={`  ${
             isOpened == true ? "flex" : "hidden"
@@ -330,7 +415,10 @@ export default function AccountList() {
           ) : role === "Admin" && roleUser === "admin" ? (
             <div>Bạn không đủ quyền hạng xem mục này</div>
           ) : (
-            <AddAdmin token={token} />
+            <AddAdmin
+              token={token}
+              handleCloseModal={handleCloseAddAdminModal}
+            />
           )}
         </section>
       </div>

@@ -83,28 +83,7 @@ export default function Dashboard() {
               />
             </div>
           </div>
-          <div className="w-full">
-            {selectedComponent === "UserList" && <AccountList />}
-            {selectedComponent === "UserPremiumList" && <AccountPremium />}
-            {selectedComponent === "UserNormalList" && <AccountNormal />}
-            {selectedComponent === "UserChart" && <AccountChart />}
-            {selectedComponent === "MovieList" && <AccountChart />}
-            {selectedComponent === "AddMovie" && <AccountChart />}
-            {selectedComponent === "ManageEpisode" && <AccountChart />}
-            {selectedComponent === "MovieChart" && <AccountChart />}
-            {selectedComponent === "CreateMemberPackage" && <AccountChart />}
-            {selectedComponent === "ChatGemini" && <ChatGeminiBox />}
-            {selectedComponent === "CreateCategory" && (
-              <AddCategory token={token} />
-            )}
-            {selectedComponent === "CountryList" && (
-              <CountryList token={token} />
-            )}
-            {selectedComponent === "CategoryList" && (
-              <CategoryList token={token} />
-            )}
-            {selectedComponent === "CreateVoucher" && <VoucherList />}
-          </div>
+          <div className="w-full"></div>
         </div>
       </div>
     </div>

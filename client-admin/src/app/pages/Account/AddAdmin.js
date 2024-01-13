@@ -1,17 +1,17 @@
 import "@/styles/Account.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 export default function AddAdmin(props) {
-  const token = props.token;
   const ApiLink = "http://localhost:8000/api/admin/register";
+  const { token, handleCloseModal } = props;
 
   // State to hold form data
   const [formData, setFormData] = useState({
-    role: "Admin", // Default role
+    role: "admin", // Default role
     adminName: "",
     password: "",
-  });
-
+  }); 
   // Update form data when input values change
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -33,13 +33,21 @@ export default function AddAdmin(props) {
         }
       )
       .then((response) => {
+        Swal.fire({
+          title: "Thành Công",
+          text: "Thêm Người Dùng Thành Công",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+        handleCloseModal()
+      })
+      .then((response) => {
         console.log("Success:", response.data);
       })
       .catch((error) => {
         console.log("Error:", error);
       });
-    console.log(formData);
-  };
+    };
 
   return (
     <div className="w-full">

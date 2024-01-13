@@ -1,38 +1,89 @@
-import "@/styles/Account.css";
-export default function AddAdmin() {
+import { useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
+export default function AddAdmin(props) {
+  const { token, adminId, handleCloseModal } = props;
+  const ApiLink = `http://localhost:8000/api/admin/update/${adminId}`;
+
+  const [formData, setFormData] = useState({
+    role: "admin", // Default role
+    adminName: "",
+    password: "",
+  });
+
+  // Update form data when input values change
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = () => {
+    axios
+      .put(
+        ApiLink,
+        formData, // Data to be sent in the request body
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log("Success:", response.data);
+        console.log(adminId)
+      })
+      .then((response) => {
+        Swal.fire({
+          title: "Thành Công",
+          text: "Sửa Người Dùng Thành Công",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+        handleCloseModal();
+      })
+      .catch((error) => {
+        console.log("Error:", error);
+      });
+    console.log(formData);
+  };
+
   return (
-    <div className="w-full">
-      <div className="Content_AddAccountAdmin flex flex-col">
+    <div className="w-full wrapper border-2 border-black">
+      <div className="Content_AddAccountAdmin flex flex-col w-full">
         <div className="AddAccount_Form justify-center items-center">
-          <div className="flex flex-col gap-4 w-1/3">
-            <div className="flex flex-col gap-2 ">
-              <label for="Form_SlotOption">Chọn Role</label>
-              <select id="SlotOption" name="Form_SlotOption">
-                <option value="Slot1">Admin</option>
-                <option value="Slot3">Sub Admin</option>
-                <option value="Slot2">Kiểm Duyệt</option>
+          <div className="EditAdmin_Title">Cập Nhật Admin</div>
+          <div className="AdminId">{adminId}</div>
+          <div className="flex flex-col gap-4 w-full">
+            <div className="flex flex-col gap-2  ">
+              <label htmlFor="Form_SlotOption">Chọn Role</label>
+              <select
+                id="SlotOption"
+                name="role"
+                onChange={handleChange}
+                value={formData.role}
+              >
+                <option value="admin">Admin</option>
+                <option value="superAdmin">superAdmin</option>
               </select>
             </div>
             <div className="flex flex-col gap-2">
-              <label for="Form_UserName">UserName</label>
-              <input
-                type="text"
-                id="Form_UserName"
-                name="Form_UserName"
-                className="Form_UserName"
-              ></input>
-            </div>
-            <div className="flex flex-col gap-2">
-              <label for="Form_Password">Password</label>
+              <label htmlFor="Form_Password">Password</label>
               <input
                 type="text"
                 id="Form_Password"
-                name="Form_Password"
+                name="password"
                 className="Form_Password"
-              ></input>
+                onChange={handleChange}
+                value={formData.password}
+              />
             </div>
           </div>
-          <button className="btn btnSubmit">Xác Nhận</button>
+          <button className="btn btnSubmit" onClick={handleSubmit}>
+            Xác Nhận
+          </button>
         </div>
       </div>
     </div>

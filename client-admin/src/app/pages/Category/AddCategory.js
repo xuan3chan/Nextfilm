@@ -50,10 +50,9 @@ export default function AddCategory(props) {
             text: "Reload Trang Để Cập Nhật",
             icon: "success",
             confirmButtonText: "OK",
-          }).then((window.location.href = "dashboard"));
+          })
         }
       });
-
   };
 
   return (

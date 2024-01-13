@@ -41,9 +41,7 @@ export default function AddCountry(props) {
             text: "Reload Trang Để Cập Nhật",
             icon: "success",
             confirmButtonText: "OK",
-          }).then(() => {
-            window.location.href = "/dashboard";
-          });
+          })
         } else {
           Swal.fire({
             title: "Thêm Thất Bại!",
