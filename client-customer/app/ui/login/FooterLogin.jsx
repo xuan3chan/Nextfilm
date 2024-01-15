@@ -2,7 +2,7 @@ import { roboto } from "../fonts"
 import "@/app/ui/login/login.css";
 export default function FooterLogin() {
   return (
-    <div className="footer-wrapper">
+    <div className="footer-wrapper w-full">
       <div className={`footer-site ${roboto.className} antialiased`}>
         <p className="footer-top">Bạn có câu hỏi? Liên hệ với chúng tôi</p>
         <ul className="footer-link">
