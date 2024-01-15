@@ -43,7 +43,7 @@ export default function CountryList(props) {
     setShowCategory(true);
   };
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-color">
       <Header></Header>
       <div className="flex">
         <SideBar> </SideBar>
@@ -102,7 +102,7 @@ export default function CountryList(props) {
           </div>
         </div>
         {showAddCategory == true ? (
-          <div>
+          <div className = "wrapper">
             <AddCountry token={token} />
           </div>
         ) : null}
