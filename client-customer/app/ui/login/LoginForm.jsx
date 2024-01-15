@@ -20,7 +20,7 @@ export default function LoginForm()  {
     e.preventDefault();
 
     try {
-      const response = await axios.post(apiURL, {
+      const response = await axios.post(`${apiURL}/login`, {
         email: email,
         password: password,
       });
