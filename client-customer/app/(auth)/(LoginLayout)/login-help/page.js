@@ -1,11 +1,16 @@
 "use client"
 import axios from "axios";
 import { RedButton } from "@/app/ui/RedButton";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation"; // Corrected import
+import { useEffect, useState } from "react";
+import clsx from "clsx";
+import { usePathname } from "next/navigation";
 
 const apiURL = process.env.NEXT_PUBLIC_LOGIN;
 export default function forgotPassword() {
   const router = useRouter();
+  const pathname = usePathname();
+  const [userEmail, setUserEmail] = useState('');
 
   const handleForgotPassword = (e) => {
     e.preventDefault();
@@ -14,11 +19,21 @@ export default function forgotPassword() {
       email: email,
     })
     .then((res) => {
+      console.log(res.message);
       sessionStorage.setItem('email', email);
       router.push('/reset-password');
     })
   }
 
+  useEffect(() => {
+    const userEmail = sessionStorage.getItem('email');
+    setUserEmail(userEmail);
+    if (pathname !== '/login-help') {
+      sessionStorage.removeItem('email');
+      router.push('/login-help');
+    }
+  },[]);
+  
 
   return (
     <form className="fg-form h-screen" onSubmit={handleForgotPassword}>
@@ -33,8 +48,10 @@ export default function forgotPassword() {
           <input 
             id="email"
             type="text"
-            className="fg-input w-full border rounded px-4 py-3"
+            className={clsx('fg-input w-full border rounded px-4 py-3', {'bg-slate-400 ': !!userEmail})}
             placeholder="Email"
+            disabled={!!userEmail}
+            value={userEmail}
           />
         </div>
         <RedButton 
