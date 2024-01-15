@@ -1,6 +1,6 @@
 .CategoryListSection{
     display: flex;
-min-width: 90%;
+min-width: 100%;
 padding: 30px;
 flex-direction: column;
 align-items: flex-start;
@@ -16,7 +16,6 @@ gap: 20px;
 }
 /* Style the CategoryListSection */
 .CategoryListSection {
-    max-width: 400px;
     margin: 0 auto;
   }
   
