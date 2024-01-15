@@ -51,5 +51,15 @@ class authUsersController {
             handleErrorResponse(res, err);
         }
     }
+    static async confirmCodeController(req, res) {
+        try{
+        const { email, code } = req.body;
+        const response = await authUsersService.confirmCodeService(email, code);
+        res.status(200).json(response);
+        }
+        catch(err){
+            handleErrorResponse(res, err);
+        }
+    }
 }
 module.exports = authUsersController;
