@@ -19,7 +19,6 @@ export default function LoginPage() {
     sessionStorage.clear();
   }, []);
 
-
   return (
     <div>
       <div className="login-wrapper h-screen">

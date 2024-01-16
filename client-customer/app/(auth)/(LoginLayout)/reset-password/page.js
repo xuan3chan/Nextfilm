@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { RedButton } from "@/app/ui/RedButton";
+import { RedButton, RedButtonLoading } from "@/app/ui/RedButton";
 import { roboto } from "@/app/ui/fonts";
 import Link from "next/link";
 
@@ -12,7 +12,10 @@ const apiURL = process.env.NEXT_PUBLIC_LOGIN;
 export default function ResetPassword() {
   const router = useRouter();
   const [userEmail, setUserEmail] = useState('');
-  const [verifyCode, setVerifyCode] = useState('');
+  const [warning, setWarning] = useState('');
+  const [code, setCode] = useState('')
+  const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     const email = sessionStorage.getItem('email');
@@ -24,7 +27,7 @@ export default function ResetPassword() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const code = e.target.code.value;
+    setLoading(true); // Set loading to true when the request starts
     axios.post(`${apiURL}/confirm-code`, {
       code: code,
       email: userEmail,
@@ -34,14 +37,15 @@ export default function ResetPassword() {
         router.push('/reset');
       }
       else {
-        setVerifyCode('mã đã hết hạn vui lòng lấy lại mã ');
+        setWarning('mã đã hết hạn vui lòng lấy lại mã');
       }
     })
     .catch((err) => {
       console.log(err);
     })
-    
-    
+    .finally(() => {
+      setLoading(false); // Set loading to false when the request completes
+    });
   }
 
   return (
@@ -55,18 +59,27 @@ export default function ResetPassword() {
           <label>Nhập vào mã:</label> 
           <input type="number" 
             id="code"
+            value={code}
+            onChange={e => setCode(e.target.value)}
             className="fg-input w-full border rounded px-4 py-3"
             placeholder="123456"
+            name="code"
           />
-          <p className={clsx('text-red-600 text-sm font-medium',{'hidden': !verifyCode })}>
-            {verifyCode}
-            <Link href="/hehe" className="ml-1 text-black hover:underline">tại đây</Link>
+          <p className={clsx('text-red-600 text-sm font-medium',{'hidden': !warning })}>
+            {warning}
+            <Link href="/" className="ml-1 text-black hover:underline">tại đây</Link>
           </p>
         </div>
-        <RedButton
-          className={`w-full h-12 p-3 mt-4`}>
-          Gửi
-        </RedButton>
+        {loading ? (
+            <RedButtonLoading className={`w-full h-12 p-3 mt-4`}/>
+          ) : (
+            <RedButton 
+              className={`w-full h-12 p-3 mt-4`}
+              type="submit"
+            >
+              Gửi
+            </RedButton>
+          )}
       </div>
     </form>
   );

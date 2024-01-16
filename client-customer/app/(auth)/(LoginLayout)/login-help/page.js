@@ -1,20 +1,28 @@
 "use client"
 import axios from "axios";
-import { RedButton } from "@/app/ui/RedButton";
+import { RedButton, RedButtonLoading } from "@/app/ui/RedButton";
 import { useRouter } from "next/navigation"; // Corrected import
 import { useEffect, useState } from "react";
-import clsx from "clsx";
 import { usePathname } from "next/navigation";
+import clsx from 'clsx';
 
 const apiURL = process.env.NEXT_PUBLIC_LOGIN;
 export default function forgotPassword() {
   const router = useRouter();
   const pathname = usePathname();
-  const [userEmail, setUserEmail] = useState('');
+  const [email, setEmail] = useState(''); 
+  const [loading, setLoading] = useState(false);
+  const [isValidEmail, setIsValidEmail] = useState(true);
 
   const handleForgotPassword = (e) => {
     e.preventDefault();
-    const email = e.target.email.value;
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+    if (!emailRegex.test(email)) {
+      setIsValidEmail(false);
+      return;
+    }
+    setIsValidEmail(true);
+    setLoading(true); // Set loading to true when the request starts
     axios.post(`${apiURL}/forgot-password`, {
       email: email,
     })
@@ -23,18 +31,25 @@ export default function forgotPassword() {
       sessionStorage.setItem('email', email);
       router.push('/reset-password');
     })
+    .finally(() => {
+      setLoading(false); // Set loading to false when the request completes
+    });
   }
 
   useEffect(() => {
-    const userEmail = sessionStorage.getItem('email');
-    setUserEmail(userEmail);
+    const email = sessionStorage.getItem('email');
+    setEmail(email);
+    if (email) {
+      setEmail(email);
+    } else {
+      setEmail('');
+    }
     if (pathname !== '/login-help') {
       sessionStorage.removeItem('email');
       router.push('/login-help');
     }
   },[]);
   
-
   return (
     <form className="fg-form h-screen" onSubmit={handleForgotPassword}>
       <div className="p-10 bg-white">
@@ -48,18 +63,29 @@ export default function forgotPassword() {
           <input 
             id="email"
             type="text"
-            className={clsx('fg-input w-full border rounded px-4 py-3', {'bg-slate-400 ': !!userEmail})}
+            className={clsx('fg-input w-full border rounded px-4 py-3', {
+              'border-red-600': !isValidEmail
+            })}
             placeholder="Email"
-            disabled={!!userEmail}
-            value={userEmail}
+            value={email}
+            onChange={e => setEmail(e.target.value)}
           />
+          <p className={clsx('text-red-600 text-sm font-medium',{'hidden': isValidEmail })}>
+            Email không hợp lệ
+          </p>
         </div>
-        <RedButton 
-          className={`w-full h-12 p-3 mt-4`}
-          type="submit"
-          >
-          Gửi
-        </RedButton>
+        <div className="mt-3">
+          {loading ? (
+            <RedButtonLoading className={`w-full h-12 p-3 mt-4`}/>
+          ) : (
+            <RedButton 
+              className={`w-full h-12 p-3 mt-4`}
+              type="submit"
+            >
+              Gửi
+            </RedButton>
+          )}
+        </div>
       </div>
     </form>
   );
