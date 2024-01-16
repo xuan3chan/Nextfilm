@@ -88,7 +88,7 @@ export default function AddCountry(props) {
               value={formData.description}
             />
           </div>
-          <button className="btn submitAddCate" onClick={handleSubmit} disabled={loading}>
+          <button className="btn button-27 submitAddCate" onClick={handleSubmit} disabled={loading}>
             {loading ? 'Đang xử lý...' : 'Xác Nhận'}
           </button>
         </div>

@@ -28,8 +28,8 @@ export function SignupForm() {
     }
   };
   
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
     // Kiểm tra xem email có hợp lệ không
     if (errorMessage) {
       return;
@@ -68,8 +68,6 @@ export function SignupForm() {
             required
             value={email}
             onChange={handleEmailChange}
-            // onFocus={handleFocus}
-            // onBlur={handleBlur}
             aria-describedby="emailError"
           />
           <label

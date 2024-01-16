@@ -111,20 +111,13 @@ class authUsersService {
 
     return { message: "A verification code has been sent to your email" };
   }
-  static async resetPasswordService(email, newPassword, code) {
+  static async resetPasswordService(email, newPassword) {
     const userFound = await user.findOne({ email });
     if (!userFound) {
       return { status: 400, message: "No account with that email found" };
     }
-
-    // Check if the code has expired
-    if (userFound.resetPasswordExpires < Date.now()) {
-      return { status: 400, message: "Verification code has expired" };
-    }
-
-    if (userFound.resetPasswordCode !== code) {
-      console.log(code);
-      return { status: 400, message: "Invalid verification code" };
+    if (userFound.resetPasswordCode !== "true") {
+      return { status: 400, message: "please confirm code before reset pass" };
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -136,6 +129,25 @@ class authUsersService {
     await userFound.save();
 
     return { status: 200, message: "Password reset successfully" };
+  }
+  static async confirmCodeService(email, code) {
+     const userFound = await user.findOne({ email });
+    if (!userFound) {
+      return { status: 400, message: "No account with that email found" };
+    }
+    // Check if the code has expired
+    if (userFound.resetPasswordExpires < Date.now()) {
+      return { status: 400, message: "Verification code has expired" };
+    }
+     if (userFound.resetPasswordCode !== code) {
+      console.log(code);
+      return { status: 400, message: "Invalid verification code" };
+    }
+    userFound.resetPasswordCode = "true";
+    userFound.resetPasswordExpires = null; // Reset the expiration time
+    await userFound.save();
+
+    return { status: 200,availableResetpass:"true", message: "confirm code successfully" };
   }
 }
 module.exports = authUsersService;
