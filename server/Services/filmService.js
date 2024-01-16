@@ -81,6 +81,7 @@ class filmService {
   }
 
   //update film service by id film
+  //update film service by id film
   static async updateFilmService(
     req, // Add req here
     id,
@@ -103,18 +104,27 @@ class filmService {
         message: "Film not found",
       };
     }
+
     // Assuming 'poster' and 'video' are the fieldnames for your file inputs
-    let posterUpload, videoUpload, trailerUpload;
+    let posterUploads = [], videoUpload, trailerUpload;
 
     if (poster) {
-      posterUpload = new Promise((resolve, reject) => {
-        firebaseStorage._handleFile(req, poster, (err, file) => {
+      // Delete old posters
+      for (let i = 0; i < filmFound.poster.length; i++) {
+        await firebaseStorage._removeFile(filmFound.poster[i]);
+      }
+      // Upload new posters
+      posterUploads = poster.map(file => new Promise((resolve, reject) => {
+        firebaseStorage._handleFile(req, file, (err, file) => {
           if (err) reject(err);
           else resolve(file.path);
         });
-      });
+      }));
     }
     if (video) {
+      // Delete old video
+      await firebaseStorage._removeFile(filmFound.video);
+      // Upload new video
       videoUpload = new Promise((resolve, reject) => {
         firebaseStorage._handleFile(req, video, (err, file) => {
           if (err) reject(err);
@@ -123,6 +133,9 @@ class filmService {
       });
     }
     if (trailer) {
+      // Delete old trailer
+      await firebaseStorage._removeFile(filmFound.trailer);
+      // Upload new trailer
       trailerUpload = new Promise((resolve, reject) => {
         firebaseStorage._handleFile(req, trailer, (err, file) => {
           if (err) reject(err);
@@ -131,11 +144,11 @@ class filmService {
       })
     }
 
-    // Wait for both uploads to finish
-    let [posterUrl, videoUrl, trailerUrl] = await Promise.all([posterUpload, videoUpload, trailerUpload]);
+    // Wait for all uploads to finish
+    let [posterUrls, videoUrl, trailerUrl] = await Promise.all([Promise.all(posterUploads), videoUpload, trailerUpload]);
 
     filmFound.filmName = filmName;
-    filmFound.poster = posterUrl;
+    filmFound.poster = posterUrls;
     filmFound.description = description;
     filmFound.trailer = trailerUrl;
     filmFound.video = videoUrl;
@@ -149,7 +162,7 @@ class filmService {
     return {
       success: true,
       message: "update film successfully",
-      film: newFilm,
+      film: filmFound,
     };
   }
   //delete film service
