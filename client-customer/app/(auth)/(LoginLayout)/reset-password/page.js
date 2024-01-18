@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use client"
 import { useEffect, useState } from "react";
 import clsx from "clsx";
@@ -48,14 +49,18 @@ export default function ResetPassword() {
     });
   }
 
+=======
+
+export default function ResetPassword() {
+>>>>>>> parent of 196f897 (Fix import and add functionality for forgot password and reset password pages)
   return (
-    <form className={`reset-password_form fg-form h-screen ${roboto.className}`} onSubmit={handleSubmit}>  
-      <div className="p-7 bg-white">
+    <form className="reset-password_form fg-form h-screen">  
+      <div className="p-10 bg-white">
         <div>
-          <h1 className="text-3xl font-semibold mb-4">Đặt lại mật khẩu</h1>
-          <p className={clsx('text-sm',{'hidden': !userEmail})}>Chúng tôi đã gửi một mã đến: {userEmail}</p>
+          <h1 className="text-3xl font-semibold">Đặt lại mật khẩu</h1>
         </div>
         <div className="mt-2">
+<<<<<<< HEAD
           <label>Nhập vào mã:</label> 
           <input type="number" 
             id="code"
@@ -80,6 +85,13 @@ export default function ResetPassword() {
               Gửi
             </RedButton>
           )}
+=======
+          <label>Vui lòng nhập mật khẩu mới của bạn</label>
+          <input type="text" 
+            className="fg-input w-full border rounded px-4 py-3"
+          />
+        </div>
+>>>>>>> parent of 196f897 (Fix import and add functionality for forgot password and reset password pages)
       </div>
     </form>
   );
