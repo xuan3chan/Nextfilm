@@ -9,8 +9,9 @@ import axios from "axios";
 import "@/styles/Account.css";
 import SideBar from "@/app/components/SideBar/SideBar";
 import Header from "@/app/components/header/header";
-import DeleteButton from "@/app/components/Button/DeleteButton";
+import DeleteButtonDefault from "@/app/components/Button/DeleteButtonDefault";
 import EditButton from "@/app/components/Button/EditButton";
+import Swal from "sweetalert2";
 
 export default function page() {
   const data = localStorage.getItem("data");
@@ -18,6 +19,30 @@ export default function page() {
   const ApiLink = "http://localhost:8000/api/film/getall";
   const [movieList, setMovieList] = useState([]);
   const [isOpened, setIsOpened] = useState(false);
+
+  const handleDeleteMovie = (id) => {
+    axios
+      .delete(`http://localhost:8000/api/film/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log("helo");
+        Swal.fire({
+          title: "Thành Công",
+          text: "Xóa Phim Thành Công",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+      })
+      .catch((error) => {
+        // Handle error, if needed
+        console.error(error);
+      });
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,13 +63,10 @@ export default function page() {
     };
 
     fetchData();
-  }, [token]); // Added token as a dependency
+  }, [token,movieList]); // Added token as a dependency
 
-  useEffect(() => {
-    console.log(movieList);
-  }, [movieList]); // Log movieList when it changes
   return (
-    <div>
+    <div className="bg-color">
       <div className="flex flex-col">
         <Header></Header>
         <div className="flex">
@@ -71,13 +93,16 @@ export default function page() {
                       alt=""
                       className="MoviePoster w-full h-3/4"
                     />
-                    <video width="320" height="240" controls src={item.video}></video>
                     <div className="TextSection flex flex-col justify-center items-center">
                       <div className="MovieName">{item.filmName}</div>
                       <div className="MovieCategory">{item.category}</div>
                     </div>
                     <div className="ButtonSection flex gap-4">
-                      <DeleteButton />
+                      <DeleteButtonDefault
+                        handleFunction={
+                          () => handleDeleteMovie(item._id)
+                        }
+                      />
                       <EditButton />
                     </div>
                   </div>

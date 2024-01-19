@@ -8,9 +8,11 @@ import axios from "axios";
 import "@/styles/Account.css";
 import SideBar from "@/app/components/SideBar/SideBar";
 import Header from "@/app/components/header/header";
+import Swal from "sweetalert2";
 
 export default function NewFilm() {
-  // State for form data
+  const [token, setToken] = useState("");
+  const [data, setData] = useState([]);
   const [filmData, setFilmData] = useState({
     filmName: "",
     poster: null,
@@ -24,9 +26,7 @@ export default function NewFilm() {
     status: "active",
     tags: "",
   });
-  const data = localStorage.getItem("data");
-  const token = data.accessToken;
-  // Function to handle form data changes
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFilmData({
@@ -44,10 +44,19 @@ export default function NewFilm() {
     });
   };
 
+  useEffect(() => {
+    const data = localStorage.getItem("data");
+    if (data != null) {
+      setData(data);
+      setToken(data.accessToken);
+      return;
+    } else {
+      return null;
+    }
+  });
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       // Create a FormData object to handle file uploads
       const formData = new FormData();
@@ -66,9 +75,12 @@ export default function NewFilm() {
           },
         }
       );
-
-      // Handle success or display an appropriate message
-      console.log(response.data);
+      Swal.fire({
+        title: "Thành Công",
+        text: "Thêm Phim Mới Thành Công",
+        icon: "success",
+        confirmButtonText: "OK",
+      })
     } catch (error) {
       // Handle error or display an appropriate message
       console.error("Error adding film:", error);
