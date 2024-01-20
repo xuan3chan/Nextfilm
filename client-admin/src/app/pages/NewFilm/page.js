@@ -8,9 +8,11 @@ import axios from "axios";
 import "@/styles/Account.css";
 import SideBar from "@/app/components/SideBar/SideBar";
 import Header from "@/app/components/header/header";
+import Swal from "sweetalert2";
 
 export default function NewFilm() {
-  // State for form data
+  const [token, setToken] = useState("");
+  const [data, setData] = useState([]);
   const [filmData, setFilmData] = useState({
     filmName: "",
     poster: null,
@@ -24,9 +26,7 @@ export default function NewFilm() {
     status: "active",
     tags: "",
   });
-  const data = localStorage.getItem("data");
-  const token = data.accessToken;
-  // Function to handle form data changes
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFilmData({
@@ -44,10 +44,19 @@ export default function NewFilm() {
     });
   };
 
+  useEffect(() => {
+    const data = localStorage.getItem("data");
+    if (data != null) {
+      setData(data);
+      setToken(data.accessToken);
+      return;
+    } else {
+      return null;
+    }
+  });
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       // Create a FormData object to handle file uploads
       const formData = new FormData();
@@ -66,9 +75,12 @@ export default function NewFilm() {
           },
         }
       );
-
-      // Handle success or display an appropriate message
-      console.log(response.data);
+      Swal.fire({
+        title: "Thành Công",
+        text: "Thêm Phim Mới Thành Công",
+        icon: "success",
+        confirmButtonText: "OK",
+      })
     } catch (error) {
       // Handle error or display an appropriate message
       console.error("Error adding film:", error);
@@ -83,80 +95,85 @@ export default function NewFilm() {
           <div className="wrapper flex flex-col">
             Thêm Phim
             <form
-              className="flex flex-col gap-3 justify-center items-center"
+              className="flex flex-col gap-3 justify-center items-center min-[980px]:"
               onSubmit={handleSubmit}
             >
-              <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                Film Name:
-                <input
-                  type="text"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  name="filmName"
-                  value={filmData.filmName}
-                  onChange={handleInputChange}
-                />
-              </label>
+              <div className="flex gap-10">
+                <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  Film Name:
+                  <input
+                    type="text"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    name="filmName"
+                    value={filmData.filmName}
+                    onChange={handleInputChange}
+                  />
+                </label>
+                <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  category:
+                  <input
+                    type="text"
+                    name="category"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    value={filmData.category}
+                    onChange={handleInputChange}
+                  />
+                </label>
+                <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  country:
+                  <input
+                    type="text"
+                    name="country"
+                    value={filmData.country}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    onChange={handleInputChange}
+                  />
+                </label>
+              </div>
+              <div className="flex gap-10">
+                <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  age:
+                  <input
+                    type="text"
+                    name="age"
+                    value={filmData.age}
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    onChange={handleInputChange}
+                  />
+                </label>
+                <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  tags:
+                  <input
+                    type="text"
+                    name="tags"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    value={filmData.tags}
+                    onChange={handleInputChange}
+                  />
+                </label>
+                <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  status:
+                  <input
+                    type="text"
+                    name="status"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    value={filmData.status}
+                    onChange={handleInputChange}
+                  />
+                </label>
+              </div>
 
-              <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+              <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 w-1/3">
                 Mô Tả:
                 <input
                   type="text"
                   name="description"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 h-60 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   value={filmData.description}
                   onChange={handleInputChange}
                 />
               </label>
-              <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                tags:
-                <input
-                  type="text"
-                  name="tags"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  value={filmData.tags}
-                  onChange={handleInputChange}
-                />
-              </label>
-              <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                category:
-                <input
-                  type="text"
-                  name="category"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  value={filmData.category}
-                  onChange={handleInputChange}
-                />
-              </label>
-              <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                country:
-                <input
-                  type="text"
-                  name="country"
-                  value={filmData.country}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  onChange={handleInputChange}
-                />
-              </label>
-              <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                status:
-                <input
-                  type="text"
-                  name="status"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  value={filmData.status}
-                  onChange={handleInputChange}
-                />
-              </label>
-              <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                age:
-                <input
-                  type="text"
-                  name="age"
-                  value={filmData.age}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  onChange={handleInputChange}
-                />
-              </label>
+
               <label>
                 Poster Image:
                 <input

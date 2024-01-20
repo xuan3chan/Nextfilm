@@ -1,18 +1,26 @@
 "use client"
 import axios from "axios";
+<<<<<<< HEAD
 import { RedButton, RedButtonLoading } from "@/app/ui/RedButton";
 import { useRouter } from "next/navigation"; // Corrected import
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import clsx from 'clsx';
+=======
+import { RedButton } from "@/app/ui/RedButton";
+import { useRouter } from "next/navigation";
+>>>>>>> parent of 196f897 (Fix import and add functionality for forgot password and reset password pages)
 
 const apiURL = process.env.NEXT_PUBLIC_LOGIN;
 export default function forgotPassword() {
   const router = useRouter();
+<<<<<<< HEAD
   const pathname = usePathname();
   const [email, setEmail] = useState(''); 
   const [loading, setLoading] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(true);
+=======
+>>>>>>> parent of 196f897 (Fix import and add functionality for forgot password and reset password pages)
 
   const handleForgotPassword = (e) => {
     e.preventDefault();
@@ -27,7 +35,6 @@ export default function forgotPassword() {
       email: email,
     })
     .then((res) => {
-      console.log(res.message);
       sessionStorage.setItem('email', email);
       router.push('/reset-password');
     })
@@ -36,6 +43,7 @@ export default function forgotPassword() {
     });
   }
 
+<<<<<<< HEAD
   useEffect(() => {
     const email = sessionStorage.getItem('email');
     setEmail(email);
@@ -50,6 +58,9 @@ export default function forgotPassword() {
     }
   },[]);
   
+=======
+
+>>>>>>> parent of 196f897 (Fix import and add functionality for forgot password and reset password pages)
   return (
     <form className="fg-form h-screen" onSubmit={handleForgotPassword}>
       <div className="p-10 bg-white">
@@ -63,12 +74,17 @@ export default function forgotPassword() {
           <input 
             id="email"
             type="text"
+<<<<<<< HEAD
             className={clsx('fg-input w-full border rounded px-4 py-3', {
               'border-red-600': !isValidEmail
             })}
             placeholder="Email"
             value={email}
             onChange={e => setEmail(e.target.value)}
+=======
+            className="fg-input w-full border rounded px-4 py-3"
+            placeholder="Email"
+>>>>>>> parent of 196f897 (Fix import and add functionality for forgot password and reset password pages)
           />
           <p className={clsx('text-red-600 text-sm font-medium',{'hidden': isValidEmail })}>
             Email không hợp lệ

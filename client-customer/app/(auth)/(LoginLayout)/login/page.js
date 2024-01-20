@@ -11,8 +11,6 @@ export default function LoginPage() {
     if (token) {
       router.push('/browse');
     }
-    localStorage.clear();
-    sessionStorage.clear();
   }, []);
 
   return (
