@@ -4,7 +4,9 @@ export default function BrowseLayout({children}) {
   return (
     <>
       <Header />
-      {children}
+      <div className="h-screen">
+        {children}
+      </div>
       <Footer />
     </>
   )
