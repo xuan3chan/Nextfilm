@@ -1,7 +1,13 @@
 const Multer = require('multer');
 const bucket = require('./firebaseStorage');
 const { v4: uuidv4 } = require('uuid');
+const { Readable } = require('stream');
+const https = require('https');
 const path = require('path');
+
+const agent = new https.Agent({
+  secureProtocol: 'TLSv1_1_method', // Replace 'TLSv1_method' with the appropriate protocol method
+});
 
 const firebaseStorage = {
   _handleFile: async function _handleFile(req, file, cb) {
@@ -11,39 +17,25 @@ const firebaseStorage = {
         const sanitizedOriginalName = originalName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
         const fileName = `${sanitizedOriginalName}-${uuidv4()}${path.extname(file.originalname)}`;
         const blob = bucket.file(fileName);
-        const blobStream = blob.createWriteStream();
-
-        blobStream.on('error', (err) => cb(err));
-        blobStream.on('finish', () => {
-          const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${fileName}?alt=media`;
-          cb(null, { path: publicUrl });
+        const blobStream = blob.createWriteStream({
+          resumable: false,
+          public: true,
+          metadata: { contentType: file.mimetype },
+          private: false,
+          agent: agent,
         });
 
-        blobStream.end(file.buffer);
-      } else {
-        console.error("Tệp tin hoặc tên tệp tin không xác định");
-        cb(new Error('Tệp tin hoặc tên tệp tin không xác định'));
-      }
-    } catch (err) {
-      cb(err);
-    }
-  },
-_handleFile: async function _handleFile(req, file, cb) {
-    try {
-      if (file && file.originalname) {
-        const originalName = path.basename(file.originalname, path.extname(file.originalname));
-        const sanitizedOriginalName = originalName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-        const fileName = `${sanitizedOriginalName}-${uuidv4()}${path.extname(file.originalname)}`;
-        const blob = bucket.file(fileName);
-        const blobStream = blob.createWriteStream();
+        // Create a stream from the buffer
+        const fileStream = new Readable();
+        fileStream.push(file.buffer);
+        fileStream.push(null);
 
-        blobStream.on('error', (err) => cb(err));
-        blobStream.on('finish', () => {
-          const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${fileName}?alt=media`;
-          cb(null, { path: publicUrl });
-        });
-
-        blobStream.end(file.buffer);
+        fileStream.pipe(blobStream)
+          .on('error', (err) => cb(err))
+          .on('finish', () => {
+            const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${fileName}?alt=media`;
+            cb(null, { path: publicUrl });
+          });
       } else {
         console.error("Tệp tin hoặc tên tệp tin không xác định");
         cb(new Error('Tệp tin hoặc tên tệp tin không xác định'));
@@ -72,14 +64,12 @@ _handleFile: async function _handleFile(req, file, cb) {
         reject(err);
       }
     });
-  }
+  },
 };
 
 const upload = Multer({
   storage: Multer.memoryStorage(),
-  limits: {
-    fileSize: 10 * 1024 * 1024 * 1024, // limit file size to 10GB
-  },
+
   fileFilter: (req, file, cb) => {
     const allowedMimes = [
       "image/jpeg",
@@ -98,7 +88,7 @@ const upload = Multer({
     } else {
       cb(new Error('Invalid file type. Only image and video files are allowed.'), false);
     }
-  }
+  },
 });
 
-module.exports = {upload, firebaseStorage};
+module.exports = { upload, firebaseStorage };
