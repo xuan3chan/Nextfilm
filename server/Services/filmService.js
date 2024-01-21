@@ -104,49 +104,71 @@ class filmService {
         message: "Film not found",
       };
     }
-
-    // Assuming 'poster' and 'video' are the fieldnames for your file inputs
-    let posterUploads = [], videoUpload, trailerUpload;
-
+  
+    // Assuming 'poster', 'video', and 'trailer' are the fieldnames for your file inputs
+    let posterUploads, videoUpload, trailerUpload;
+  
     if (poster) {
       // Delete old posters
-      for (let i = 0; i < filmFound.poster.length; i++) {
-        await firebaseStorage._removeFile(filmFound.poster[i]);
+      if (filmFound.poster) {
+        for (let i = 0; i < filmFound.poster.length; i++) {
+          await firebaseStorage._removeFile(filmFound.poster[i]);
+        }
       }
       // Upload new posters
-      posterUploads = poster.map(file => new Promise((resolve, reject) => {
+      posterUploads = poster.map((file) => new Promise((resolve, reject) => {
         firebaseStorage._handleFile(req, file, (err, file) => {
           if (err) reject(err);
           else resolve(file.path);
         });
       }));
+    } else {
+      // If no new poster, retain the existing posters
+      posterUploads = filmFound.poster || [];
     }
+  
     if (video) {
       // Delete old video
-      await firebaseStorage._removeFile(filmFound.video);
+      if (filmFound.video) {
+        await firebaseStorage._removeFile(filmFound.video);
+      }
       // Upload new video
       videoUpload = new Promise((resolve, reject) => {
-        firebaseStorage._handleFile(req, video, (err, file) => {
+        firebaseStorage._handleFile(req, video[0], (err, file) => {
           if (err) reject(err);
           else resolve(file.path);
         });
       });
+    } else {
+      // If no new video, retain the existing video
+      videoUpload = filmFound.video;
     }
+  
     if (trailer) {
       // Delete old trailer
-      await firebaseStorage._removeFile(filmFound.trailer);
+      if (filmFound.trailer) {
+        await firebaseStorage._removeFile(filmFound.trailer);
+      }
       // Upload new trailer
       trailerUpload = new Promise((resolve, reject) => {
-        firebaseStorage._handleFile(req, trailer, (err, file) => {
+        firebaseStorage._handleFile(req, trailer[0], (err, file) => {
           if (err) reject(err);
           else resolve(file.path);
         });
-      })
+      });
+    } else {
+      // If no new trailer, retain the existing trailer
+      trailerUpload = filmFound.trailer;
     }
-
+  
     // Wait for all uploads to finish
-    let [posterUrls, videoUrl, trailerUrl] = await Promise.all([Promise.all(posterUploads), videoUpload, trailerUpload]);
-
+    let [posterUrls, videoUrl, trailerUrl] = await Promise.all([
+      Promise.all(posterUploads),
+      videoUpload,
+      trailerUpload,
+    ]);
+  
+    // Update film properties
     filmFound.filmName = filmName;
     filmFound.poster = posterUrls;
     filmFound.description = description;
@@ -158,37 +180,56 @@ class filmService {
     filmFound.category = category;
     filmFound.country = country;
     filmFound.yearPublish = yearPublish;
+  
+    // Save the updated film document
     await filmFound.save();
+  
     return {
       success: true,
-      message: "update film successfully",
+      message: "Update film successfully",
       film: filmFound,
     };
   }
+  
   //delete film service
   static async deleteFilmService(id) {
-    const filmFound = await film.findById(id);
-    if (!filmFound) {
+      const filmFound = await film.findById(id);
+      if (!filmFound) {
+        return {
+          success: false,
+          message: "Film not found",
+        };
+      }
+      //delete array poster
+      if (filmFound.poster) {
+        for (let i = 0; i < filmFound.poster.length; i++) {
+          await firebaseStorage._removeFile(filmFound.poster[i]);
+        }
+      }
+      //delete video
+      if (filmFound.video) {
+        await firebaseStorage._removeFile(filmFound.video);
+      }
+      //delete trailer
+      if (filmFound.trailer) {
+        await firebaseStorage._removeFile(filmFound.trailer);
+      }
+
+      await filmFound.deleteOne();
       return {
-        success: false,
-        message: "Film not found",
+        success: true,
+        message: "Delete film successfully",
       };
     }
-    //delete array poster
-    for (let i = 0; i < filmFound.poster.length; i++) {
-      await firebaseStorage._removeFile(filmFound.poster[i]);
+    //get all film service
+    static async getAllFilmService() {
+      const films = await film.find();
+      return {
+        success: true,
+        message: "Get all film successfully",
+        films,
+      };
     }
-    //delete video
-    await firebaseStorage._removeFile(filmFound.video);
-    //delete trailer
-    await firebaseStorage._removeFile(filmFound.trailer);
-
-    await filmFound.deleteOne();
-    return {
-      success: true,
-      message: "Delete film successfully",
-    };
-  }
   //get all film service
   static async getAllFilmService() {
     const films = await film.find();

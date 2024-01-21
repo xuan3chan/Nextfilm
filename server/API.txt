@@ -8,6 +8,13 @@ update Admin: http://localhost:8000/api/admin/update/:adminId {verify token} jus
 delete : http://localhost:8000/api/admin/delete/:adminId {verify token} just superAdmin
 getall : http://localhost:8000/api/admin/getall/:admin {verify token} just superAdmin
 }
+film{
+    add : http://localhost:8000/api/film/add
+    update : http://localhost:8000/api/film/update/:id
+    getall : http://localhost:8000/api/film/getall
+    delete : http://localhost:8000/api/film/delete/:id
+
+}
 user{
 getall:http://localhost:8000/api/user/getall {verify token}
 }
