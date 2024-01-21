@@ -1,13 +1,15 @@
 import { Header } from "../ui/browse/Header"
 import { Footer } from "../ui/browse/Footer"
+import { TokenJWTAuth } from "../lib/auth";
+
 export default function BrowseLayout({children}) {
   return (
-    <>
+    <TokenJWTAuth>
       <Header />
       <div className="h-screen">
         {children}
       </div>
       <Footer />
-    </>
+    </TokenJWTAuth>
   )
 }

@@ -1,11 +1,9 @@
-<<<<<<< HEAD
 "use client"
 import { useEffect, useState } from "react";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { RedButton, RedButtonLoading } from "@/app/ui/RedButton";
-import { roboto } from "@/app/ui/fonts";
 import Link from "next/link";
 
 const apiURL = process.env.NEXT_PUBLIC_LOGIN;
@@ -49,10 +47,6 @@ export default function ResetPassword() {
     });
   }
 
-=======
-
-export default function ResetPassword() {
->>>>>>> parent of 196f897 (Fix import and add functionality for forgot password and reset password pages)
   return (
     <form className="reset-password_form fg-form h-screen">  
       <div className="p-10 bg-white">
@@ -60,7 +54,6 @@ export default function ResetPassword() {
           <h1 className="text-3xl font-semibold">Đặt lại mật khẩu</h1>
         </div>
         <div className="mt-2">
-<<<<<<< HEAD
           <label>Nhập vào mã:</label> 
           <input type="number" 
             id="code"
@@ -85,13 +78,6 @@ export default function ResetPassword() {
               Gửi
             </RedButton>
           )}
-=======
-          <label>Vui lòng nhập mật khẩu mới của bạn</label>
-          <input type="text" 
-            className="fg-input w-full border rounded px-4 py-3"
-          />
-        </div>
->>>>>>> parent of 196f897 (Fix import and add functionality for forgot password and reset password pages)
       </div>
     </form>
   );

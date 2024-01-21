@@ -3,17 +3,11 @@ import { useEffect, useState } from "react";
 import { getAllFilm } from "../lib/action";
 import MovieCardSkeleton from "../ui/skeleton";
 
-export default function browse() {
+export default function Browse() {
   const [films, setFilms] = useState([]);
   const [loading, setLoading] = useState(false);
 
-
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    if (!token) {
-      window.location.href = '/login';
-    }
-
     const fetchAllFilm = async () => {
       setLoading(true);
       try {
@@ -24,7 +18,6 @@ export default function browse() {
         alert("Can't get all film in browse page");
       }
     };
-
     fetchAllFilm();
   }, []);
 
@@ -40,5 +33,5 @@ export default function browse() {
         </div>
       )}
     </div>
-  );
+  )
 }

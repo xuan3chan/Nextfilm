@@ -7,7 +7,7 @@ import Link from "next/link";
 import "@/app/ui/signup/signup.css";
 import "@/app/ui/css/textfield.css";
 
-export default function signup() {
+export default function Signup() {
   return (
     <div className="bg-black">
       <header className="signup-header">
