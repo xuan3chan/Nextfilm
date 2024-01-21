@@ -18,7 +18,7 @@ const firebaseStorage = {
         const fileName = `${sanitizedOriginalName}-${uuidv4()}${path.extname(file.originalname)}`;
         const blob = bucket.file(fileName);
         const blobStream = blob.createWriteStream({
-          resumable: false,
+          resumable: true,
           public: true,
           metadata: { contentType: file.mimetype },
           private: false,
