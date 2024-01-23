@@ -48,7 +48,7 @@ export default function ResetPassword() {
   }
 
   return (
-    <form className="reset-password_form fg-form h-screen">  
+    <form className="reset-password_form fg-form h-screen" onSubmit={handleSubmit}>  
       <div className="p-10 bg-white">
         <div>
           <h1 className="text-3xl font-semibold">Đặt lại mật khẩu</h1>

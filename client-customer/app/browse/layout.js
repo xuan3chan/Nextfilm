@@ -5,8 +5,8 @@ import { TokenJWTAuth } from "../lib/auth";
 export default function BrowseLayout({children}) {
   return (
     <TokenJWTAuth>
+      <div className="h-full relative">
       <Header />
-      <div className="h-screen">
         {children}
       </div>
       <Footer />

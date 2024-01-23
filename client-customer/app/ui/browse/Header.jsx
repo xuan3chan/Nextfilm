@@ -49,7 +49,7 @@ export function Header() {
 
   return (
     <header
-      className={`z-50 transition-all sticky top-0 right-0 left-0 flex items-center justify-between h-[68px] px-[60px] ${
+      className={`z-50 transition-all fixed top-0 right-0 left-0 flex items-center justify-between h-[68px] px-[60px] ${
         roboto.className
       } ${
         isScrolled

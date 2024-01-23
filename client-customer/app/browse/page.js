@@ -1,11 +1,15 @@
 "use client"
 import { useEffect, useState } from "react";
 import { getAllFilm } from "../lib/action";
-import MovieCardSkeleton from "../ui/skeleton";
+import HeroSkeleton from "../ui/skeleton";
+// import { Image } from "@nextui-org/react";
+import Image from "next/image";
+import thumNail from '@/public/maxresdefault.jpg'
 
 export default function Browse() {
   const [films, setFilms] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [showThumbnail, setshowThumbnail] = useState(false);
 
   useEffect(() => {
     const fetchAllFilm = async () => {
@@ -21,15 +25,22 @@ export default function Browse() {
     fetchAllFilm();
   }, []);
 
+  const handleThumbnail = () => {
+    setshowThumbnail(true)
+  }
+
   return (
-    <div className="w-full">
-      {loading && <MovieCardSkeleton />}
+    <div className="w-full h-screen relative">
+      {loading && <HeroSkeleton />}
       {!loading && films.length > 0 && (
         <div key={films[1]._id}>
-          <h1>{films[1].filmName}</h1>
-          <video autoPlay controls className="w-full">
+          {showThumbnail ? (
+            <Image src={thumNail} alt="Thumnail" className="w-full h-full transition-all duration-1000 ease-in-out opacity-100" />
+          ) : 
+          <video autoPlay onEnded={handleThumbnail} className="w-full">
             <source src={films[1].trailer} type="video/mp4" />
           </video>
+          }
         </div>
       )}
     </div>
