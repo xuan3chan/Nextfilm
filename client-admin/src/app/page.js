@@ -1,10 +1,12 @@
 "use client";
-import Login from "@/app/pages/login/page.js";
+import { useRouter } from "next/navigation";
+import Login from "@/app/login/page.js";
 import React, { useEffect } from "react";
-import Dashboard from "@/app/pages/dashboard/page.js";
+import Dashboard from "@/app/dashboard/page.js";
 import { useState } from "react";
 
 export default function Home() {
+  const router = useRouter();
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   useEffect(() => {
@@ -20,7 +22,17 @@ export default function Home() {
     }
   }, []);
 
+  useEffect(() => {
+    if (isLoggedIn === false) {
+      router.push("/pages/dashboard");
+    } else {
+      router.push("/pages/login");
+    }
+  }, [isLoggedIn, router]);
+
   return (
-    <div className="">{isLoggedIn === false ?  window.location.href = "pages/dashboard" :  window.location.href = "pages/login"}</div>
+    <div>
+
+    </div>
   );
 }
