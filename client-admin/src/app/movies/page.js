@@ -65,7 +65,7 @@ export default function page() {
         <Header></Header>
         <div className="flex">
           <SideBar></SideBar>
-          <div className="wrapper w-3/4 flex flex-col">
+          <div className="wrapper flex flex-col gap-10">
             <div className="MovieListTitle w-full flex justify-center items-center">
               Danh Sách Phim
             </div>
@@ -78,26 +78,55 @@ export default function page() {
               Phim Mới
             </button>
             {Array.isArray(movieList) && movieList.length > 0 ? (
-              <div className="MovieListSection flex flex-wrap w-full ">
+              <div className="MovieListSection flex flex-wrap w-full h-fit">
                 {movieList.map((item) => (
                   <li
                     key={item._id}
                     scroll={false}
-                    className="MovieItem w-1/5 hover:border-black hover:border-2 p-2 style list-none rounded-lg flex flex-col justify-center items-center"
+                    className="MovieItem w-1/4 hover:border-black hover:border-2 p-2 style list-none rounded-lg flex flex-col items-center h-fit"
                   >
                     <Link
                       href="movies/[slug]"
                       as={`movies/${item._id}`}
-                      className="w-full flex flex-col gap-4 justify-center items-center"
+                      className="w-full flex flex-col gap-4"
                     >
-                      <img
-                        src={item.poster}
-                        alt=""
-                        className="MoviePoster w-full h-3/4"
-                      />
+                      <div className="MovieCategory relative top-6">
+                        {item.status == "active" ? (
+                          <div className="bg-green-300 p-2 flex items-center justify-center mb-2 label-form">
+                            Có Sẵn
+                          </div>
+                        ) : (
+                          <div className="bg-red-300 p-2 flex items-center justify-center mb-2 label-form">
+                            Ngưng Chiếu
+                          </div>
+                        )}
+                      </div>
+                      <div className="overImage relative">
+                        <img
+                          src={item.poster}
+                          alt=""
+                          className="MoviePoster w-full h-3/4"
+                        />
+                        <div className="MovieCategory bg-red-500 p-1 px-1 rounded-md w-8 absolute right-3 top-3 label-form">
+                          {item.age}+
+                        </div>
+                      </div>
+
                       <div className="TextSection flex flex-col justify-center items-center">
-                        <div className="MovieName">{item.filmName}</div>
-                        <div className="MovieCategory">{item.category}</div>
+                        <div className="MovieName primary-title">
+                          {item.filmName}
+                        </div>
+                        <div className="MovieCategory">
+                          Phân Loại{item.category}
+                        </div>
+                        <div className="MovieCategory">
+                          Quốc Gia: {item.country}
+                        </div>
+                        <div className="MovieCategory">
+                          Năm Phát Hành: {item.yearPublish}
+                        </div>
+
+                        <div className="MovieCategory">Tags: {item.tags}</div>
                       </div>
                     </Link>
                     <div className="ButtonSection flex gap-4">

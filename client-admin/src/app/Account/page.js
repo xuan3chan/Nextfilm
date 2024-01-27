@@ -8,7 +8,7 @@ import AccountList from "./AccountList";
 
 export default () => {
   return (
-    <div className="flex flex-col bg-slate-300">
+    <div className="flex flex-col bg-color">
       <Header></Header>
       <div className="Body flex">
         <SideBar></SideBar>

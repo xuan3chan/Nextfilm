@@ -8,7 +8,9 @@
     margin: 20px;
     padding: 20px;
     border-radius: 20px;
-    min-width: 50%;
+    flex: 1;
+    box-sizing: border-box;
+    overflow-y: auto;
 }
     .confirm-button {
         display: inline-block;
@@ -93,8 +95,87 @@
   background-color: #1A1A1A!important;
   color: white;
   transition: 0.3s;
+  padding:8px 16px;
+  font-size: 20px;
+  border-radius: 4px;
+
+
 }
 .submitBtn:hover{
   background-color: #ccc!important;
   color: black;
+}
+.label-form{
+  font-style: Sans-serif;
+  font-weight: 600;
+}
+.primary-text{
+  font-style: Sans-serif;
+  font-weight: 400;
+}
+.primary-title{
+  font-style: Sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+.drag-image{
+  border: 1px dashed black;
+  border-radius: 5px;
+  font-weight:400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding:10px 20px;
+}
+.drag-image.active{
+  border: 2px solid black;
+}
+.drag-image .icon{
+  font-size: 30px;
+  color: black;
+}
+.drag-image h6{
+  font-size: 20px;
+  font-weight: 300;
+  color: black;
+}
+.drag-image span{
+  font-size: 14px;
+  font-weight: 300;
+  color: black;
+  margin: 10px 0 15px 0;
+}
+.drag-image button{
+  padding: 5px 14px;
+  font-size: 14px; 
+  font-weight: 300;
+  border: none;
+  outline: none;
+  background:transparent;
+  color: black;
+  border:1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:all 0.5s;
+}
+
+.drag-image button:hover{
+    background-color:black;
+    color:white;
+}
+
+.drag-image img{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 5px;
 }

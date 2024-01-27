@@ -52,8 +52,8 @@ export default function AddAdmin(props) {
   return (
     <div className="w-full">
       <div className="Content_AddAccountAdmin flex flex-col">
-        <div className="AddAccount_Form justify-start items-center ">
-          <div className="flex flex-col gap-4 w-full">
+        <div className="AddAccount_Form justify-start items-center  ">
+          <div className="flex flex-col gap-4 w-full label-form">
             <div className="flex flex-col gap-2 ">
               <label htmlFor="Form_SlotOption">Chọn Role</label>
               <select
@@ -77,7 +77,7 @@ export default function AddAdmin(props) {
                 value={formData.userName}
               />
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 ">
               <label htmlFor="Form_Password">Password</label>
               <input
                 type="password"

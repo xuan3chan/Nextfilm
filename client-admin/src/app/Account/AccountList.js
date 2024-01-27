@@ -20,7 +20,7 @@ export default function AccountList() {
   const [adminList, setAdminList] = useState([]);
   const [userList, setUserList] = useState([]);
   const [lengthUser, setLengthUser] = useState(0);
-const [token, setToken] = useState("")
+  const [token, setToken] = useState("");
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,7 +33,7 @@ const [token, setToken] = useState("")
           accessToken,
           admin: { role: roleUser },
         } = data;
-        setToken(accessToken)
+        setToken(accessToken);
         const headers = { Authorization: `Bearer ${accessToken}` };
         const response1 = await axios.get(
           "http://localhost:8000/api/admin/getall",
@@ -59,7 +59,6 @@ const [token, setToken] = useState("")
 
     fetchData();
   }, [role, roleUser, adminList, userList]);
-
 
   const handleChangeRole = (props) => {
     setRole(props);
@@ -88,7 +87,7 @@ const [token, setToken] = useState("")
   };
 
   return (
-    <div className="flex gap-10 ml-10">
+    <div className="flex gap-10 ml-10 ">
       <section className="AccountListSection ContentBg">
         <div className="flex items-center gap-10">
           <div className="AddAccount_title">Danh Sách {role} </div>

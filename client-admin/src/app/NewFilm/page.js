@@ -91,12 +91,12 @@ export default function NewFilm() {
         <Header></Header>
         <div className="flex">
           <SideBar></SideBar>
-          <div className="wrapper flex flex-col">
-            Thêm Phim
+          <div className="wrapper flex flex-col items-center">
             <form
-              className="flex flex-col gap-3 justify-center items-center min-[980px]:"
+              className="flex flex-col gap-3 justify-center items-center min-[980px]: border-black border-2 w-fit p-10 rounded-3xl"
               onSubmit={handleSubmit}
             >
+              <div className="primary-title">Thêm Phim</div>
               <div className="flex gap-10">
                 <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                   Film Name:
@@ -161,18 +161,16 @@ export default function NewFilm() {
                   />
                 </label>
               </div>
-
-              <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 w-1/3">
+              <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 w-1/2 ">
                 Mô Tả:
-                <input
+                <textarea
                   type="text"
                   name="description"
-                  className="bg-gray-50 border border-gray-300 h-60 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border resize-y border-gray-300 h-60 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   value={filmData.description}
                   onChange={handleInputChange}
                 />
               </label>
-
               <label>
                 Poster Image:
                 <input
@@ -193,14 +191,24 @@ export default function NewFilm() {
               </label>
               <label>
                 Main Video:
-                <input
-                  type="file"
-                  name="video"
-                  accept="video/*"
-                  onChange={handleFileChange}
-                />
+                <div className="drag-image mt-4">
+                  <div className="icon">
+                    <i className="fas fa-cloud-upload-alt"></i>
+                  </div>
+                  <h6>Drag & Drop File Here</h6>
+                  <span>OR</span>
+                  <input
+                    type="file"
+                    name="video"
+                    accept="video/*"
+                    onChange={handleFileChange}
+                    multiple
+                  />
+                </div>
               </label>
-              <button type="submit submitBtn">Add Film</button>
+              <button className="submitBtn" type="submit ">
+                Add Film
+              </button>
             </form>
           </div>
         </div>

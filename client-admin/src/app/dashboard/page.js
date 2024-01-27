@@ -4,16 +4,7 @@ import React from "react";
 import "@/styles/dashboard.css";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { IoIosArrowDown } from "react-icons/io";
-import AccountList from "../components/container/Account/AccountList";
-import AccountNormal from "../components/container/Account/AccountNormal";
-import AccountPremium from "../components/container/Account/AccountPremium";
-import AccountChart from "../components/container/Account/AccountChart";
-import AddCategory from "../components/container/Category/AddCategory";
-import VoucherList from "../components/container/Category/VoucherList";
 import DarkMode from "../components/Button/Darkmode";
-import CategoryList from "../components/container/Category/CategoryList";
-import ChatGeminiBox from "../components/container/ChatGemini/ChatGeminiBox";
-import CountryList from "../components/container/Country/CountryList";
 import Header from "@/app/components/header/header";
 import SideBar from "@/app/components/SideBar/SideBar";
 
@@ -41,12 +32,7 @@ export default function Dashboard() {
     }
   }, []); // Empty dependency array to run the effect only once
 
-  const toggleDropdown = (dropdownState, setDropdownState) => {
-    setShowUserItems(false);
-    setShowMovieItems(false);
-    setShowCategoryItems(false);
-    setDropdownState(!dropdownState);
-  };
+
   let dataObject = null;
   let token = "";
 

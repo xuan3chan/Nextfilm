@@ -65,31 +65,34 @@ export default function AddCategory(props) {
   return (
     <div>
       <div className="wrapper">
-        <div className="CategoryListSection">
+        <div className="CategoryListSection flex items-center w-80">
           <div className="CategoryListSection_title">Thêm Danh Mục</div>
-          <form onSubmit={handleSubmit}>
-            <div className="flex flex-col gap-2">
+          <form
+            className="flex flex-col items-center w-full gap-6 "
+            onSubmit={handleSubmit}
+          >
+            <div className="flex flex-col w-full gap-2 label-form">
               <label htmlFor="categoryName">Tên Danh Mục</label>
               <input
                 type="text"
                 id="categoryName"
-                className="categoryName"
+                className="categoryName rounded-md"
                 onChange={handleChange}
                 name="categoryName"
                 value={formData.categoryName}
                 autoFocus
               />
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col w-full gap-2 label-form">
               <label htmlFor="description">Ghi Chú</label>
-              <input
+              <textarea
                 type="text"
                 id="description"
                 name="description"
-                className="description"
+                className="description w-full resize-y rounded-md"
                 onChange={handleChange}
                 value={formData.description}
-              />
+              ></textarea>
             </div>
             <button type="submit" className="btn submitAddCate submitBtn mt-4">
               Xác Nhận

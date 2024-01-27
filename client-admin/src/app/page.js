@@ -24,15 +24,11 @@ export default function Home() {
 
   useEffect(() => {
     if (isLoggedIn === false) {
-      router.push("/pages/dashboard");
+      router.push("/dashboard");
     } else {
-      router.push("/pages/login");
+      router.push("/login");
     }
   }, [isLoggedIn, router]);
 
-  return (
-    <div>
-
-    </div>
-  );
+  return <div></div>;
 }
