@@ -239,6 +239,20 @@ class filmService {
       films,
     };
   }
-  //delete video of film service
+  //get film by id service
+  static async getFilmByIdService(id) {
+    const filmFound = await film.findById(id);
+    if (!filmFound) {
+      return {
+        success: false,
+        message: "Film not found",
+      };
+    }
+    return {
+      success: true,
+      message: "Get film successfully",
+      film: filmFound,
+    };
+  }
 } //add video of film service
 module.exports = filmService;

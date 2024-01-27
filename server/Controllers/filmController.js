@@ -90,5 +90,14 @@ static async deleteFilmController(req, res) {
       handleErrorResponse(res, err);
     }
   }
+  static async getFilmByIdController(req, res) {
+    const id = req.params.id;
+    try {
+      const response = await filmService.getFilmByIdService(id);
+      res.status(200).json(response);
+    } catch (err) {
+      handleErrorResponse(res, err);
+    }
+  }
 }
 module.exports = filmController;

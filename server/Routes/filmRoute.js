@@ -8,6 +8,7 @@ router.post('/add', upload.fields([{ name: 'poster', maxCount: 3 }, { name: 'vid
 router.put('/update/:id', upload.fields([{ name: 'poster', maxCount: 3 }, { name: 'video', maxCount: 1 }, { name: 'trailer', maxCount: 1 }]), filmController.updateFilmController);
 router.delete('/delete/:id', filmController.deleteFilmController);
 router.get('/getall', filmController.getAllFilmController);
+router.get('/getbyid/:id', filmController.getFilmByIdController);
 
 
 module.exports = router;
