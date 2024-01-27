@@ -3,28 +3,16 @@ import React from "react";
 import "@/styles/dashboard.css";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { IoIosArrowDown } from "react-icons/io";
-import AccountList from "../../components/container/Account/AccountList";
-import AccountNormal from "../../components/container/Account/AccountNormal";
-import AccountPremium from "../../components/container/Account/AccountPremium";
-import AccountChart from "../../components/container/Account/AccountChart";
-import AddCategory from "../../components/container/Category/AddCategory";
-import VoucherList from "../../components/container/Category/VoucherList";
-import DarkMode from "../../components/Button/Darkmode";
-import CategoryList from "../../components/container/Category/CategoryList";
-import ChatGeminiBox from "../../components/container/ChatGemini/ChatGeminiBox";
-import CountryList from "../../components/container/Country/CountryList";
-import Header from "@/app/components/header/header";
-import SideBar from "@/app/components/SideBar/SideBar";
-
+import {useRouter} from "next/navigation"
 export default () => {
   const [showUserItems, setShowUserItems] = useState(false);
   const [showMovieItems, setShowMovieItems] = useState(false);
   const [showCategoryItems, setShowCategoryItems] = useState(false);
   const [selectedComponent, setSelectedComponent] = useState(null);
+  const router = useRouter();
 
   const handleChangeState = (state) => {
     setSelectedComponent(state);
-    console.log(state);
   };
   const [role, setRole] = useState("");
 
@@ -121,7 +109,7 @@ export default () => {
             <li
               onClick={() => {
                 handleChangeState("MovieList");
-                window.location.href = "Movie"
+                router.push('./movies')
               }}
               className="Item MovieList"
             >

@@ -21,7 +21,6 @@ const Login = () => {
       password: password,
     };
     axios.post(ApiLink, data).then((res) => {
-      console.log(res.data);
       const { success, message } = res.data;
       setData(res.data);
       if (!success) {

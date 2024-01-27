@@ -14,7 +14,8 @@ export default function CategoryList(props) {
   const ApiLink = "http://localhost:8000/api/category/getall";
   const [categoryList, setCategoryList] = useState([]);
   const [token, setToken] = useState("");
-
+  const [status, setStatus] = useState("");
+  const [idSelected, setIdSelected] = useState("");
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -23,32 +24,57 @@ export default function CategoryList(props) {
           router.push("/login");
           return;
         }
-        const {
-            accessToken,
-          } = data;
-          setToken(accessToken)
-          console.log(accessToken)
+        const { accessToken } = data;
+        setToken(accessToken);
         const response = await axios.get(ApiLink, {
-            
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${accessToken}`, // Use accessToken directly
           },
         });
-        
         setCategoryList(response.data.categories);
       } catch (error) {
         console.error("Error:", error);
       }
     };
     fetchData();
-  }, [token, categoryList]);
+  }, [categoryList]); // Removed 'token' from the dependency array
+
   const [showAddCategory, setShowCategory] = useState(false);
 
+  const handleStatusChange = (event, item) => {
+    setIdSelected(item._id);
+    setStatus(event.target.value);
+    alert("Thay Đổi Thành Công")
+  };
   const handleShowCate = () => {
     setShowCategory(true);
   };
+  useEffect(() => {
+    if (idSelected) {
+      axios
+        .put(
+          `http://localhost:8000/api/category/update/${idSelected}`,
+          {
+            status: status,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response.data);
+          // Handle response if needed
+        })
+        .catch((error) => {
+          console.error("Error updating status:", error);
+          // Handle error if needed
+        });
+    }
+  }, [status, idSelected, token]);
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-color">
       <Header></Header>
       <div className="flex">
         <SideBar></SideBar>
@@ -87,7 +113,18 @@ export default function CategoryList(props) {
                         <td>{index + 1}</td>
                         <td>{item.categoryName}</td>
                         <td>{item.description}</td>
-                        <td>{item.status}</td>
+                        <td>
+                          <select
+                            id="Status"
+                            value={item.status}
+                            onChange={(event) =>
+                              handleStatusChange(event, item)
+                            }
+                          >
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                          </select>
+                        </td>
                         <td className="flex gap-2 justify-center items-center">
                           <DeleteButtonNormal
                             id={item._id}

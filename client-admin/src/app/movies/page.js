@@ -1,25 +1,20 @@
 "use client";
-import "@/styles/app.css";
-import "@/styles/dashboard.css";
-import "@/styles/Account.css";
-import "@/styles/Category.css";
-import { useEffect, useState } from "react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "@/styles/Account.css";
+import Link from "next/link";
+import Swal from "sweetalert2";
 import SideBar from "@/app/components/SideBar/SideBar";
 import Header from "@/app/components/header/header";
 import DeleteButtonDefault from "@/app/components/Button/DeleteButtonDefault";
 import EditButton from "@/app/components/Button/EditButton";
-import Swal from "sweetalert2";
-
+import "@/styles/app.css";
 export default function page() {
-  const data = localStorage.getItem("data");
   const [token, setToken] = useState("");
-  const ApiLink = "http://localhost:8000/api/film/getall";
   const [movieList, setMovieList] = useState([]);
   const [isOpened, setIsOpened] = useState(false);
 
+  const data = localStorage.getItem("data") || {};
+  const ApiLink = "http://localhost:8000/api/film/getall";
   const handleDeleteMovie = (id) => {
     axios
       .delete(`http://localhost:8000/api/film/delete/${id}`, {
@@ -29,7 +24,6 @@ export default function page() {
         },
       })
       .then((response) => {
-        console.log("helo");
         Swal.fire({
           title: "Thành Công",
           text: "Xóa Phim Thành Công",
@@ -63,7 +57,7 @@ export default function page() {
     };
 
     fetchData();
-  }, [token,movieList]); // Added token as a dependency
+  }, [token, movieList]); // Added token as a dependency
 
   return (
     <div className="bg-color">
@@ -71,8 +65,10 @@ export default function page() {
         <Header></Header>
         <div className="flex">
           <SideBar></SideBar>
-          <div className="wrapper flex flex-col">
-            Danh Sách Phim
+          <div className="wrapper w-3/4 flex flex-col">
+            <div className="MovieListTitle w-full flex justify-center items-center">
+              Danh Sách Phim
+            </div>
             <button
               onClick={() => {
                 window.location.href = "NewFilm";
@@ -84,28 +80,33 @@ export default function page() {
             {Array.isArray(movieList) && movieList.length > 0 ? (
               <div className="MovieListSection flex flex-wrap w-full ">
                 {movieList.map((item) => (
-                  <div
+                  <li
                     key={item._id}
-                    className="MovieItem w-1/5 hover:border-black hover:border-2 p-2 flex flex-col gap-4 justify-center items-center"
+                    scroll={false}
+                    className="MovieItem w-1/5 hover:border-black hover:border-2 p-2 style list-none rounded-lg flex flex-col justify-center items-center"
                   >
-                    <img
-                      src={item.poster}
-                      alt=""
-                      className="MoviePoster w-full h-3/4"
-                    />
-                    <div className="TextSection flex flex-col justify-center items-center">
-                      <div className="MovieName">{item.filmName}</div>
-                      <div className="MovieCategory">{item.category}</div>
-                    </div>
+                    <Link
+                      href="movies/[slug]"
+                      as={`movies/${item._id}`}
+                      className="w-full flex flex-col gap-4 justify-center items-center"
+                    >
+                      <img
+                        src={item.poster}
+                        alt=""
+                        className="MoviePoster w-full h-3/4"
+                      />
+                      <div className="TextSection flex flex-col justify-center items-center">
+                        <div className="MovieName">{item.filmName}</div>
+                        <div className="MovieCategory">{item.category}</div>
+                      </div>
+                    </Link>
                     <div className="ButtonSection flex gap-4">
                       <DeleteButtonDefault
-                        handleFunction={
-                          () => handleDeleteMovie(item._id)
-                        }
+                        handleFunction={() => handleDeleteMovie(item._id)}
                       />
                       <EditButton />
                     </div>
-                  </div>
+                  </li>
                 ))}
               </div>
             ) : (

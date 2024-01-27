@@ -1,6 +1,7 @@
 "use client";
 import "@/styles/dashboard.css";
 import "@/styles/Account.css";
+import "@/styles/app.css";
 import "@/styles/Category.css";
 import { useEffect, useState } from "react";
 import React from "react";
@@ -34,8 +35,6 @@ export default function NewFilm() {
       [name]: value,
     });
   };
-
-  // Function to handle file input changes
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     setFilmData({
@@ -80,7 +79,7 @@ export default function NewFilm() {
         text: "Thêm Phim Mới Thành Công",
         icon: "success",
         confirmButtonText: "OK",
-      })
+      });
     } catch (error) {
       // Handle error or display an appropriate message
       console.error("Error adding film:", error);
@@ -201,7 +200,7 @@ export default function NewFilm() {
                   onChange={handleFileChange}
                 />
               </label>
-              <button type="submit">Add Film</button>
+              <button type="submit submitBtn">Add Film</button>
             </form>
           </div>
         </div>

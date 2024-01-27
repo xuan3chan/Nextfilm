@@ -4,11 +4,11 @@
 }
 .wrapper{
     display: flex;
-    min-width: 80%;
     background-color: #fff;
     margin: 20px;
     padding: 20px;
     border-radius: 20px;
+    min-width: 50%;
 }
     .confirm-button {
         display: inline-block;
@@ -72,4 +72,29 @@
 .button-27:active {
   box-shadow: none;
   transform: translateY(0);
+}
+/* AddCategory.css */
+
+.add-category-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+/* Add any additional styling as needed */
+
+.submitBtn{
+  background-color: #1A1A1A!important;
+  color: white;
+  transition: 0.3s;
+}
+.submitBtn:hover{
+  background-color: #ccc!important;
+  color: black;
 }
