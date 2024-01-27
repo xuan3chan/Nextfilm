@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const tvSeriesSchema = new Schema(
   {
-    filmName: {
+    tvSeriesName: {
       type: String,
       required: true,
       unique: true,
