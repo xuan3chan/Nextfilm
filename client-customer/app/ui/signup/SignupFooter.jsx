@@ -2,7 +2,7 @@ import { roboto } from "../fonts"
 export function SignupFooter() {
   return (
     <footer className="footer">
-      <div className="footer-wrapper text-white">
+      <div className="footer-wrapper w-10/12 text-white">
         <div className={`footer-site ${roboto.className} antialiased`}>
           <p className="footer-top">Bạn có câu hỏi? Liên hệ với chúng tôi</p>
           <ul className="footer-link">

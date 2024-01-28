@@ -3,14 +3,20 @@ import { Logo } from "../partials/logo";
 import Link from "next/link";
 import { IoSearch } from "react-icons/io5";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { IoMdArrowDropdown } from "react-icons/io";
-import Image from "next/image";
 import { roboto } from "../fonts";
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  Avatar,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem
+} from "@nextui-org/react";
 
 export function Header() {
   const pathName = usePathname();
+  const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
 
   // Scroll event
@@ -23,6 +29,11 @@ export function Header() {
       window.removeEventListener("scroll", checkScroll);
     };
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("accessToken");
+    router.push("/signup");
+  }
 
   const linkList = [
     {
@@ -84,16 +95,19 @@ export function Header() {
           <IoMdNotificationsOutline className="text-2xl font-semibold" />
         </div>
         <div className="avatar-icon flex items-center">
-          <Image
-            alt="Avatar"
-            src="/avatar.png"
-            width={35}
-            height={35}
-            className="rounded-md"
-          />
-          <span>
-            <IoMdArrowDropdown className="text-2xl font-semibold" />
-          </span>
+          <Dropdown>
+            <DropdownTrigger>
+              <Avatar
+                alt="Avatar"
+                src="/avatar.png"
+                className="w-9 h-9 rounded-md"
+              />
+            </DropdownTrigger>
+            <DropdownMenu>
+              <DropdownItem>Thông tin tài khoản</DropdownItem>
+              <DropdownItem onClick={handleLogout}>Đăng xuất</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </div>
       </div>
     </header>
