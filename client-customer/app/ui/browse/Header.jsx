@@ -4,7 +4,6 @@ import Link from "next/link";
 import { IoSearch } from "react-icons/io5";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { roboto } from "../fonts";
-import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Avatar,
@@ -17,18 +16,7 @@ import {
 export function Header() {
   const pathName = usePathname();
   const router = useRouter();
-  const [isScrolled, setIsScrolled] = useState(false);
 
-  // Scroll event
-  useEffect(() => {
-    const checkScroll = () => {
-      setIsScrolled(window.scrollY > 0);
-    };
-    window.addEventListener("scroll", checkScroll);
-    return () => {
-      window.removeEventListener("scroll", checkScroll);
-    };
-  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
@@ -60,13 +48,9 @@ export function Header() {
 
   return (
     <header
-      className={`z-50 transition-all fixed top-0 right-0 left-0 flex items-center justify-between h-[68px] px-[60px] ${
+      className={`z-50 fixed top-0 right-0 left-0 flex bg-black items-center justify-between h-[68px] px-[60px] ${
         roboto.className
-      } ${
-        isScrolled
-          ? "bg-black"
-          : "bg-transparent bg-gradient-to-b from-black/70"
-      }`}
+      } `}
     >
       <div className="flex items-center">
         <div className="mr-6">

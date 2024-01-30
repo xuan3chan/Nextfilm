@@ -7,10 +7,12 @@ import { IoIosArrowDown } from "react-icons/io";
 import DarkMode from "../components/Button/Darkmode";
 import Header from "@/app/components/header/header";
 import SideBar from "@/app/components/SideBar/SideBar";
+import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
   const [selectedComponent, setSelectedComponent] = useState(null);
   const [role, setRole] = useState("");
+  const router = useRouter();
 
   const handleChangeState = (state) => {
     setSelectedComponent(state);

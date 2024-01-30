@@ -1,10 +1,12 @@
 import { HeroBanner } from "../ui/browse/HeroBanner"
+import { Hero } from "../ui/browse/Hero"
 import { CategoryFilm } from "../ui/browse/CategoryFilm"
 
 export default function Browse() {
   return (
     <div className="relative">
-      <HeroBanner />
+      {/* <HeroBanner /> */}
+      <Hero />
       <div className="relative w-full h-screen mt-[-15%] z-40">
         <CategoryFilm />
       </div>
