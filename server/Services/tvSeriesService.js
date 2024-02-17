@@ -3,12 +3,24 @@ const { firebaseStorage } = require("../middlewares/multer");
 
 class tvSeriesService {
 
-    static async addTvSeriesService(tvSeriesName, poster, description, trailer, category, country, yearPublish, episode, age, status){
+    static async addTvSeriesService(
+        req,
+        tvSeriesName,
+        poster,
+        description,
+        trailer,
+        tags,
+        category,
+        country,
+        yearPublish,
+        age,
+        status
+    ) {
         const tvSeriesFound = await tvSeries.findOne({ tvSeriesName });
         if (tvSeriesFound) {
             return {
                 success: false,
-                message: "Tv series name is already in use",
+                message: "TvSeries name is already in use",
             };
         }
 
@@ -39,10 +51,8 @@ class tvSeriesService {
         });
 
         const posterUploads = poster.map(handleFileUpload);
-        const videoUpload = handleFileUpload(video[0]);
         const trailerUpload = trailer ? handleFileUpload(trailer[0]) : Promise.resolve(null);
-
-        const [posterUrls, videoUrl, trailerUrl] = await Promise.all([Promise.all(posterUploads), videoUpload, trailerUpload]);
+        const [posterUrls, trailerUrl] = await Promise.all([Promise.all(posterUploads), videoUpload, trailerUpload]);
 
         const newTvSeries = new tvSeries({
             tvSeriesName,
@@ -52,20 +62,24 @@ class tvSeriesService {
             category,
             country,
             yearPublish,
-            episode,
+            episode: null,
+            tags,
             age,
             status
         });
 
-        await newTvSeries.save();
-
-        return {
-            success: true,
-            message: "Add tv series successfully",
-            data: newTvSeries,
-        };
-
+        try {
+            await newTvSeries.save();
+            return {
+                success: true,
+                message: "TvSeries added successfully",
+            };
+        } catch (error) {
+            return {
+                success: false,
+                message: error.message,
+            };
+        }
     }
-
-
 }
+module.exproes = tvSeriesService;
