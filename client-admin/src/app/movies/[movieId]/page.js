@@ -22,8 +22,17 @@ export default function DynamicPage({ params }) {
       }
     };
     fetchData();
-  },[]); // Added token as a dependency
+  }, []); // Added token as a dependency
 
-  return <div>Phim Có Id là : {params.movieId}
-  <video width={'600px'} height={'600px'} controls src={movieItem.video}></video></div>;
+  return (
+    <div>
+      Phim Có Id là : {params.movieId}
+      <video
+        width={"100%"}
+        height={"100%"}
+        controls
+        src={movieItem.video}
+      ></video>
+    </div>
+  );
 }

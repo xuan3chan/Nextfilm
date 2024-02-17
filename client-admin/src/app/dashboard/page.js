@@ -34,7 +34,6 @@ export default function Dashboard() {
     }
   }, []); // Empty dependency array to run the effect only once
 
-
   let dataObject = null;
   let token = "";
 
@@ -53,7 +52,7 @@ export default function Dashboard() {
   return (
     <div className="flex flex-col bg-color">
       <Header />
-      <div id="Container " className="flex">
+      <div id="Container  " className="flex">
         <SideBar />
         <div className="Content">
           <div className="ContentHeader">

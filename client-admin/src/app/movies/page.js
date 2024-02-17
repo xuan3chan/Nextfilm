@@ -8,12 +8,13 @@ import Header from "@/app/components/header/header";
 import DeleteButtonDefault from "@/app/components/Button/DeleteButtonDefault";
 import EditButton from "@/app/components/Button/EditButton";
 import "@/styles/app.css";
+import "@/styles/Movie.css";
+
 export default function page() {
   const [token, setToken] = useState("");
   const [movieList, setMovieList] = useState([]);
   const [isOpened, setIsOpened] = useState(false);
 
-  const data = localStorage.getItem("data") || {};
   const ApiLink = "http://localhost:8000/api/film/getall";
   const handleDeleteMovie = (id) => {
     axios
@@ -32,7 +33,6 @@ export default function page() {
         });
       })
       .catch((error) => {
-        // Handle error, if needed
         console.error(error);
       });
   };
@@ -40,16 +40,7 @@ export default function page() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (data) {
-          setToken(data.accessToken);
-        }
-
-        const headers = {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        };
-
-        const res = await axios.get(ApiLink, { headers });
+        const res = await axios.get(ApiLink, {});
         setMovieList(res.data.films);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -57,7 +48,7 @@ export default function page() {
     };
 
     fetchData();
-  }, [token, movieList]); // Added token as a dependency
+  }, [movieList]); // Empty dependency array to run only once after initial render
 
   return (
     <div className="bg-color">
@@ -66,7 +57,7 @@ export default function page() {
         <div className="flex">
           <SideBar></SideBar>
           <div className="wrapper flex flex-col gap-10">
-            <div className="MovieListTitle w-full flex justify-center items-center">
+            <div className="MovieListTitle primary-title w-full flex justify-center items-center">
               Danh Sách Phim
             </div>
             <button
@@ -83,7 +74,7 @@ export default function page() {
                   <li
                     key={item._id}
                     scroll={false}
-                    className="MovieItem w-1/4 hover:border-black hover:border-2 p-2 style list-none rounded-lg flex flex-col items-center h-fit"
+                    className="MovieItem w-1/4 hover:border-black hover:border-2 p-2 style list-none rounded-lg flex flex-col items-center h-"
                   >
                     <Link
                       href="movies/[slug]"
@@ -107,17 +98,17 @@ export default function page() {
                           alt=""
                           className="MoviePoster w-full h-3/4"
                         />
-                        <div className="MovieCategory bg-red-500 p-1 px-1 rounded-md w-8 absolute right-3 top-3 label-form">
-                          {item.age}+
+                        <div className="MovieCategory flex items-center justify-center bg-red-500 p-1 px-1 rounded-md w-8 absolute right-3 top-3 label-form">
+                          {item.age} <span>+</span>
                         </div>
                       </div>
 
                       <div className="TextSection flex flex-col justify-center items-center">
-                        <div className="MovieName primary-title">
+                        <div className="MovieName flex text-center primary-title">
                           {item.filmName}
                         </div>
                         <div className="MovieCategory">
-                          Phân Loại{item.category}
+                          Phân Loại: {item.category}
                         </div>
                         <div className="MovieCategory">
                           Quốc Gia: {item.country}
@@ -129,7 +120,7 @@ export default function page() {
                         <div className="MovieCategory">Tags: {item.tags}</div>
                       </div>
                     </Link>
-                    <div className="ButtonSection flex gap-4">
+                    <div className="ButtonSection flex gap-4 mt-2">
                       <DeleteButtonDefault
                         handleFunction={() => handleDeleteMovie(item._id)}
                       />

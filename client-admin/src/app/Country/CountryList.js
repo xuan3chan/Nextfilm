@@ -26,7 +26,7 @@ export default function CountryList(props) {
       }
     };
     fetchData();
-  }, [token, countryList]);
+  }, []);
   const [showAddCategory, setShowCategory] = useState(false);
   const handleShowCate = () => {
     setShowCategory(true);
@@ -74,7 +74,7 @@ export default function CountryList(props) {
                         <DeleteButtonNormal
                           id={item._id}
                           token={token}
-                          ApiLink = {`http://localhost:8000/api/country/delete/${item._id}`}
+                          ApiLink={`http://localhost:8000/api/country/delete/${item._id}`}
                         ></DeleteButtonNormal>
                       </td>
                     </tr>

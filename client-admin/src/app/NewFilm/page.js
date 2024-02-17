@@ -3,6 +3,7 @@ import "@/styles/dashboard.css";
 import "@/styles/Account.css";
 import "@/styles/app.css";
 import "@/styles/Category.css";
+import "@/styles/Movie.css";
 import { useEffect, useState } from "react";
 import React from "react";
 import axios from "axios";
@@ -14,6 +15,58 @@ import Swal from "sweetalert2";
 export default function NewFilm() {
   const [token, setToken] = useState("");
   const [data, setData] = useState([]);
+  const ApiLink = "http://localhost:8000/api/category/getall";
+  const [categoryList, setCategoryList] = useState([]);
+  const ApiLinkCountry = "http://localhost:8000/api/country/getall";
+  const [countryList, setCountryList] = useState([]);
+  const [posterPreview, setPosterPreview] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = JSON.parse(localStorage.getItem("data"));
+        if (!data) {
+          router.push("/login");
+          return;
+        }
+        const { accessToken } = data;
+        setToken(accessToken);
+        const response = await axios.get(ApiLinkCountry, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`, // Use accessToken directly
+          },
+        });
+        setCountryList(response.data.countries);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+    fetchData();
+  }, [countryList]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = JSON.parse(localStorage.getItem("data"));
+        if (!data) {
+          router.push("/login");
+          return;
+        }
+        const { accessToken } = data;
+        setToken(accessToken);
+        const response = await axios.get(ApiLink, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`, // Use accessToken directly
+          },
+        });
+        setCategoryList(response.data.categories);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+    fetchData();
+  }, [categoryList]);
+
   const [filmData, setFilmData] = useState({
     filmName: "",
     poster: null,
@@ -37,9 +90,18 @@ export default function NewFilm() {
   };
   const handleFileChange = (e) => {
     const { name, files } = e.target;
+    const file = files[0];
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setPosterPreview(reader.result);
+    };
+    reader.readAsDataURL(file);
+
+    // Cập nhật state filmData với file đã chọn
     setFilmData({
       ...filmData,
-      [name]: files[0], // Assuming you only allow selecting one file
+      [name]: file,
     });
   };
 
@@ -74,12 +136,23 @@ export default function NewFilm() {
           },
         }
       );
-      Swal.fire({
-        title: "Thành Công",
-        text: "Thêm Phim Mới Thành Công",
-        icon: "success",
-        confirmButtonText: "OK",
-      });
+      {
+        response.data.success == true
+          ? Swal.fire({
+              title: "Thành Công",
+              text: "Thêm Phim Mới Thành Công",
+              icon: "success",
+              confirmButtonText: "OK",
+            })
+          : Swal.fire({
+              title: "Thất Bại",
+              text: "Thêm Phim Mới Thất Bại, Hãy Thử Lại",
+              icon: "error",
+              confirmButtonText: "OK",
+            });
+      }
+
+      console.log(response);
     } catch (error) {
       // Handle error or display an appropriate message
       console.error("Error adding film:", error);
@@ -93,86 +166,123 @@ export default function NewFilm() {
           <SideBar></SideBar>
           <div className="wrapper flex flex-col items-center">
             <form
-              className="flex flex-col gap-3 justify-center items-center min-[980px]: border-black border-2 w-fit p-10 rounded-3xl"
+              className="flex flex-col gap-3 min-[980px]: w-11/12 p-10 rounded-3xl"
               onSubmit={handleSubmit}
             >
               <div className="primary-title">Thêm Phim</div>
-              <div className="flex gap-10">
-                <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                  Film Name:
+
+              <div className="flex form_item gap-10">
+                <label className=" mb-2 text-sm w-1/2 font-medium text-gray-900 dark:text-gray-300">
+                  Tên Phim:
                   <input
                     type="text"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-gray-50 w-full border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     name="filmName"
                     value={filmData.filmName}
                     onChange={handleInputChange}
                   />
                 </label>
-                <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                  category:
-                  <input
-                    type="text"
+                <label className=" mb-2 text-sm w-fit font-medium text-gray-900 dark:text-gray-300">
+                  Danh Mục:
+                  <select
                     name="category"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     value={filmData.category}
                     onChange={handleInputChange}
-                  />
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    <option value="">Chọn một danh mục</option>
+                    {categoryList.map((category) => (
+                      <option key={category._id} value={category.categoryName}>
+                        {category.categoryName}
+                      </option>
+                    ))}
+                  </select>
                 </label>
-                <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                  country:
-                  <input
-                    type="text"
+                <label className=" mb-2 text-sm w-fit  font-medium text-gray-900 dark:text-gray-300">
+                  Quốc Gia:
+                  <select
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    onChange={handleInputChange}
                     name="country"
-                    value={filmData.country}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    onChange={handleInputChange}
-                  />
+                  >
+                    <option value={filmData.country}>Chọn một quốc gia</option>
+                    {countryList.map((country) => (
+                      <option key={country._id} value={country.countryName}>
+                        {country.countryName}
+                      </option>
+                    ))}
+                  </select>
                 </label>
               </div>
-              <div className="flex gap-10">
-                <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                  age:
-                  <input
-                    type="text"
-                    name="age"
-                    value={filmData.age}
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    onChange={handleInputChange}
-                  />
-                </label>
-                <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                  tags:
-                  <input
-                    type="text"
-                    name="tags"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value={filmData.tags}
-                    onChange={handleInputChange}
-                  />
-                </label>
-                <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                  status:
-                  <input
-                    type="text"
-                    name="status"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    value={filmData.status}
-                    onChange={handleInputChange}
-                  />
-                </label>
+              <div className="flex">
+                <div className="flex flex-col">
+                  <div className="flex form_item gap-10">
+                    <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                      Tuổi:
+                      <input
+                        type="text"
+                        name="age"
+                        value={filmData.age}
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        onChange={handleInputChange}
+                      />
+                    </label>
+                    <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                      Tags:
+                      <input
+                        type="text"
+                        name="tags"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        value={filmData.tags}
+                        onChange={handleInputChange}
+                      />
+                    </label>
+                    <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                      Trạng Thái:
+                      <select
+                        className="bg-gray-50 border border-gray-300 text-gray-900
+                  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500
+                  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600
+                  dark:placeholder-gray-400 dark:text-white
+                  dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        value={filmData.status}
+                        onChange={handleInputChange}
+                        id="cars"
+                        name="status"
+                      >
+                        <option value="active">Active</option>
+                        <option value="unActive">unActive</option>
+                      </select>
+                    </label>
+                  </div>
+                  <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 w-full">
+                    Mô Tả:
+                    <textarea
+                      type="text"
+                      name="description"
+                      className="bg-gray-50 border resize-y border-gray-300 h-60 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      value={filmData.description}
+                      onChange={handleInputChange}
+                    />
+                  </label>
+                </div>
+                {posterPreview && (
+                  <div className="flex flex-col ml-10 items-center">
+                    <div className="posterText">Hình Poster</div>
+                    <img
+                      src={posterPreview}
+                      alt="Poster Preview"
+                      style={{
+                        width: "300px",
+                        height: "350px",
+                        marginTop: "10px",
+                      }}
+                    />
+                  </div>
+                )}
               </div>
-              <label className=" mb-2 text-sm font-medium text-gray-900 dark:text-gray-300 w-1/2 ">
-                Mô Tả:
-                <textarea
-                  type="text"
-                  name="description"
-                  className="bg-gray-50 border resize-y border-gray-300 h-60 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  value={filmData.description}
-                  onChange={handleInputChange}
-                />
-              </label>
               <label>
-                Poster Image:
+                Hình Poster Phim:
                 <input
                   type="file"
                   name="poster"
@@ -180,6 +290,7 @@ export default function NewFilm() {
                   onChange={handleFileChange}
                 />
               </label>
+
               <label>
                 Trailer Video:
                 <input
@@ -190,7 +301,7 @@ export default function NewFilm() {
                 />
               </label>
               <label>
-                Main Video:
+                File Phim:
                 <div className="drag-image mt-4">
                   <div className="icon">
                     <i className="fas fa-cloud-upload-alt"></i>
@@ -207,7 +318,7 @@ export default function NewFilm() {
                 </div>
               </label>
               <button className="submitBtn" type="submit ">
-                Add Film
+                Thêm Phim
               </button>
             </form>
           </div>

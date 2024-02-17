@@ -31,13 +31,13 @@ export default function CountryList(props) {
           },
         });
         setCountryList(response.data.countries);
-        console.log(response.data.countries);
       } catch (error) {
         console.error("Error:", error);
       }
     };
     fetchData();
-  }, [countryList]);
+  }, []); // Empty dependency array means this effect will only run once after the initial render
+
   const [showAddCategory, setShowCategory] = useState(false);
   const handleShowCate = () => {
     setShowCategory(true);
@@ -102,7 +102,7 @@ export default function CountryList(props) {
           </div>
         </div>
         {showAddCategory == true ? (
-          <div className = "wrapper">
+          <div className="wrapper">
             <AddCountry token={token} />
           </div>
         ) : null}

@@ -10,7 +10,7 @@ const Login = () => {
   const [adminName, setAdminName] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [data, setData] = React.useState([]);
-  
+
   useEffect(() => {
     localStorage.setItem("data", JSON.stringify(data));
   }, [data]);
