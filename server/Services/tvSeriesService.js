@@ -52,7 +52,7 @@ class tvSeriesService {
 
         const posterUploads = poster.map(handleFileUpload);
         const trailerUpload = trailer ? handleFileUpload(trailer[0]) : Promise.resolve(null);
-        const [posterUrls, trailerUrl] = await Promise.all([Promise.all(posterUploads), videoUpload, trailerUpload]);
+        const [posterUrls, trailerUrl] = await Promise.all([Promise.all(posterUploads),  trailerUpload]);
 
         const newTvSeries = new tvSeries({
             tvSeriesName,
@@ -81,5 +81,22 @@ class tvSeriesService {
             };
         }
     }
+    //upload video 
+
+    static async getAllTvSeriesService() {
+        try {
+            const tvSeriesData = await tvSeries.find();
+            return {
+                success: true,
+                data: tvSeriesData,
+            };
+        } catch (error) {
+            return {
+                success: false,
+                message: error.message,
+            };
+        }
+    }
+
 }
-module.exproes = tvSeriesService;
+module.exports = tvSeriesService;

@@ -34,5 +34,13 @@ class tvSeriesController {
             handleErrorResponse(res, err);
         }
     }
+    static async getTvSeriesController(req, res) {
+        try {
+            const response = await tvSeriesService.getTvSeriesService();
+            res.status(200).json(response);
+        } catch (err) {
+            handleErrorResponse(res, err);
+        }
+    }
 }
 module.exports = tvSeriesController;
