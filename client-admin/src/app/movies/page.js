@@ -9,7 +9,8 @@ import DeleteButtonDefault from "@/app/components/Button/DeleteButtonDefault";
 import EditButton from "@/app/components/Button/EditButton";
 import "@/styles/app.css";
 import "@/styles/Movie.css";
-
+import EditMoviePopUp from "../components/EditMoviePopUp.js";
+import { Suspense } from "react";
 export default function page() {
   const [token, setToken] = useState("");
   const [movieList, setMovieList] = useState([]);
@@ -37,6 +38,16 @@ export default function page() {
       });
   };
 
+  const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
+
+  const handleAddPopup = () => {
+    setIsEditPopupOpen(true);
+  };
+
+  const handleEditCancel = () => {
+    setIsEditPopupOpen(false);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -57,6 +68,7 @@ export default function page() {
         <div className="flex">
           <SideBar></SideBar>
           <div className="wrapper flex flex-col gap-10">
+            {isEditPopupOpen && <EditMoviePopUp />}
             <div className="MovieListTitle primary-title w-full flex justify-center items-center">
               Danh Sách Phim
             </div>
@@ -124,7 +136,7 @@ export default function page() {
                       <DeleteButtonDefault
                         handleFunction={() => handleDeleteMovie(item._id)}
                       />
-                      <EditButton />
+                      <EditButton onClick={handleAddPopup} />
                     </div>
                   </li>
                 ))}
