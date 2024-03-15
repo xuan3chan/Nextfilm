@@ -5,6 +5,7 @@ import "@/styles/app.css";
 import Header from "@/app/components/header/header";
 import SideBar from "@/app/components/SideBar/SideBar";
 import AccountList from "./AccountList";
+import { AppContext } from "@/Context/AppContext";
 
 export default () => {
   return (
