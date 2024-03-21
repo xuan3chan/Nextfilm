@@ -11,6 +11,9 @@
   "keywords": [],
   "author": "xuann3chan",
   "license": "ISC",
+  "engines": {
+    "node": "20.x"
+  },
   "dependencies": {
     "@google/generative-ai": "^0.1.3",
     "bcrypt": "^5.1.1",
