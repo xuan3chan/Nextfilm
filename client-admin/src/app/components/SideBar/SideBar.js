@@ -3,7 +3,7 @@ import React from "react";
 import "@/styles/dashboard.css";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { IoIosArrowDown } from "react-icons/io";
-import {useRouter} from "next/navigation"
+import { useRouter } from "next/navigation";
 export default () => {
   const [showUserItems, setShowUserItems] = useState(false);
   const [showMovieItems, setShowMovieItems] = useState(false);
@@ -74,6 +74,7 @@ export default () => {
             <li
               onClick={() => {
                 handleChangeState("UserPremiumList");
+                window.location.href = "AccountPremium";
               }}
               className="Item UserPremiumList"
             >
@@ -109,7 +110,7 @@ export default () => {
             <li
               onClick={() => {
                 handleChangeState("MovieList");
-                router.push('./movies')
+                router.push("./movies");
               }}
               className="Item MovieList"
             >

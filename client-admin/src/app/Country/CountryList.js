@@ -1,36 +1,18 @@
 "use client";
 import "@/styles/app.css";
 import "@/styles/Category.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import React from "react";
-import axios from "axios";
 import AddCountry from "./AddCountry";
 import DeleteButtonNormal from "@/app/components/Button/DeleteButtonNormal";
 import "@/styles/Account.css";
+import { AppContext } from "@/Context/AppContext";
 export default function CountryList(props) {
-  const token = props.token;
-  const ApiLink = "http://localhost:8000/api/country/getall";
-  const [countryList, setCountryList] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(ApiLink, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setCountryList(response.data.countries);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-    fetchData();
-  }, []);
   const [showAddCategory, setShowCategory] = useState(false);
   const handleShowCate = () => {
     setShowCategory(true);
   };
+  const { countryList, token } = useContext(AppContext);
   return (
     <div className="flex">
       <div className="wrapper">

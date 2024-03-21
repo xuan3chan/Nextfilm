@@ -1,54 +1,25 @@
 "use client";
-import "@/styles/app.css";
-import "@/styles/Category.css";
-import { useEffect, useState } from "react";
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import AddCategory from "./AddCategory";
-import "@/styles/Account.css";
 import SideBar from "@/app/components/SideBar/SideBar";
 import DeleteButtonNormal from "@/app/components/Button/DeleteButtonNormal";
 import Header from "@/app/components/header/header";
-
+import { AppContext } from "@/Context/AppContext";
+import "@/styles/Category.css";
+import "@/styles/Account.css";
 export default function CategoryList(props) {
   const ApiLink = "http://localhost:8000/api/category/getall";
-  const [categoryList, setCategoryList] = useState([]);
-  const [token, setToken] = useState("");
+  const { categoryList, token } = useContext(AppContext);
   const [status, setStatus] = useState("");
   const [idSelected, setIdSelected] = useState("");
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = JSON.parse(localStorage.getItem("data"));
-        if (!data) {
-          router.push("/login");
-          return;
-        }
-        const { accessToken } = data;
-        setToken(accessToken);
-        const response = await axios.get(ApiLink, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`, // Use accessToken directly
-          },
-        });
-        setCategoryList(response.data.categories);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-    fetchData();
-  }, [categoryList]); // Removed 'token' from the dependency array
-
-  const [showAddCategory, setShowCategory] = useState(false);
 
   const handleStatusChange = (event, item) => {
     setIdSelected(item._id);
     setStatus(event.target.value);
-    alert("Thay Đổi Thành Công")
+    alert("Thay Đổi Thành Công");
   };
-  const handleShowCate = () => {
-    setShowCategory(true);
-  };
+  console.table(categoryList);
   useEffect(() => {
     if (idSelected) {
       axios
@@ -65,25 +36,30 @@ export default function CategoryList(props) {
         )
         .then((response) => {
           console.log(response.data);
-          // Handle response if needed
         })
         .catch((error) => {
           console.error("Error updating status:", error);
-          // Handle error if needed
         });
     }
   }, [status, idSelected, token]);
+
+  const handleShowCate = () => {
+    setShowCategory(true);
+  };
+
+  const [showAddCategory, setShowCategory] = useState(false);
+
   return (
     <div className="flex flex-col bg-color">
-      <Header></Header>
+      <Header />
       <div className="flex">
-        <SideBar></SideBar>
+        <SideBar />
         <div className="wrapper">
           <div className="CategoryListSection">
             <div className="CategoryListSection_title">Danh Sách Danh Mục</div>
             <button
               className="btn btnAddCategory border-black border-1 hover:bg-slate-600 "
-              onClick={() => handleShowCate()}
+              onClick={handleShowCate}
             >
               Thêm Danh Mục
             </button>
@@ -130,7 +106,7 @@ export default function CategoryList(props) {
                             id={item._id}
                             token={token}
                             ApiLink={`http://localhost:8000/api/category/delete/${item._id}`}
-                          ></DeleteButtonNormal>
+                          />
                         </td>
                       </tr>
                     ))}
@@ -142,11 +118,7 @@ export default function CategoryList(props) {
             </div>
           </div>
         </div>
-        {showAddCategory == true ? (
-          <div>
-            <AddCategory token={token} />
-          </div>
-        ) : null}
+        {showAddCategory && <AddCategory token={token} />}
       </div>
     </div>
   );

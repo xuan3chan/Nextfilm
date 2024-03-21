@@ -55,21 +55,6 @@ export default function Dashboard() {
       <div id="Container  " className="flex">
         <SideBar />
         <div className="Content">
-          <div className="ContentHeader">
-            <div className="ContentHeader_Title">{selectedComponent}</div>
-            <button className="ContentHeader_Button">
-              <DarkMode />
-            </button>
-            <button className="ContentHeader_Button">Cài Đặt</button>
-            <div className="ContentHeader_Search">
-              <input
-                type="text"
-                name="ModuleSearching"
-                placeholder="Search content.."
-                id="Search"
-              />
-            </div>
-          </div>
           <div className="w-full"></div>
         </div>
       </div>
