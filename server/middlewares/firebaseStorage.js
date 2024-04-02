@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-let privateKey = process.env.PRIVATE_KEY;
+let privateKey = process.env.PRIVATE_KEY
 if (typeof privateKey !== 'string') {
     throw new Error('privateKey is not a string');
 }
