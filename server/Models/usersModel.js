@@ -85,6 +85,7 @@ const usersSchema = new Schema(
         deviceId: String,
       },
     ],
+    required: false,
   },
   { timestamps: true }
 );
