@@ -2,6 +2,7 @@ const Express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
+const fs = require("fs");
 //import routes
 const authUsersRoute = require("./Routes/authUsersRoute");
 const authAdminRoute = require("./Routes/authAdminRoute");
@@ -15,7 +16,7 @@ const tvSeriesRoute = require("./Routes/tvSeriesRoute");
 
 dotenv.config();
 //mongoDB connection
-connectDB();
+connectDB();1
 
 const app = Express();
 app.use(cors());
