@@ -11,7 +11,13 @@ const Login = () => {
   const [password, setPassword] = React.useState("");
   const [data, setData] = React.useState({});
   useEffect(() => {
-    localStorage.setItem("data", JSON.stringify(data));
+    const data = localStorage.getItem("dataUser");
+    if (data) {
+      setData(JSON.parse(data));
+    }
+  }, []);
+  useEffect(() => {
+    localStorage.setItem("dataUser", JSON.stringify(data));
   }, [data]);
 
   const handleLogin = () => {
